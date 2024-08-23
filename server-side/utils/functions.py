@@ -1,18 +1,19 @@
 from .base_paths import *
+from .helpers import *
 
 # Search an Anime
 def searchAnime(query = "", limit=12):
     path = f"?q={query}&limit={limit}"
     
-    searchResponse = animeBase(path)
-    if (not searchResponse["success"]): return searchResponse
+    serverResponse = animeBase(path)
+    if (not serverResponse["success"]): return serverResponse, 500
     
     returnResponse = {
         "success": True,
         "data": []
     }
     
-    for item in searchResponse["data"]:
+    for item in serverResponse["data"]:
         data = {
             "id": item.get("mal_id"),
             "title": item.get("title"),
@@ -27,8 +28,58 @@ def searchAnime(query = "", limit=12):
         
         returnResponse["data"].append(data)
     
-    return returnResponse
+    return returnResponse, 200
 
+
+# Get Anime Details
+def getAnimeDetails(id):
+    path = f"/{id}/full"
+    
+    serverResponse = animeBase(path)
+    if (not serverResponse["success"]): return serverResponse, 500
+    data = serverResponse.get("data")
+    
+    if (not data):
+        return {"success": False, "message": serverResponse.get("message", "Item not Found")}, serverResponse.get("status", 404)
+    
+    print(data)
+    animeData = {
+        "id": data.get("mal_id"),
+        "title": data.get("title"),
+        "title_english": data.get("title_english"),
+        "title_japanese": data.get("title_japanese"),
+        "synopsis": data.get("synopsis"),
+        "type": data.get("type"),
+        "source": data.get("source"),
+        "episodes": data.get("episodes"),
+        "status": data.get("status"),
+        "aired": data.get("aired"),
+        "duration": data.get("duration"),
+        "rating": data.get("rating"),
+        "score": data.get("score"),
+        "scored_by": data.get("scored_by"),
+        "mal_rank": data.get("rank"),
+        "season": data.get("season"),
+        "year": data.get("year"),
+        "producers": removeProperty(data.get("producers", {}), "url"),
+        "studios": removeProperty(data.get("studios", {}), "url"),
+        "genres": removeProperty(data.get("genres", {}), "url"),
+        "themes": removeProperty(data.get("themes", {}), "url"),
+        "related": removeProperty(data.get("relations", {}), "url"),
+        "streaming": data.get("streaming", [])
+        
+    }
+    
+    returnResponse = {
+        "success": True,
+        "data": animeData
+    }
+    
+
+    return returnResponse, 200
+
+
+# 
 
 # Get Anime Data
 def getAnime(

@@ -16,14 +16,14 @@ def basePath(path):
 
 # Anime Info Base Path
 def animeBase(path = ""):
-    path = f"anime/{path}"
+    path = f"anime{path}"
     response = basePath(path)
 
     return response
 
 # Anime Characters Info Base
 def charactersBase(path = ""):
-    path = f"characters/{path}"
+    path = f"characters{path}"
     response = basePath(path)
 
     return response
@@ -31,14 +31,14 @@ def charactersBase(path = ""):
 
 # Anime Seasons Info Base
 def seasonsBase(path = ""):
-    path = f"seasons/{path}"
+    path = f"seasons{path}"
     response = basePath(path)
 
     return response
 
 # Anime Top Info Base
 def topBase(path = "anime"):
-    path = f"top/{path}"
+    path = f"top{path}"
     response = basePath(path)
 
     return response
