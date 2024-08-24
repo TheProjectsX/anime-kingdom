@@ -9,6 +9,13 @@ def searchAnime(query="", limit=12):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
 
     returnResponse = {"success": True, "data": []}
 
@@ -39,6 +46,38 @@ def searchAnime(query="", limit=12):
     return returnResponse, 200
 
 
+# Get Filtered Anime
+def getFilteredAnime(
+    filters={"type": "", "status": "", "rating": "", "genres": ""},
+    page=1,
+    limit=20,
+    order_by="",
+    start_date="",
+    end_date="",
+):
+    path = f"?page={page}&limit={limit}&order_by={order_by}&start_date={start_date}&end_date={end_date}"
+
+    for key, value in enumerate(filters):
+        if value == "":
+            continue
+        path += f"&{key}={value}"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
+    # for item in
+
+
 # Get Anime Details
 def getAnimeDetails(id):
     path = f"/{id}/full"
@@ -46,38 +85,38 @@ def getAnimeDetails(id):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     animeData = {
-        "id": data.get("mal_id"),
-        "title": data.get("title"),
-        "title_english": data.get("title_english"),
-        "title_japanese": data.get("title_japanese"),
-        "synopsis": data.get("synopsis"),
-        "type": data.get("type"),
-        "source": data.get("source"),
-        "episodes": data.get("episodes"),
-        "status": data.get("status"),
-        "aired": data.get("aired"),
-        "duration": data.get("duration"),
-        "rating": data.get("rating"),
-        "score": data.get("score"),
-        "scored_by": data.get("scored_by"),
-        "mal_rank": data.get("rank"),
-        "season": data.get("season"),
-        "year": data.get("year"),
-        "producers": removeProperty(data.get("producers", {}), "url"),
-        "studios": removeProperty(data.get("studios", {}), "url"),
-        "genres": removeProperty(data.get("genres", {}), "url"),
-        "themes": removeProperty(data.get("themes", {}), "url"),
-        "related": removeProperty(data.get("relations", {}), "url"),
-        "streaming": data.get("streaming", []),
+        "id": serverData.get("mal_id"),
+        "title": serverData.get("title"),
+        "title_english": serverData.get("title_english"),
+        "title_japanese": serverData.get("title_japanese"),
+        "synopsis": serverData.get("synopsis"),
+        "type": serverData.get("type"),
+        "source": serverData.get("source"),
+        "episodes": serverData.get("episodes"),
+        "status": serverData.get("status"),
+        "aired": serverData.get("aired"),
+        "duration": serverData.get("duration"),
+        "rating": serverData.get("rating"),
+        "score": serverData.get("score"),
+        "scored_by": serverData.get("scored_by"),
+        "mal_rank": serverData.get("rank"),
+        "season": serverData.get("season"),
+        "year": serverData.get("year"),
+        "producers": removeProperty(serverData.get("producers", {}), "url"),
+        "studios": removeProperty(serverData.get("studios", {}), "url"),
+        "genres": removeProperty(serverData.get("genres", {}), "url"),
+        "themes": removeProperty(serverData.get("themes", {}), "url"),
+        "related": removeProperty(serverData.get("relations", {}), "url"),
+        "streaming": serverData.get("streaming", []),
     }
 
     returnResponse = {"success": True, "data": animeData}
@@ -92,9 +131,9 @@ def getAnimeCharacters(id):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
@@ -138,9 +177,9 @@ def getAnimeEpisodes(id, page=1):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
@@ -168,19 +207,19 @@ def getAnimeSingleEpisode(id, epId):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
         }, serverResponse.get("status", 404)
 
-    data = serverResponse["data"]
+    serverData = serverResponse["data"]
     returnResponse = {
         "success": True,
         "data": replaceProperty(
-            removeProperty(data, ["url", "title_romanji"]), "mal_id", "id"
+            removeProperty(serverData, ["url", "title_romanji"]), "mal_id", "id"
         ),
     }
 
@@ -194,9 +233,9 @@ def getAnimeReviews(id, page=1, spoilers="false", preliminary="true"):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
@@ -207,7 +246,7 @@ def getAnimeReviews(id, page=1, spoilers="false", preliminary="true"):
         "data": [],
     }
 
-    for item in serverResponse["data"]:
+    for item in serverData:
         data = replaceProperty(removeProperty(item, ["url"]), "mal_id", "id")
         user = data.get("user", {})
         image = user.get("images", {}).get("jpg", {}).get("image_url")
@@ -228,17 +267,16 @@ def getAnimeRecommendations(id, limit=25):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
         }, serverResponse.get("status", 404)
-
     returnResponse = {"success": True, "data": []}
 
-    for item in serverResponse["data"]:
+    for item in serverData:
         entry = item.get("entry", {})
         image = getImageFromImages(entry.get("images", {})).get("image_url")
         data = replaceProperty(removeProperty(entry, ["url", "images"]), "mal_id", "id")
@@ -260,17 +298,16 @@ def getAnimeImages(id):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
         }, serverResponse.get("status", 404)
-
     returnResponse = {"success": True, "data": []}
 
-    for item in serverResponse["data"]:
+    for item in serverData:
         images = getImageFromImages(item)
         returnResponse["data"].append(images)
 
@@ -284,18 +321,16 @@ def getAnimeVideos(id):
     serverResponse = animeBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
-    data = serverResponse.get("data")
+    serverData = serverResponse.get("data")
 
-    if not data:
+    if not serverData:
         return {
             "success": False,
             "message": serverResponse.get("message", "Item not Found"),
         }, serverResponse.get("status", 404)
-
     returnResponse = {"success": True, "data": []}
-    videoData = serverResponse["data"]
 
-    for item in videoData["promo"]:
+    for item in serverData["promo"]:
         trailer = item["trailer"]
         data = {
             "title": item["title"],
@@ -312,23 +347,3 @@ def getAnimeVideos(id):
         returnResponse["data"].append(data)
 
     return returnResponse, 200
-
-
-# Get Anime Data
-def getAnime(
-    filters={"q": "", "type": "", "status": "", "rating": "", "genres": ""},
-    page=1,
-    limit=20,
-    order_by="",
-    start_date="",
-    end_date="",
-):
-    path = f"?page={page}&limit={limit}&order_by={order_by}&start_date={start_date}&end_date={end_date}"
-
-    for key, value in enumerate(filters):
-        if value == "":
-            continue
-        path += f"&{key}={value}"
-
-    animeResponse = animeBase(path)
-    return animeResponse
