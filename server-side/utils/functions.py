@@ -346,7 +346,7 @@ def getAnimeImages(id):
     returnResponse = {"success": True, "data": []}
 
     for item in serverData:
-        images = getImageFromImages(item)
+        images = replaceProperty(getImageFromImages(item), "image_url", "url")
         returnResponse["data"].append(images)
 
     return returnResponse, 200
@@ -383,5 +383,98 @@ def getAnimeVideos(id):
         }
 
         returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+##### CHARACTERS FUNCTIONS #####
+
+
+# Get Anime Character Details
+def getCharacterDetails(id):
+    path = f"/{id}/full"
+
+    serverResponse = charactersBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    returnResponse = {
+        "success": True,
+        "data": {
+            "id": serverData.get("mal_id"),
+            "name": serverData.get("name"),
+            "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
+            "nicknames": serverData.get("nicknames"),
+            "favorites": serverData.get("favorites"),
+            "about": serverData.get("about"),
+            "anime": [],
+            "manga": [],
+            "voices": [],
+        },
+    }
+
+    for item in serverData["anime"]:
+        anime = item.get("anime", {})
+        data = {
+            "id": anime.get("mal_id"),
+            "role": item.get("role"),
+            "title": anime.get("title"),
+            "image": getImageFromImages(anime.get("images", {})).get("image_url"),
+            "large_image": getImageFromImages(anime.get("images", {})).get(
+                "large_image_url"
+            ),
+        }
+
+        returnResponse["data"]["anime"].append(data)
+
+    for item in serverData["manga"]:
+        manga = item.get("manga", {})
+        data = {
+            "id": manga.get("mal_id"),
+            "role": item.get("role"),
+            "title": manga.get("title"),
+            "image": getImageFromImages(manga.get("images", {})).get("image_url"),
+            "large_image": getImageFromImages(manga.get("images", {})).get(
+                "large_image_url"
+            ),
+        }
+
+        returnResponse["data"]["manga"].append(data)
+
+    for item in serverData["voices"]:
+        person = item.get("person", {})
+
+        data = {
+            "id": person.get("mal_id"),
+            "name": person.get("name"),
+            "language": item.get("language"),
+            "image": getImageFromImages(person.get("images", {})).get("image_url"),
+        }
+
+        returnResponse["data"]["voices"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Anime Character Imaged
+def getCharacterImages(id):
+    path = f"/{id}/pictures"
+
+    serverResponse = charactersBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverData:
+        images = replaceProperty(getImageFromImages(item), "image_url", "url")
+        returnResponse["data"].append(images)
 
     return returnResponse, 200

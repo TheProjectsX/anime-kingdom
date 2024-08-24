@@ -10,6 +10,11 @@ def hello_world():
     return {"success": True, "message": "Server is Running..."}
 
 
+"""
+ANIME ROUTES
+"""
+
+
 # Search for Anime
 @app.route("/anime")
 def searchAnime():
@@ -113,6 +118,27 @@ def animeImages(id):
 @app.route("/anime/<int:id>/videos")
 def animeVideos(id):
     result, statusCode = fns.getAnimeVideos(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+"""
+CHARACTERS ROUTE
+"""
+
+
+# Get an Anime Character Details
+@app.route("/characters/<int:id>")
+def characterDetails(id):
+    result, statusCode = fns.getCharacterDetails(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get an Anime Character Images
+@app.route("/characters/<int:id>/images")
+def characterImages(id):
+    result, statusCode = fns.getCharacterImages(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
