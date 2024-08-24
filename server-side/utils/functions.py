@@ -1,47 +1,59 @@
 from .base_paths import *
 from .helpers import *
 
+
 # Search an Anime
-def searchAnime(query = "", limit=12):
+def searchAnime(query="", limit=12):
     path = f"?q={query}&limit={limit}"
-    
+
     serverResponse = animeBase(path)
-    if (not serverResponse["success"]): return serverResponse, 500
-    
-    returnResponse = {
-        "success": True,
-        "data": []
-    }
-    
+    if not serverResponse["success"]:
+        return serverResponse, 500
+
+    returnResponse = {"success": True, "data": []}
+
     for item in serverResponse["data"]:
         data = {
             "id": item.get("mal_id"),
             "title": item.get("title"),
             "title_english": item.get("title_english", ""),
             "title_japanese": item.get("title_japanese", ""),
-            "thumbnail": item.get("images", {}).get("jpg", {}).get("small_image_url", ""),
+            "thumbnail": item.get("images", {})
+            .get("jpg", {})
+            .get("small_image_url", ""),
             "type": item.get("type"),
             "status": item.get("status"),
-            "year": item.get("year") if not item.get("year") == None else item.get("aired", {}).get("prop", {}).get("from", {}).get("year", ""),
-            "score": item.get("score")
+            "year": (
+                item.get("year")
+                if not item.get("year") == None
+                else item.get("aired", {})
+                .get("prop", {})
+                .get("from", {})
+                .get("year", "")
+            ),
+            "score": item.get("score"),
         }
-        
+
         returnResponse["data"].append(data)
-    
+
     return returnResponse, 200
 
 
 # Get Anime Details
 def getAnimeDetails(id):
     path = f"/{id}/full"
-    
+
     serverResponse = animeBase(path)
-    if (not serverResponse["success"]): return serverResponse, 500
+    if not serverResponse["success"]:
+        return serverResponse, 500
     data = serverResponse.get("data")
-    
-    if (not data):
-        return {"success": False, "message": serverResponse.get("message", "Item not Found")}, serverResponse.get("status", 404)
-    
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
     animeData = {
         "id": data.get("mal_id"),
         "title": data.get("title"),
@@ -65,15 +77,10 @@ def getAnimeDetails(id):
         "genres": removeProperty(data.get("genres", {}), "url"),
         "themes": removeProperty(data.get("themes", {}), "url"),
         "related": removeProperty(data.get("relations", {}), "url"),
-        "streaming": data.get("streaming", [])
-        
+        "streaming": data.get("streaming", []),
     }
-    
-    returnResponse = {
-        "success": True,
-        "data": animeData
-    }
-    
+
+    returnResponse = {"success": True, "data": animeData}
 
     return returnResponse, 200
 
@@ -81,32 +88,33 @@ def getAnimeDetails(id):
 # Get Anime Characters
 def getAnimeCharacters(id):
     path = f"/{id}/characters"
-    
-    serverResponse = animeBase(path)
-    if (not serverResponse["success"]): return serverResponse, 500
-    data = serverResponse.get("data")
-    
-    if (not data):
-        return {"success": False, "message": serverResponse.get("message", "Item not Found")}, serverResponse.get("status", 404)
 
-    returnResponse = {
-        "success": True,
-        "data": []
-    }
-    
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
     for item in serverResponse["data"]:
         character = item["character"]
         voice_actors = item["voice_actors"]
-        
+
         data = {
             "id": character.get("mal_id", ""),
             "name": character.get("name"),
             "image": character.get("images", {}).get("jpg", {}).get("image_url"),
             "role": item.get("role"),
             "favorites": item.get("favorites"),
-            "voice_actors": []
+            "voice_actors": [],
         }
-        
+
         for actor in voice_actors:
             person = actor["person"]
             vaData = {
@@ -115,34 +123,85 @@ def getAnimeCharacters(id):
                 "language": actor.get("language"),
                 "image": person.get("images", {}).get("jpg", {}).get("image_url"),
             }
-            
+
             data["voice_actors"].append(vaData)
-        
-        
+
         returnResponse["data"].append(data)
-    
+
     return returnResponse, 200
-    
+
+
+# Get Anime Episodes
+def getAnimeEpisodes(id, page=1):
+    path = f"/{id}/episodes?page={page}"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {
+        "success": True,
+        "pagination": serverResponse.get("pagination", {}),
+        "data": [],
+    }
+
+    for item in serverResponse["data"]:
+        data = replaceProperty(
+            removeProperty(item, ["url", "title_romanji"]), "mal_id", "id"
+        )
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Anime single Episode
+def getAnimeSingleEpisode(id, epId):
+    path = f"/{id}/episodes/{epId}"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    data = serverResponse["data"]
+    returnResponse = {
+        "success": True,
+        "data": replaceProperty(
+            removeProperty(data, ["url", "title_romanji"]), "mal_id", "id"
+        ),
+    }
+
+    return returnResponse, 200
+
+
 # Get Anime Data
 def getAnime(
-        filters = {
-            "q": "",
-            "type": "",
-            "status": "",
-            "rating": "",
-            "genres": ""
-        },
-        page = 1,
-        limit = 20,
-        order_by = "",
-        start_date = "",
-        end_date = ""
+    filters={"q": "", "type": "", "status": "", "rating": "", "genres": ""},
+    page=1,
+    limit=20,
+    order_by="",
+    start_date="",
+    end_date="",
 ):
     path = f"?page={page}&limit={limit}&order_by={order_by}&start_date={start_date}&end_date={end_date}"
-    
+
     for key, value in enumerate(filters):
-        if (value == ""): continue
+        if value == "":
+            continue
         path += f"&{key}={value}"
-    
+
     animeResponse = animeBase(path)
     return animeResponse
