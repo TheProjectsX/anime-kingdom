@@ -14,7 +14,7 @@ def searchAnime(query="", limit=12):
     if not data:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {"success": True, "data": []}
@@ -70,7 +70,7 @@ def getFilteredAnime(
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {
@@ -132,7 +132,7 @@ def getAnimeDetails(id):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     animeData = {
@@ -178,7 +178,7 @@ def getAnimeCharacters(id):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {"success": True, "data": []}
@@ -224,7 +224,7 @@ def getAnimeEpisodes(id, page=1):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {
@@ -254,7 +254,7 @@ def getAnimeSingleEpisode(id, epId):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     serverData = serverResponse["data"]
@@ -280,7 +280,7 @@ def getAnimeReviews(id, page=1, spoilers="false", preliminary="true"):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {
@@ -314,7 +314,7 @@ def getAnimeRecommendations(id, limit=25):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
     returnResponse = {"success": True, "data": []}
 
@@ -345,7 +345,7 @@ def getAnimeImages(id):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
     returnResponse = {"success": True, "data": []}
 
@@ -368,7 +368,7 @@ def getAnimeVideos(id):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
     returnResponse = {"success": True, "data": []}
 
@@ -473,7 +473,7 @@ def getCharacterImages(id):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
     returnResponse = {"success": True, "data": []}
 
@@ -499,7 +499,7 @@ def getSeasonList():
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {"success": True, "data": serverData}
@@ -524,7 +524,7 @@ def getSeasonalAnime(year, season="", filter="", continuing="false"):
     if not serverData:
         return {
             "success": False,
-            "message": serverResponse.get("message", "Item not Found"),
+            "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
     returnResponse = {
@@ -567,6 +567,157 @@ def getSeasonalAnime(year, season="", filter="", continuing="false"):
             "demographics": replaceProperty(
                 removeProperty(item.get("demographics", []), ["url"]), "mal_id", "id"
             ),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+##### TOP FUNCTIONS #####
+
+
+# Get Top Anime
+def getTopAnime(type="", filter="", page=1, limit=25):
+    path = f"/anime?type={type}&filter={filter}&page={page}&limit={limit}"
+
+    serverResponse = topBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {
+        "success": True,
+        "pagination": serverResponse.get("pagination", {}),
+        "data": [],
+    }
+
+    for item in serverData:
+        data = {
+            "id": item.get("mal_id"),
+            "title": item.get("title"),
+            "title_english": item.get("title_english", ""),
+            "title_japanese": item.get("title_japanese", ""),
+            "synopsis": item.get("synopsis"),
+            "episodes": item.get("episodes"),
+            "thumbnail": getImageFromImages(item.get("images", {})).get("image_url"),
+            "type": item.get("type"),
+            "source": item.get("source"),
+            "status": item.get("status"),
+            "mal_rank": item.get("rank"),
+            "year": (
+                item.get("year")
+                if not item.get("year") == None
+                else item.get("aired", {})
+                .get("prop", {})
+                .get("from", {})
+                .get("year", "")
+            ),
+            "score": item.get("score"),
+            "studios": replaceProperty(
+                removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
+            ),
+            "genres": replaceProperty(
+                removeProperty(item.get("genres", []), ["url"]), "mal_id", "id"
+            ),
+            "themes": replaceProperty(
+                removeProperty(item.get("themes", []), ["url"]), "mal_id", "id"
+            ),
+            "demographics": replaceProperty(
+                removeProperty(item.get("demographics", []), ["url"]), "mal_id", "id"
+            ),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Top Characters
+def getTopCharacters(page=1, limit=25):
+    path = f"/characters?page={page}&limit={limit}"
+
+    serverResponse = topBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {
+        "success": True,
+        "pagination": serverResponse.get("pagination", {}),
+        "data": [],
+    }
+
+    for item in serverData:
+        data = {
+            "id": item.get("mal_id"),
+            "name": item.get("name"),
+            "image": getImageFromImages(item.get("images", {})).get("image_url"),
+            "nicknames": item.get("nicknames"),
+            "favorites": item.get("favorites"),
+            "about": item.get("about"),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Top Manga
+def getTopManga(page=1, limit=25):
+    path = f"/manga?page={page}&limit={limit}"
+
+    serverResponse = topBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {
+        "success": True,
+        "pagination": serverResponse.get("pagination", {}),
+        "data": [],
+    }
+
+    for item in serverData:
+        data = {
+            "id": item.get("mal_id"),
+            "title": item.get("title"),
+            "title_english": item.get("title_english", ""),
+            "title_japanese": item.get("title_japanese", ""),
+            "synopsis": item.get("synopsis"),
+            "volumes": item.get("volumes"),
+            "thumbnail": getImageFromImages(item.get("images", {})).get("image_url"),
+            "type": item.get("type"),
+            "source": item.get("source"),
+            "status": item.get("status"),
+            "mal_rank": item.get("rank"),
+            "year": (
+                item.get("year")
+                if not item.get("year") == None
+                else item.get("aired", {})
+                .get("prop", {})
+                .get("from", {})
+                .get("year", "")
+            ),
+            "score": item.get("score"),
         }
 
         returnResponse["data"].append(data)

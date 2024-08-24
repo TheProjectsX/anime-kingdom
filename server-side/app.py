@@ -180,5 +180,37 @@ def seasonalUpcomingAnime():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+"""
+TOP ROUTE
+"""
+
+
+# Get Top Anime
+@app.route("/top/anime")
+def topAnime():
+    type = request.args.get("type", "")
+    filter = request.args.get("filter", "")
+
+    result, statusCode = fns.getTopAnime(type, filter)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Top Anime Characters
+@app.route("/top/characters")
+def topCharacters():
+    result, statusCode = fns.getTopCharacters()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Top Anime Manga
+@app.route("/top/manga")
+def topManga():
+    result, statusCode = fns.getTopManga()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
