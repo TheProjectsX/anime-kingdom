@@ -73,7 +73,11 @@ def getFilteredAnime(
             "message": serverResponse.get("message", "Item not Found"),
         }, serverResponse.get("status", 404)
 
-    returnResponse = {"success": True, "data": []}
+    returnResponse = {
+        "success": True,
+        "pagination": serverResponse.get("pagination", {}),
+        "data": [],
+    }
 
     for item in serverData:
         data = {
@@ -476,5 +480,90 @@ def getCharacterImages(id):
     for item in serverData:
         images = replaceProperty(getImageFromImages(item), "image_url", "url")
         returnResponse["data"].append(images)
+
+    return returnResponse, 200
+
+
+##### SEASONAL FUNCTIONS #####
+
+
+# Get Season List
+def getSeasonList():
+    path = f""
+
+    serverResponse = seasonsBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": serverData}
+
+    return returnResponse, 200
+
+
+# Get Season Anime List
+def getSeasonalAnime(year, season, filter="", continuing="false"):
+    path = f"/{year}/{season}?filter={filter}&continuing={continuing}"
+
+    serverResponse = seasonsBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {
+        "success": True,
+        "pagination": serverResponse.get("pagination", {}),
+        "data": [],
+    }
+
+    for item in serverData:
+        data = {
+            "id": item.get("mal_id"),
+            "title": item.get("title"),
+            "title_english": item.get("title_english", ""),
+            "title_japanese": item.get("title_japanese", ""),
+            "synopsis": item.get("synopsis"),
+            "episodes": item.get("episodes"),
+            "thumbnail": getImageFromImages(item.get("images", {})).get("image_url"),
+            "type": item.get("type"),
+            "source": item.get("source"),
+            "status": item.get("status"),
+            "mal_rank": item.get("rank"),
+            "year": (
+                item.get("year")
+                if not item.get("year") == None
+                else item.get("aired", {})
+                .get("prop", {})
+                .get("from", {})
+                .get("year", "")
+            ),
+            "score": item.get("score"),
+            "studios": replaceProperty(
+                removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
+            ),
+            "genres": replaceProperty(
+                removeProperty(item.get("genres", []), ["url"]), "mal_id", "id"
+            ),
+            "themes": replaceProperty(
+                removeProperty(item.get("themes", []), ["url"]), "mal_id", "id"
+            ),
+            "demographics": replaceProperty(
+                removeProperty(item.get("demographics", []), ["url"]), "mal_id", "id"
+            ),
+        }
+
+        returnResponse["data"].append(data)
 
     return returnResponse, 200

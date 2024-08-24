@@ -143,5 +143,26 @@ def characterImages(id):
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+"""
+SEASONAL ROUTE
+"""
+
+
+# Get Seasons List
+@app.route("/seasons")
+def seasonsList():
+    result, statusCode = fns.getSeasonList()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Seasons List
+@app.route("/seasons/<int:year>/<string:season>")
+def seasonalAnime(year, season):
+    result, statusCode = fns.getSeasonalAnime(year, season)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
