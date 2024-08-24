@@ -42,10 +42,10 @@ def replaceProperty(obj, oldKey, newKey):
 
 # Get Image from Images
 def getImageFromImages(images):
-    jpg = images.get("jpg", {}).get("image_url")
-    if jpg:
+    jpg = images.get("jpg", {})
+    if len(jpg.keys()) > 0:
         return jpg
 
-    webp = images.get("webp", {}).get("image_url")
+    webp = images.get("webp", {})
 
     return webp

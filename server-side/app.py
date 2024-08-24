@@ -17,7 +17,7 @@ def searchAnime():
 
     result, statusCode = fns.searchAnime(searchQuery)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime Data
@@ -25,7 +25,7 @@ def searchAnime():
 def animeDetails(id):
     result, statusCode = fns.getAnimeDetails(id)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime Characters with VA
@@ -33,7 +33,7 @@ def animeDetails(id):
 def animeCharacters(id):
     result, statusCode = fns.getAnimeCharacters(id)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime Episode List
@@ -41,7 +41,7 @@ def animeCharacters(id):
 def animeEpisodes(id):
     result, statusCode = fns.getAnimeEpisodes(id)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime single Episode
@@ -49,7 +49,7 @@ def animeEpisodes(id):
 def animeSingleEpisode(id, epId):
     result, statusCode = fns.getAnimeSingleEpisode(id, epId)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime Reviews
@@ -57,7 +57,7 @@ def animeSingleEpisode(id, epId):
 def animeReviews(id):
     result, statusCode = fns.getAnimeReviews(id)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime Recommendations
@@ -65,7 +65,23 @@ def animeReviews(id):
 def animeRecommendations(id):
     result, statusCode = fns.getAnimeRecommendations(id)
 
-    return Response(json.dumps(result), status=statusCode)
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get an Anime Images
+@app.route("/anime/<int:id>/images")
+def animeImages(id):
+    result, statusCode = fns.getAnimeImages(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get an Anime Videos
+@app.route("/anime/<int:id>/videos")
+def animeVideos(id):
+    result, statusCode = fns.getAnimeVideos(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 if __name__ == "__main__":

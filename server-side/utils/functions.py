@@ -240,7 +240,7 @@ def getAnimeRecommendations(id, limit=25):
 
     for item in serverResponse["data"]:
         entry = item.get("entry", {})
-        image = getImageFromImages(entry.get("images", {}))
+        image = getImageFromImages(entry.get("images", {})).get("image_url")
         data = replaceProperty(removeProperty(entry, ["url", "images"]), "mal_id", "id")
         data["image"] = image
         data["votes"] = item.get("votes")
@@ -249,6 +249,67 @@ def getAnimeRecommendations(id, limit=25):
         returnResponse["data"].append(data)
         if len(returnResponse["data"]) == 25:
             break
+
+    return returnResponse, 200
+
+
+# Get Anime Imaged
+def getAnimeImages(id):
+    path = f"/{id}/pictures"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverResponse["data"]:
+        images = getImageFromImages(item)
+        returnResponse["data"].append(images)
+
+    return returnResponse, 200
+
+
+# Get Anime Videos
+def getAnimeVideos(id):
+    path = f"/{id}/videos"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+    videoData = serverResponse["data"]
+
+    for item in videoData["promo"]:
+        trailer = item["trailer"]
+        data = {
+            "title": item["title"],
+            "url": trailer.get("url"),
+            "embed_url": trailer.get("embed_url"),
+            "images": {
+                "small": trailer.get("images", {}).get("small_image_url"),
+                "medium": trailer.get("images", {}).get("medium_image_url"),
+                "large": trailer.get("images", {}).get("large_image_url"),
+                "maximum": trailer.get("images", {}).get("maximum_image_url"),
+            },
+        }
+
+        returnResponse["data"].append(data)
 
     return returnResponse, 200
 
