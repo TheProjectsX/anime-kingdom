@@ -508,8 +508,13 @@ def getSeasonList():
 
 
 # Get Season Anime List
-def getSeasonalAnime(year, season, filter="", continuing="false"):
-    path = f"/{year}/{season}?filter={filter}&continuing={continuing}"
+def getSeasonalAnime(year, season="", filter="", continuing="false"):
+    if year in ["now", "upcoming"]:
+        prefix = year
+    else:
+        prefix = f"{year}/{season}"
+
+    path = f"/{prefix}?filter={filter}&continuing={continuing}"
 
     serverResponse = seasonsBase(path)
     if not serverResponse["success"]:

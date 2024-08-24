@@ -156,10 +156,26 @@ def seasonsList():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
-# Get Seasons List
+# Get Seasonal Anime
 @app.route("/seasons/<int:year>/<string:season>")
 def seasonalAnime(year, season):
     result, statusCode = fns.getSeasonalAnime(year, season)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Upcoming Anime
+@app.route("/seasons/now")
+def seasonalNowAnime():
+    result, statusCode = fns.getSeasonalAnime("now")
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Upcoming Anime
+@app.route("/seasons/upcoming")
+def seasonalUpcomingAnime():
+    result, statusCode = fns.getSeasonalAnime("upcoming")
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
