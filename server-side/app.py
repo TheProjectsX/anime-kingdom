@@ -20,7 +20,40 @@ def searchAnime():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
-# Get an Anime Data
+# Get Anime by Filters
+@app.route("/anime/filter")
+def animeByGenre():
+    q = request.args.get("query", "")
+    genres = request.args.get("genres", "")
+    typeA = request.args.get("type", "")
+    status = request.args.get("status", "")
+    rating = request.args.get("rating", "")
+
+    page = request.args.get("page", 1)
+    limit = request.args.get("limit", 20)
+    order_by = request.args.get("order_by", "popularity")
+    start_date = request.args.get("start_date", "")
+    end_date = request.args.get("end_date", "")
+
+    result, statusCode = fns.getFilteredAnime(
+        filters={
+            "q": q,
+            "genres": genres,
+            "type": typeA,
+            "status": status,
+            "rating": rating,
+        },
+        page=page,
+        limit=limit,
+        order_by=order_by,
+        start_date=start_date,
+        end_date=end_date,
+    )
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get an Anime common Data
 @app.route("/anime/<int:id>")
 def animeDetails(id):
     result, statusCode = fns.getAnimeDetails(id)

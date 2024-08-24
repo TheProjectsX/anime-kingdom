@@ -48,7 +48,7 @@ def searchAnime(query="", limit=12):
 
 # Get Filtered Anime
 def getFilteredAnime(
-    filters={"type": "", "status": "", "rating": "", "genres": ""},
+    filters={"q": "", "type": "", "status": "", "rating": "", "genres": ""},
     page=1,
     limit=20,
     order_by="",
@@ -57,7 +57,7 @@ def getFilteredAnime(
 ):
     path = f"?page={page}&limit={limit}&order_by={order_by}&start_date={start_date}&end_date={end_date}"
 
-    for key, value in enumerate(filters):
+    for key, value in filters.items():
         if value == "":
             continue
         path += f"&{key}={value}"
@@ -75,7 +75,45 @@ def getFilteredAnime(
 
     returnResponse = {"success": True, "data": []}
 
-    # for item in
+    for item in serverData:
+        data = {
+            "id": item.get("mal_id"),
+            "title": item.get("title"),
+            "title_english": item.get("title_english", ""),
+            "title_japanese": item.get("title_japanese", ""),
+            "synopsis": item.get("synopsis"),
+            "episodes": item.get("episodes"),
+            "thumbnail": getImageFromImages(item.get("images", {})).get("image_url"),
+            "type": item.get("type"),
+            "source": item.get("source"),
+            "status": item.get("status"),
+            "mal_rank": item.get("rank"),
+            "year": (
+                item.get("year")
+                if not item.get("year") == None
+                else item.get("aired", {})
+                .get("prop", {})
+                .get("from", {})
+                .get("year", "")
+            ),
+            "score": item.get("score"),
+            "studios": replaceProperty(
+                removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
+            ),
+            "genres": replaceProperty(
+                removeProperty(item.get("genres", []), ["url"]), "mal_id", "id"
+            ),
+            "themes": replaceProperty(
+                removeProperty(item.get("themes", []), ["url"]), "mal_id", "id"
+            ),
+            "demographics": replaceProperty(
+                removeProperty(item.get("demographics", []), ["url"]), "mal_id", "id"
+            ),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
 
 
 # Get Anime Details
