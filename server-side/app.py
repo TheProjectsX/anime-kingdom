@@ -52,5 +52,21 @@ def animeSingleEpisode(id, epId):
     return Response(json.dumps(result), status=statusCode)
 
 
+# Get an Anime Reviews
+@app.route("/anime/<int:id>/reviews")
+def animeReviews(id):
+    result, statusCode = fns.getAnimeReviews(id)
+
+    return Response(json.dumps(result), status=statusCode)
+
+
+# Get an Anime Recommendations
+@app.route("/anime/<int:id>/recommendations")
+def animeRecommendations(id):
+    result, statusCode = fns.getAnimeRecommendations(id)
+
+    return Response(json.dumps(result), status=statusCode)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

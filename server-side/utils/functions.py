@@ -187,6 +187,72 @@ def getAnimeSingleEpisode(id, epId):
     return returnResponse, 200
 
 
+# Get Anime Reviews
+def getAnimeReviews(id, page=1, spoilers="false", preliminary="true"):
+    path = f"/{id}/reviews?page={page}&spoilers={spoilers}&preliminary={preliminary}"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {
+        "success": True,
+        "data": [],
+    }
+
+    for item in serverResponse["data"]:
+        data = replaceProperty(removeProperty(item, ["url"]), "mal_id", "id")
+        user = data.get("user", {})
+        image = user.get("images", {}).get("jpg", {}).get("image_url")
+        user = removeProperty(user, ["url", "images"])
+        user["image"] = image
+
+        data["user"] = user
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Anime Recommendations of an Anime Watchers
+def getAnimeRecommendations(id, limit=25):
+    path = f"/{id}/recommendations"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("message", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverResponse["data"]:
+        entry = item.get("entry", {})
+        image = getImageFromImages(entry.get("images", {}))
+        data = replaceProperty(removeProperty(entry, ["url", "images"]), "mal_id", "id")
+        data["image"] = image
+        data["votes"] = item.get("votes")
+        data["mal_recommendation"] = item.get("url")
+
+        returnResponse["data"].append(data)
+        if len(returnResponse["data"]) == 25:
+            break
+
+    return returnResponse, 200
+
+
 # Get Anime Data
 def getAnime(
     filters={"q": "", "type": "", "status": "", "rating": "", "genres": ""},

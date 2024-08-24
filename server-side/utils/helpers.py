@@ -38,3 +38,14 @@ def replaceProperty(obj, oldKey, newKey):
         new_obj = {newKey if k == oldKey else k: v for k, v in new_obj.items()}
 
     return new_obj
+
+
+# Get Image from Images
+def getImageFromImages(images):
+    jpg = images.get("jpg", {}).get("image_url")
+    if jpg:
+        return jpg
+
+    webp = images.get("webp", {}).get("image_url")
+
+    return webp
