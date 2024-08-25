@@ -4,7 +4,7 @@ import urllib.parse
 
 
 # Search an Anime
-def searchAnime(query="", limit=12):
+def getSearchedAnime(query="", limit=12):
     path = f"?q={query}&limit={limit}"
 
     serverResponse = animeBase(path)
@@ -45,7 +45,6 @@ def searchAnime(query="", limit=12):
         returnResponse["data"].append(data)
 
     return returnResponse, 200
-
 
 # Get Filtered Anime
 def getFilteredAnime(
@@ -120,7 +119,6 @@ def getFilteredAnime(
 
     return returnResponse, 200
 
-
 # Get Anime Details
 def getAnimeDetails(id):
     path = f"/{id}/full"
@@ -183,6 +181,12 @@ def getAnimeSimpleData(id):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    pathC = f"/{id}/characters"
+
+    serverResponseC = animeBase(pathC)
+    if not serverResponseC["success"]:
+        return serverResponseC, 500
+
     animeData = {
         "id": serverData.get("mal_id"),
         "title": serverData.get("title"),
@@ -194,6 +198,7 @@ def getAnimeSimpleData(id):
         "mal_rank": serverData.get("rank"),
         "season": serverData.get("season"),
         "year": serverData.get("year"),
+        "va_languages": getUniqueVAALang(serverResponseC.get("data", []))
     }
 
     returnResponse = {"success": True, "data": animeData}

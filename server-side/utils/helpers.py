@@ -50,6 +50,21 @@ def getImageFromImages(images):
 
     return webp
 
+
+# Get Languages of an Anime Voice artists
+def getUniqueVAALang(dataset):
+    unique_languages = {}
+
+    # Iterate through the dataset
+    for character in dataset:
+        for va in character.get('voice_actors', []):
+            language = va.get('language')
+            if language and language not in unique_languages:
+                unique_languages[language] = None
+    
+    # Convert the keys of the OrderedDict to a list
+    return list(unique_languages.keys())
+
 # Function to find common voice actors
 def compareVoiceArtists(dataset_01, dataset_02, dataset_01_anime = {}, dataset_02_anime = {}, language=None):
     voice_actors_01 = {}

@@ -20,7 +20,7 @@ ANIME ROUTES
 def searchAnime():
     searchQuery = request.args.get("query", "")
 
-    result, statusCode = fns.searchAnime(searchQuery)
+    result, statusCode = fns.getSearchedAnime(searchQuery)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -64,6 +64,7 @@ def animeDetails(id):
     result, statusCode = fns.getAnimeDetails(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
 
 # Get an Anime common Data
 @app.route("/anime/<int:id>/simple")
@@ -265,16 +266,22 @@ def waifuImages(type, category):
 @app.route("/tools/compare-va")
 def compareVoiceArtists():
     animeIdz = request.args.get("anime", "").replace(" ", "").split(",")
-    if (not len(animeIdz) == 2):
+    if not len(animeIdz) == 2:
         return {"success": False, "message": "Must give 2 Anime Ids"}, 400
 
     anime_01, anime_02 = animeIdz
     language = request.args.get("language", "Japanese")
 
     try:
-        result, statusCode = fns.getVoiceArtistsCompared(anime_01_id=anime_01, anime_02_id=anime_02, language=language)
+        result, statusCode = fns.getVoiceArtistsCompared(
+            anime_01_id=anime_01, anime_02_id=anime_02, language=language
+        )
     except Exception as e:
-        return {"success": False, "message": "Failed to Compare Voice Artists", "error": str(e)}, 500
+        return {
+            "success": False,
+            "message": "Failed to Compare Voice Artists",
+            "error": str(e),
+        }, 500
     # print(result)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
