@@ -1,5 +1,6 @@
 from .base_paths import *
 from .helpers import *
+import urllib.parse
 
 
 # Search an Anime
@@ -718,6 +719,68 @@ def getTopManga(page=1, limit=25):
                 .get("year", "")
             ),
             "score": item.get("score"),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+##### TOOLS FUNCTIONS #####
+
+
+# Reverse Search an Image
+def getReverseImageInfo(url=None, image=None):
+    basePath = "https://api.trace.moe/search?anilistInfo&cutBorders"
+
+    response = {}
+
+    if url:
+        getPath = f"{basePath}&url={urllib.parse.quote_plus(url)}"
+        try:
+            response = requests.get(getPath).json()
+            response["success"] = True
+        except Exception as e:
+            response = {"success": False, "message": str(e)}
+
+    elif image:
+        try:
+            response = requests.post(
+                basePath,
+                data=image,
+                headers={"Content-Type": "image/jpeg"},
+            ).json()
+            response["success"] = True
+        except Exception as e:
+            response = {"success": False, "message": str(e)}
+    else:
+        response = {"success": False, "message": "Wrong Data provided"}
+
+    if not response["success"]:
+        return response, 500
+    elif not response.get("result"):
+        return {
+            "success": False,
+            "message": response.get("error", "Failed to Find Information"),
+        }, 404
+
+    serverResponse = response.get("result")
+
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverResponse:
+        anilist = item.get("anilist", {})
+        data = {
+            "id": anilist.get("idMal"),
+            "title": anilist.get("title", {}).get("romaji"),
+            "title_english": anilist.get("title", {}).get("english"),
+            "episode": item.get("episode"),
+            "similarity": item.get("similarity"),
+            "filename": item.get("filename"),
+            "video": item.get("video"),
+            "image": item.get("image"),
+            "from": item.get("from"),
+            "to": item.get("to"),
         }
 
         returnResponse["data"].append(data)

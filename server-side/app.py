@@ -212,5 +212,27 @@ def topManga():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+"""
+TOOLS ROUTE
+"""
+
+
+# Get info Of an Anime Screenshot
+@app.route("/tools/reverse-image", methods=["POST"])
+def reverseImage():
+    image = request.files.get("image")
+    url = request.form.get("url")
+
+    if image is None and url is None:
+        return {"success": False, "message": "No Image or Url Sent"}
+
+    if image:
+        result, statusCode = fns.getReverseImageInfo(image=image.read())
+    elif url:
+        result, statusCode = fns.getReverseImageInfo(url=url)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
