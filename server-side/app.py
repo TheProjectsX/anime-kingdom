@@ -234,5 +234,23 @@ def reverseImage():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get Waifu Categories
+@app.route("/tools/waifu/categories")
+def waifuCategories():
+    result, statusCode = fns.getWaifuImgCategories()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Waifu Images
+@app.route("/tools/waifu/<string:type>/<string:category>")
+def waifuImages(type, category):
+    limit = request.args.get("limit", 20)
+
+    result, statusCode = fns.getWaifuImages(type, category, limit)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

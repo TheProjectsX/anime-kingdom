@@ -786,3 +786,46 @@ def getReverseImageInfo(url=None, image=None):
         returnResponse["data"].append(data)
 
     return returnResponse, 200
+
+
+# Get Waifu Image Types and Categories
+def getWaifuImgCategories():
+    url = f"{WAIFU_BASE}/endpoints"
+
+    try:
+        serverResponse = requests.get(url).json()
+    except Exception as e:
+        return {"success": False, "error": str(e)}, 500
+
+    returnResponse = {"success": True, "data": []}
+
+    for type, categories in serverResponse.items():
+        data = {"type": type, "categories": categories}
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Waifu Images
+def getWaifuImages(type="sfw", category="waifu", limit=20):
+    url = f"{WAIFU_BASE}/many/{type}/{category}"
+
+    try:
+        limit = int(limit)
+    except Exception as e:
+        limit = 20
+
+    if limit > 30:
+        limit = 30
+    elif limit < 1:
+        limit = 1
+
+    try:
+        serverResponse = requests.post(url, json={}).json()
+    except Exception as e:
+        return {"success": False, "error": str(e)}, 500
+
+    returnResponse = {"success": True, "data": serverResponse["files"][:limit]}
+
+    return returnResponse, 200

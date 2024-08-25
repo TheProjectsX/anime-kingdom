@@ -1,6 +1,8 @@
 import requests
+
 # GLOBAL Variables
 JIKAN_BASE = "https://api.jikan.moe/v4"
+WAIFU_BASE = "https://api.waifu.pics/"
 
 
 # Base Path
@@ -10,19 +12,21 @@ def basePath(path):
         response = requests.get(url).json()
     except Exception as e:
         return {"success": False, "error": str(e)}
-    
+
     response["success"] = True
     return response
 
+
 # Anime Info Base Path
-def animeBase(path = ""):
+def animeBase(path=""):
     path = f"anime{path}"
     response = basePath(path)
 
     return response
 
+
 # Anime Characters Info Base
-def charactersBase(path = ""):
+def charactersBase(path=""):
     path = f"characters{path}"
     response = basePath(path)
 
@@ -30,16 +34,16 @@ def charactersBase(path = ""):
 
 
 # Anime Seasons Info Base
-def seasonsBase(path = ""):
+def seasonsBase(path=""):
     path = f"seasons{path}"
     response = basePath(path)
 
     return response
 
+
 # Anime Top Info Base
-def topBase(path = "anime"):
+def topBase(path="anime"):
     path = f"top{path}"
     response = basePath(path)
 
     return response
-
