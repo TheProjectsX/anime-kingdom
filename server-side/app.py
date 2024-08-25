@@ -218,17 +218,19 @@ TOOLS ROUTE
 
 
 # Get info Of an Anime Screenshot
-@app.route("/tools/reverse-image", methods=["POST"])
+@app.route("/tools/reverse-image", methods=["GET", "POST"])
 def reverseImage():
-    image = request.files.get("image")
-    url = request.form.get("url")
+    if request.method == "POST":
+        image = request.files.get("image")
+        if image is None:
+            return {"success": False, "message": "No Image Sent"}
 
-    if image is None and url is None:
-        return {"success": False, "message": "No Image or Url Sent"}
-
-    if image:
         result, statusCode = fns.getReverseImageInfo(image=image.read())
-    elif url:
+
+    elif request.method == "GET":
+        url = request.args.get("url")
+        if url is None:
+            return {"success": False, "message": "No URL Provided"}
         result, statusCode = fns.getReverseImageInfo(url=url)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
