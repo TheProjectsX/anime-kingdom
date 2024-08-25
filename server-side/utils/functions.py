@@ -26,7 +26,7 @@ def searchAnime(query="", limit=12):
             "title": item.get("title"),
             "title_english": item.get("title_english", ""),
             "title_japanese": item.get("title_japanese", ""),
-            "thumbnail": item.get("images", {})
+            "image": item.get("images", {})
             .get("jpg", {})
             .get("small_image_url", ""),
             "type": item.get("type"),
@@ -88,7 +88,7 @@ def getFilteredAnime(
             "title_japanese": item.get("title_japanese", ""),
             "synopsis": item.get("synopsis"),
             "episodes": item.get("episodes"),
-            "thumbnail": getImageFromImages(item.get("images", {})).get("image_url"),
+            "image": getImageFromImages(item.get("images", {})).get("image_url"),
             "type": item.get("type"),
             "source": item.get("source"),
             "status": item.get("status"),
@@ -141,6 +141,8 @@ def getAnimeDetails(id):
         "title": serverData.get("title"),
         "title_english": serverData.get("title_english"),
         "title_japanese": serverData.get("title_japanese"),
+        "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
+        "image_large": getImageFromImages(serverData.get("images", {})).get("large_image_url"),
         "synopsis": serverData.get("synopsis"),
         "type": serverData.get("type"),
         "source": serverData.get("source"),
@@ -166,6 +168,37 @@ def getAnimeDetails(id):
 
     return returnResponse, 200
 
+# Get Anime simple Data
+def getAnimeSimpleData(id):
+    path = f"/{id}"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    animeData = {
+        "id": serverData.get("mal_id"),
+        "title": serverData.get("title"),
+        "title_english": serverData.get("title_english"),
+        "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
+        "type": serverData.get("type"),
+        "episodes": serverData.get("episodes"),
+        "score": serverData.get("score"),
+        "mal_rank": serverData.get("rank"),
+        "season": serverData.get("season"),
+        "year": serverData.get("year"),
+    }
+
+    returnResponse = {"success": True, "data": animeData}
+
+    return returnResponse, 200
 
 # Get Anime Characters
 def getAnimeCharacters(id):
@@ -829,3 +862,38 @@ def getWaifuImages(type="sfw", category="waifu", limit=20):
     returnResponse = {"success": True, "data": serverResponse["files"][:limit]}
 
     return returnResponse, 200
+
+
+# Compare Voice Artists
+def getVoiceArtistsCompared(anime_01_id, anime_02_id, language = "Japanese"):
+    anime_01_characters, status_01 = getAnimeCharacters(anime_01_id)
+    anime_02_characters, status_02 = getAnimeCharacters(anime_02_id)
+    anime_01_simple_data, _ = getAnimeSimpleData(anime_01_id)
+    anime_02_simple_data, _ = getAnimeSimpleData(anime_02_id)
+
+    if (not status_01 == 200):
+        return anime_01_characters, status_01
+    
+    if (not status_02 == 200):
+        return anime_02_characters, status_02
+    
+
+    try:
+        commonVoiceArtists, unCommonVoiceArtists = compareVoiceArtists(anime_01_characters.get("data"), anime_02_characters.get("data"), dataset_01_anime=anime_01_simple_data.get("data", {}), dataset_02_anime=anime_02_simple_data.get("data", {}), language=language)
+    except Exception as e:
+        return {"success": False, "message": str(e)}, 500
+
+    returnResponse = {
+        "success": True,
+        "data": {
+            "commonVoiceArtists": commonVoiceArtists,
+            "unCommonVoiceArtists": unCommonVoiceArtists
+        }
+    }
+
+    return returnResponse, 200
+
+
+
+
+
