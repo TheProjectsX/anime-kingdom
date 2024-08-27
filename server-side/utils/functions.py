@@ -26,9 +26,9 @@ def getSearchedAnime(query="", limit=12):
             "title": item.get("title"),
             "title_english": item.get("title_english", ""),
             "title_japanese": item.get("title_japanese", ""),
-            "image": item.get("images", {})
-            .get("jpg", {})
-            .get("small_image_url", ""),
+            "image": getImageFromImages(item.get("images", {})).get(
+                "small_image_url", ""
+            ),
             "type": item.get("type"),
             "status": item.get("status"),
             "year": (
@@ -45,6 +45,7 @@ def getSearchedAnime(query="", limit=12):
         returnResponse["data"].append(data)
 
     return returnResponse, 200
+
 
 # Get Filtered Anime
 def getFilteredAnime(
@@ -73,9 +74,17 @@ def getFilteredAnime(
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+        "total_count": serverPagination.get("items", {}).get("total"),
+        "current_count": serverPagination.get("items", {}).get("count"),
+    }
+
     returnResponse = {
         "success": True,
-        "pagination": serverResponse.get("pagination", {}),
+        "pagination": pagination,
         "data": [],
     }
 
@@ -119,6 +128,7 @@ def getFilteredAnime(
 
     return returnResponse, 200
 
+
 # Get Anime Details
 def getAnimeDetails(id):
     path = f"/{id}/full"
@@ -140,7 +150,9 @@ def getAnimeDetails(id):
         "title_english": serverData.get("title_english"),
         "title_japanese": serverData.get("title_japanese"),
         "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
-        "image_large": getImageFromImages(serverData.get("images", {})).get("large_image_url"),
+        "image_large": getImageFromImages(serverData.get("images", {})).get(
+            "large_image_url"
+        ),
         "synopsis": serverData.get("synopsis"),
         "type": serverData.get("type"),
         "source": serverData.get("source"),
@@ -165,6 +177,7 @@ def getAnimeDetails(id):
     returnResponse = {"success": True, "data": animeData}
 
     return returnResponse, 200
+
 
 # Get Anime simple Data
 def getAnimeSimpleData(id):
@@ -198,12 +211,13 @@ def getAnimeSimpleData(id):
         "mal_rank": serverData.get("rank"),
         "season": serverData.get("season"),
         "year": serverData.get("year"),
-        "va_languages": getUniqueVAALang(serverResponseC.get("data", []))
+        "va_languages": getUniqueVAALang(serverResponseC.get("data", [])),
     }
 
     returnResponse = {"success": True, "data": animeData}
 
     return returnResponse, 200
+
 
 # Get Anime Characters
 def getAnimeCharacters(id):
@@ -229,7 +243,7 @@ def getAnimeCharacters(id):
         data = {
             "id": character.get("mal_id", ""),
             "name": character.get("name"),
-            "image": character.get("images", {}).get("jpg", {}).get("image_url"),
+            "image": getImageFromImages(character.get("images", {})).get("image_url"),
             "role": item.get("role"),
             "favorites": item.get("favorites"),
             "voice_actors": [],
@@ -241,7 +255,7 @@ def getAnimeCharacters(id):
                 "id": person.get("mal_id", ""),
                 "name": person.get("name"),
                 "language": actor.get("language"),
-                "image": person.get("images", {}).get("jpg", {}).get("image_url"),
+                "image": getImageFromImages(person.get("images", {})).get("image_url"),
             }
 
             data["voice_actors"].append(vaData)
@@ -266,9 +280,15 @@ def getAnimeEpisodes(id, page=1):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+    }
+
     returnResponse = {
         "success": True,
-        "pagination": serverResponse.get("pagination", {}),
+        "pagination": pagination,
         "data": [],
     }
 
@@ -322,15 +342,20 @@ def getAnimeReviews(id, page=1, spoilers="false", preliminary="true"):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    pagination = {
+        "has_next_page": True if not len(serverData) < 20 else False,
+    }
+
     returnResponse = {
         "success": True,
+        "pagination": pagination,
         "data": [],
     }
 
     for item in serverData:
         data = replaceProperty(removeProperty(item, ["url"]), "mal_id", "id")
         user = data.get("user", {})
-        image = user.get("images", {}).get("jpg", {}).get("image_url")
+        image = getImageFromImages(user.get("images", {})).get("image_url")
         user = removeProperty(user, ["url", "images"])
         user["image"] = image
 
@@ -566,9 +591,16 @@ def getSeasonalAnime(year, season="", filter="", continuing="false"):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+        "total_count": serverPagination.get("items", {}).get("total"),
+        "current_count": serverPagination.get("items", {}).get("count"),
+    }
     returnResponse = {
         "success": True,
-        "pagination": serverResponse.get("pagination", {}),
+        "pagination": pagination,
         "data": [],
     }
 
@@ -631,9 +663,17 @@ def getTopAnime(type="", filter="", page=1, limit=25):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+        "total_count": serverPagination.get("items", {}).get("total"),
+        "current_count": serverPagination.get("items", {}).get("count"),
+    }
+
     returnResponse = {
         "success": True,
-        "pagination": serverResponse.get("pagination", {}),
+        "pagination": pagination,
         "data": [],
     }
 
@@ -693,9 +733,17 @@ def getTopCharacters(page=1, limit=25):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+        "total_count": serverPagination.get("items", {}).get("total"),
+        "current_count": serverPagination.get("items", {}).get("count"),
+    }
+
     returnResponse = {
         "success": True,
-        "pagination": serverResponse.get("pagination", {}),
+        "pagination": pagination,
         "data": [],
     }
 
@@ -729,9 +777,16 @@ def getTopManga(page=1, limit=25):
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
 
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+        "total_count": serverPagination.get("items", {}).get("total"),
+        "current_count": serverPagination.get("items", {}).get("count"),
+    }
     returnResponse = {
         "success": True,
-        "pagination": serverResponse.get("pagination", {}),
+        "pagination": pagination,
         "data": [],
     }
 
@@ -870,21 +925,26 @@ def getWaifuImages(type="sfw", category="waifu", limit=20):
 
 
 # Compare Voice Artists
-def getVoiceArtistsCompared(anime_01_id, anime_02_id, language = "Japanese"):
+def getVoiceArtistsCompared(anime_01_id, anime_02_id, language="Japanese"):
     anime_01_characters, status_01 = getAnimeCharacters(anime_01_id)
     anime_02_characters, status_02 = getAnimeCharacters(anime_02_id)
     anime_01_simple_data, _ = getAnimeSimpleData(anime_01_id)
     anime_02_simple_data, _ = getAnimeSimpleData(anime_02_id)
 
-    if (not status_01 == 200):
+    if not status_01 == 200:
         return anime_01_characters, status_01
-    
-    if (not status_02 == 200):
+
+    if not status_02 == 200:
         return anime_02_characters, status_02
-    
 
     try:
-        commonVoiceArtists, unCommonVoiceArtists = compareVoiceArtists(anime_01_characters.get("data"), anime_02_characters.get("data"), dataset_01_anime=anime_01_simple_data.get("data", {}), dataset_02_anime=anime_02_simple_data.get("data", {}), language=language)
+        commonVoiceArtists, unCommonVoiceArtists = compareVoiceArtists(
+            anime_01_characters.get("data"),
+            anime_02_characters.get("data"),
+            dataset_01_anime=anime_01_simple_data.get("data", {}),
+            dataset_02_anime=anime_02_simple_data.get("data", {}),
+            language=language,
+        )
     except Exception as e:
         return {"success": False, "message": str(e)}, 500
 
@@ -892,13 +952,8 @@ def getVoiceArtistsCompared(anime_01_id, anime_02_id, language = "Japanese"):
         "success": True,
         "data": {
             "commonVoiceArtists": commonVoiceArtists,
-            "unCommonVoiceArtists": unCommonVoiceArtists
-        }
+            "unCommonVoiceArtists": unCommonVoiceArtists,
+        },
     }
 
     return returnResponse, 200
-
-
-
-
-

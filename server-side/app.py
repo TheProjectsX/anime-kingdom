@@ -19,15 +19,16 @@ ANIME ROUTES
 @app.route("/anime")
 def searchAnime():
     searchQuery = request.args.get("query", "")
+    limit = request.args.get("limit", 12)
 
-    result, statusCode = fns.getSearchedAnime(searchQuery)
+    result, statusCode = fns.getSearchedAnime(searchQuery, limit=limit)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get Anime by Filters
 @app.route("/anime/filter")
-def animeByGenre():
+def animeByFilter():
     q = request.args.get("query", "")
     genres = request.args.get("genres", "")
     typeA = request.args.get("type", "")
@@ -101,7 +102,13 @@ def animeSingleEpisode(id, epId):
 # Get an Anime Reviews
 @app.route("/anime/<int:id>/reviews")
 def animeReviews(id):
-    result, statusCode = fns.getAnimeReviews(id)
+    page = request.args.get("page", 1)
+    spoilers = request.args.get("spoilers", "false")
+    preliminary = request.args.get("preliminary", "true")
+
+    result, statusCode = fns.getAnimeReviews(
+        id, page=page, spoilers=spoilers, preliminary=preliminary
+    )
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
