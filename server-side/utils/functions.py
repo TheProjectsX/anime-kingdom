@@ -367,7 +367,7 @@ def getAnimeReviews(id, page=1, spoilers="false", preliminary="true"):
 
 
 # Get Anime Recommendations of an Anime Watchers
-def getAnimeRecommendations(id, limit=25):
+def getAnimeRecommendations(id):
     path = f"/{id}/recommendations"
 
     serverResponse = animeBase(path)

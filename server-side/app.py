@@ -86,8 +86,9 @@ def animeCharacters(id):
 # Get an Anime Episode List
 @app.route("/anime/<int:id>/episodes")
 def animeEpisodes(id):
-    result, statusCode = fns.getAnimeEpisodes(id)
+    page = request.args.get("page", 1)
 
+    result, statusCode = fns.getAnimeEpisodes(id, page=page)
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
@@ -174,8 +175,12 @@ def seasonsList():
 # Get Seasonal Anime
 @app.route("/seasons/<int:year>/<string:season>")
 def seasonalAnime(year, season):
-    result, statusCode = fns.getSeasonalAnime(year, season)
+    filter = request.args.get("filter", "")
+    continuing = request.args.get("continuing", "false")
 
+    result, statusCode = fns.getSeasonalAnime(
+        year, season, filter=filter, continuing=continuing
+    )
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
@@ -205,8 +210,10 @@ TOP ROUTE
 def topAnime():
     type = request.args.get("type", "")
     filter = request.args.get("filter", "")
+    page = request.args.get("page", 1)
+    limit = request.args.get("limit", 25)
 
-    result, statusCode = fns.getTopAnime(type, filter)
+    result, statusCode = fns.getTopAnime(type, filter, page=page, limit=limit)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -214,16 +221,20 @@ def topAnime():
 # Get Top Anime Characters
 @app.route("/top/characters")
 def topCharacters():
-    result, statusCode = fns.getTopCharacters()
+    page = request.args.get("page", 1)
+    limit = request.args.get("limit", 25)
 
+    result, statusCode = fns.getTopCharacters(page=page, limit=limit)
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get Top Anime Manga
 @app.route("/top/manga")
 def topManga():
-    result, statusCode = fns.getTopManga()
+    page = request.args.get("page", 1)
+    limit = request.args.get("limit", 25)
 
+    result, statusCode = fns.getTopManga(page=page, limit=limit)
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
