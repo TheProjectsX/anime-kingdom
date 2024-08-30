@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 import utils.functions as fns
 import json
+import anime_quotes
 
 app = Flask(__name__)
 
@@ -301,6 +302,36 @@ def compareVoiceArtists():
             "error": str(e),
         }, 500
     # print(result)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Search for Anime Quotes Character
+@app.route("/tools/quotes/characters")
+def animeQuotesCharacters():
+    query = request.args.get("query")
+
+    result = anime_quotes.getCharactersByQuery(query)
+    if result["success"]:
+        statusCode = 200
+    else:
+        statusCode = 404
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Anime Character Quotes by Id
+@app.route("/tools/quotes/<int:id>")
+def animeCharacterQuotes(id):
+    skip = request.args.get("skip", 0)
+    limit = request.args.get("limit", 20)
+    limit = None if limit == "none" or limit == "all" else limit
+
+    result = anime_quotes.getCharacterQuotesById(id, skip=skip, limit=limit)
+    if result["success"]:
+        statusCode = 200
+    else:
+        statusCode = 404
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

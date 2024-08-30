@@ -153,6 +153,17 @@ def getAnimeDetails(id):
         "image_large": getImageFromImages(serverData.get("images", {})).get(
             "large_image_url"
         ),
+        "trailer": {
+            "youtube_id": serverData.get("trailer", {}).get("youtube_id"),
+            "video": serverData.get("trailer", {}).get("url"),
+            "embed": serverData.get("trailer", {}).get("embed_url"),
+            "image": serverData.get("trailer", {})
+            .get("images", {})
+            .get("medium_image_url"),
+            "image_large": serverData.get("trailer", {})
+            .get("images", {})
+            .get("maximum_image_url"),
+        },
         "synopsis": serverData.get("synopsis"),
         "type": serverData.get("type"),
         "source": serverData.get("source"),
@@ -172,6 +183,7 @@ def getAnimeDetails(id):
         "themes": removeProperty(serverData.get("themes", {}), "url"),
         "related": removeProperty(serverData.get("relations", {}), "url"),
         "streaming": serverData.get("streaming", []),
+        "external": serverData.get("external", []),
     }
 
     returnResponse = {"success": True, "data": animeData}
