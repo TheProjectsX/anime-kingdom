@@ -1,6 +1,22 @@
 from .base_paths import *
 from .helpers import *
 import urllib.parse
+import requests
+
+
+# Get Banner Image from AniList: Inner Function
+def getAnilistAnimeBanner(query):
+    json = {
+        "query": "query ($query: String, $page: Int, $perpage: Int) {Page (page: $page, perPage: $perpage) { media (search: $query, type: ANIME) {id bannerImage }}}",
+        "variables": {"query": query, "page": 1, "perpage": 3},
+    }
+
+    serverResponse = anilistBase(json)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data", {}).get("Page", {}).get("media", [{}])
+
+    return data[0].get("bannerImage")
 
 
 # Search an Anime
@@ -153,6 +169,7 @@ def getAnimeDetails(id):
         "image_large": getImageFromImages(serverData.get("images", {})).get(
             "large_image_url"
         ),
+        "banner": getAnilistAnimeBanner(serverData.get("title")),
         "trailer": {
             "youtube_id": serverData.get("trailer", {}).get("youtube_id"),
             "video": serverData.get("trailer", {}).get("url"),
@@ -969,3 +986,7 @@ def getVoiceArtistsCompared(anime_01_id, anime_02_id, language="Japanese"):
     }
 
     return returnResponse, 200
+
+
+if __name__ == "__main__":
+    print(getAnilistAnimeBanner("my teen romantic comedy"))

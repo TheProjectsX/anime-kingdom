@@ -3,6 +3,7 @@ import requests
 # GLOBAL Variables
 JIKAN_BASE = "https://api.jikan.moe/v4"
 WAIFU_BASE = "https://api.waifu.pics/"
+ANILIST_BASE = "https://graphql.anilist.co"
 
 
 # Base Path
@@ -46,4 +47,15 @@ def topBase(path="anime"):
     path = f"top{path}"
     response = basePath(path)
 
+    return response
+
+
+# Anilist GraphQL
+def anilistBase(json):
+    try:
+        response = requests.post(ANILIST_BASE, json=json).json()
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+    response["success"] = True
     return response
