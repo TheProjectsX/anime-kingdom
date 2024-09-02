@@ -27,6 +27,36 @@ def searchAnime():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get Anime list for Homepage
+@app.route("/anime/home")
+def homepageAnime():
+    limit = request.args.get("limit", 6)
+    # Trending, Top Season, Upcoming, All time top
+    trendingAnime, _ = fns.getFilteredAnime(
+        filters={"status": "airing"}, order_by="popularity", limit=limit
+    )
+    topSeasonAnime, _ = fns.getSeasonalAnime("now", limit=limit)
+    upcomingAnime, _ = fns.getSeasonalAnime("upcoming", limit=limit)
+    popularTvSeries, _ = fns.getFilteredAnime(
+        filters={"type": "tv"}, order_by="popularity", limit=limit
+    )
+    popularMovies, _ = fns.getFilteredAnime(
+        filters={"type": "movie"}, order_by="popularity", limit=limit
+    )
+
+    returnData = [
+        {"heading": "Trending Now", "data": trendingAnime.get("data", [])},
+        {"heading": "Popular This Season", "data": topSeasonAnime.get("data", [])},
+        {"heading": "Upcoming", "data": upcomingAnime.get("data", [])},
+        {"heading": "Popular TV Series", "data": popularTvSeries.get("data", [])},
+        {"heading": "Popular Movies", "data": popularMovies.get("data", [])},
+    ]
+    result = {"success": True, "data": returnData}
+    statusCode = 200
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 # Get Anime by Filters
 @app.route("/anime/filter")
 def animeByFilter():
@@ -38,7 +68,7 @@ def animeByFilter():
 
     page = request.args.get("page", 1)
     limit = request.args.get("limit", 20)
-    order_by = request.args.get("order_by", "popularity")
+    order_by = request.args.get("order_by", "")
     start_date = request.args.get("start_date", "")
     end_date = request.args.get("end_date", "")
 
@@ -178,9 +208,11 @@ def seasonsList():
 def seasonalAnime(year, season):
     filter = request.args.get("filter", "")
     continuing = request.args.get("continuing", "false")
+    limit = request.args.get("limit", 20)
+    page = request.args.get("page", 1)
 
     result, statusCode = fns.getSeasonalAnime(
-        year, season, filter=filter, continuing=continuing
+        year, season, filter=filter, continuing=continuing, limit=limit, page=page
     )
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -188,7 +220,10 @@ def seasonalAnime(year, season):
 # Get Upcoming Anime
 @app.route("/seasons/now")
 def seasonalNowAnime():
-    result, statusCode = fns.getSeasonalAnime("now")
+    limit = request.args.get("limit", 20)
+    page = request.args.get("page", 1)
+
+    result, statusCode = fns.getSeasonalAnime("now", limit=limit, page=page)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -196,7 +231,10 @@ def seasonalNowAnime():
 # Get Upcoming Anime
 @app.route("/seasons/upcoming")
 def seasonalUpcomingAnime():
-    result, statusCode = fns.getSeasonalAnime("upcoming")
+    limit = request.args.get("limit", 20)
+    page = request.args.get("page", 1)
+
+    result, statusCode = fns.getSeasonalAnime("upcoming", limit=limit, page=page)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

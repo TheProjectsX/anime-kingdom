@@ -43,7 +43,7 @@ def getSearchedAnime(query="", limit=12):
             "title_english": item.get("title_english", ""),
             "title_japanese": item.get("title_japanese", ""),
             "image": getImageFromImages(item.get("images", {})).get(
-                "small_image_url", ""
+                "large_image_url", ""
             ),
             "type": item.get("type"),
             "status": item.get("status"),
@@ -601,13 +601,15 @@ def getSeasonList():
 
 
 # Get Season Anime List
-def getSeasonalAnime(year, season="", filter="", continuing="false"):
+def getSeasonalAnime(year, season="", filter="", continuing="false", limit=20, page=1):
     if year in ["now", "upcoming"]:
         prefix = year
     else:
         prefix = f"{year}/{season}"
 
-    path = f"/{prefix}?filter={filter}&continuing={continuing}"
+    path = (
+        f"/{prefix}?filter={filter}&continuing={continuing}&limit={limit}&page={page}"
+    )
 
     serverResponse = seasonsBase(path)
     if not serverResponse["success"]:
