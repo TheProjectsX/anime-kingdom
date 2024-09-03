@@ -36,7 +36,7 @@ const ItemCardSmall = ({ item, rank }) => {
                                 {item.title_english}
                             </h4>
                             <p className="font-semibold font-suse">
-                                {item.score}
+                                {item.score ?? ""}
                             </p>
                         </div>
                         <p className="text-base font-medium text-slate-500 dark:text-slate-200 mb-1">
@@ -45,7 +45,7 @@ const ItemCardSmall = ({ item, rank }) => {
                         </p>
                         <div className="mb-2 flex gap-2">
                             Studio:{" "}
-                            <p className="flex flex-wrap">
+                            <p className="flex flex-wrap gap-2">
                                 {item.studios.map((item) => (
                                     <Link
                                         href={"#"}
@@ -94,12 +94,13 @@ const ItemCardSmall = ({ item, rank }) => {
                         alt={item.title_english}
                         className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-3 rounded-lg hover:scale-110 transition-[transform] duration-300"
                     />
-                    <h3
-                        className="text-sm md:text-base font-semibold text-gray-500 font-suse"
+                    <Link
+                        href={"#"}
+                        className="text-sm md:text-base font-semibold text-gray-500 font-suse hover:underline underline-offset-4"
                         style={truncateTextStyle}
                     >
                         {item.title_english}
-                    </h3>
+                    </Link>
                 </div>
             </Tooltip>
         </article>
