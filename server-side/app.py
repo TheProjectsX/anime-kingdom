@@ -31,28 +31,7 @@ def searchAnime():
 @app.route("/anime/home")
 def homepageAnime():
     limit = request.args.get("limit", 6)
-    # Trending, Top Season, Upcoming, All time top
-    trendingAnime, _ = fns.getFilteredAnime(
-        filters={"status": "airing"}, order_by="popularity", limit=limit
-    )
-    topSeasonAnime, _ = fns.getSeasonalAnime("now", limit=limit)
-    upcomingAnime, _ = fns.getSeasonalAnime("upcoming", limit=limit)
-    popularTvSeries, _ = fns.getFilteredAnime(
-        filters={"type": "tv"}, order_by="popularity", limit=limit
-    )
-    popularMovies, _ = fns.getFilteredAnime(
-        filters={"type": "movie"}, order_by="popularity", limit=limit
-    )
-
-    returnData = [
-        {"heading": "Trending Now", "data": trendingAnime.get("data", [])},
-        {"heading": "Popular This Season", "data": topSeasonAnime.get("data", [])},
-        {"heading": "Upcoming", "data": upcomingAnime.get("data", [])},
-        {"heading": "Popular TV Series", "data": popularTvSeries.get("data", [])},
-        {"heading": "Popular Movies", "data": popularMovies.get("data", [])},
-    ]
-    result = {"success": True, "data": returnData}
-    statusCode = 200
+    result, statusCode = fns.getHomepageAnime(limit)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

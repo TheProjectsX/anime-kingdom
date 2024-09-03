@@ -125,6 +125,7 @@ def getFilteredAnime(
                 .get("from", {})
                 .get("year", "")
             ),
+            "season": item.get("season"),
             "score": item.get("score"),
             "studios": replaceProperty(
                 removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
@@ -656,6 +657,7 @@ def getSeasonalAnime(year, season="", filter="", continuing="false", limit=20, p
                 .get("from", {})
                 .get("year", "")
             ),
+            "season": item.get("season"),
             "score": item.get("score"),
             "studios": replaceProperty(
                 removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
@@ -990,5 +992,52 @@ def getVoiceArtistsCompared(anime_01_id, anime_02_id, language="Japanese"):
     return returnResponse, 200
 
 
-if __name__ == "__main__":
-    print(getAnilistAnimeBanner("my teen romantic comedy"))
+##### EXTRA Functions #####
+def getHomepageAnime(limit=6):
+    # Trending, Top Season, Upcoming, All time top
+    trendingAnime, _ = getFilteredAnime(
+        filters={"status": "airing"}, order_by="popularity", limit=limit
+    )
+    topSeasonAnime, _ = getSeasonalAnime("now", limit=limit)
+
+    currentYear = topSeasonAnime.get("data", [{}])[0].get("year", 2024)
+    currentSeason = topSeasonAnime.get("data", [{}])[0].get("season", "")
+    nextYear, nextSeason = getNextSeason(currentYear, currentSeason)
+
+    upcomingAnime, _ = getSeasonalAnime(nextYear, nextSeason, limit=limit)
+    popularTvSeries, _ = getFilteredAnime(
+        filters={"type": "tv"}, order_by="popularity", limit=limit
+    )
+    popularMovies, _ = getFilteredAnime(
+        filters={"type": "movie"}, order_by="popularity", limit=limit
+    )
+
+    returnData = [
+        {
+            "heading": "Trending Now",
+            "path": "/anime/trending",
+            "data": trendingAnime.get("data", []),
+        },
+        {
+            "heading": "Popular This Season",
+            "path": "/anime/seasons/now",
+            "data": topSeasonAnime.get("data", []),
+        },
+        {
+            "heading": "Upcoming",
+            "path": f"/anime/seasons/{nextYear}/{nextSeason}",
+            "data": upcomingAnime.get("data", []),
+        },
+        {
+            "heading": "Popular TV Series",
+            "path": "/anime/tv-series/popular",
+            "data": popularTvSeries.get("data", []),
+        },
+        {
+            "heading": "Popular Movies",
+            "path": "/anime/movies/popular",
+            "data": popularMovies.get("data", []),
+        },
+    ]
+
+    return {"success": True, "data": returnData}, 200
