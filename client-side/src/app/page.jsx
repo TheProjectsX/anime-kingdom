@@ -1,4 +1,5 @@
 import ItemCardSmall from "@/components/ItemCardSmall";
+import Link from "next/link";
 
 export default async function Home() {
     const data = {
@@ -6,6 +7,7 @@ export default async function Home() {
         data: [
             {
                 heading: "Trending Now",
+                path: "/anime/trending",
                 data: [
                     {
                         id: 21,
@@ -21,6 +23,7 @@ export default async function Home() {
                         status: "Currently Airing",
                         mal_rank: 54,
                         year: 1999,
+                        season: "fall",
                         score: 8.72,
                         studios: [
                             { id: 18, type: "anime", name: "Toei Animation" },
@@ -47,8 +50,9 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
-                        mal_rank: 414,
+                        mal_rank: 428,
                         year: 1996,
+                        season: "winter",
                         score: 8.17,
                         studios: [
                             {
@@ -81,8 +85,9 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
-                        mal_rank: 976,
+                        mal_rank: 975,
                         year: 2024,
+                        season: "spring",
                         score: 7.81,
                         studios: [{ id: 441, type: "anime", name: "8bit" }],
                         genres: [
@@ -114,6 +119,7 @@ export default async function Home() {
                         status: "Currently Airing",
                         mal_rank: 117,
                         year: 2024,
+                        season: "summer",
                         score: 8.54,
                         studios: [{ id: 95, type: "anime", name: "Doga Kobo" }],
                         genres: [
@@ -141,8 +147,9 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
-                        mal_rank: 802,
+                        mal_rank: 812,
                         year: 2024,
+                        season: "spring",
                         score: 7.89,
                         studios: [{ id: 4, type: "anime", name: "Bones" }],
                         genres: [{ id: 1, type: "anime", name: "Action" }],
@@ -170,6 +177,7 @@ export default async function Home() {
                         status: "Currently Airing",
                         mal_rank: 759,
                         year: 2024,
+                        season: "summer",
                         score: 7.91,
                         studios: [{ id: 95, type: "anime", name: "Doga Kobo" }],
                         genres: [
@@ -183,6 +191,7 @@ export default async function Home() {
             },
             {
                 heading: "Popular This Season",
+                path: "/anime/seasons/now",
                 data: [
                     {
                         id: 55791,
@@ -199,6 +208,7 @@ export default async function Home() {
                         status: "Currently Airing",
                         mal_rank: 117,
                         year: 2024,
+                        season: "summer",
                         score: 8.54,
                         studios: [{ id: 95, type: "anime", name: "Doga Kobo" }],
                         genres: [
@@ -229,6 +239,7 @@ export default async function Home() {
                         status: "Currently Airing",
                         mal_rank: 759,
                         year: 2024,
+                        season: "summer",
                         score: 7.91,
                         studios: [{ id: 95, type: "anime", name: "Doga Kobo" }],
                         genres: [
@@ -251,9 +262,10 @@ export default async function Home() {
                         type: "TV",
                         source: "Web manga",
                         status: "Currently Airing",
-                        mal_rank: 3302,
+                        mal_rank: 3386,
                         year: 2024,
-                        score: 7.19,
+                        season: "summer",
+                        score: 7.17,
                         studios: [
                             {
                                 id: 229,
@@ -284,9 +296,10 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
-                        mal_rank: 2239,
+                        mal_rank: 2254,
                         year: 2024,
-                        score: 7.41,
+                        season: "summer",
+                        score: 7.4,
                         studios: [
                             { id: 858, type: "anime", name: "Wit Studio" },
                         ],
@@ -314,6 +327,7 @@ export default async function Home() {
                         status: "Currently Airing",
                         mal_rank: 936,
                         year: 2024,
+                        season: "summer",
                         score: 7.83,
                         studios: [
                             { id: 60, type: "anime", name: "Actas" },
@@ -334,68 +348,38 @@ export default async function Home() {
                         ],
                     },
                     {
-                        id: 55848,
-                        title: "Isekai Suicide Squad",
-                        title_english: "Suicide Squad Isekai",
+                        id: 57524,
+                        title: "Make Heroine ga Oosugiru!",
+                        title_english: "Makeine: Too Many Losing Heroines!",
                         title_japanese:
-                            "\u7570\u4e16\u754c\u30b9\u30fc\u30b5\u30a4\u30c9\u30fb\u30b9\u30af\u30ef\u30c3\u30c9",
+                            "\u8ca0\u3051\u30d2\u30ed\u30a4\u30f3\u304c\u591a\u3059\u304e\u308b\uff01",
                         synopsis:
-                            "The Joker and his best girl, Harley Quinn, are tearing through the streets of Gotham with sacks full of cash and the law in hot pursuit. Unfortunately for them, though the jester manages to escape, the night ends with Harley being captured by a mysterious, katana-wielding woman.\n\nMeanwhile, Amanda Waller, the head of the government security organization A.R.G.U.S., has commandeered a team of supervillains for a ruthless mission into another world. After losing contact with the first suicide squad sent through the portal, Amanda sends Deadshot, Peacemaker, Clayface, King Shark, and Harley as replacements. However, shortly after entering the portal, their helicopter crashes in the middle of a battle between horse-mounted troops and vicious orcs.\n\nWith all of the accompanying A.R.G.U.S. members dead on impact, the villains break free of their shackles and rampage through the army of orcs, unwittingly aiding the human soldiers\u2014only to be rewarded with imprisonment. Now bound by magic-infused shackles, Harley and company must hurry back to the portal they came from, or else the bombs A.R.G.U.S. implanted in their necks will detonate.\n\n[Written by MAL Rewrite]",
-                        episodes: 10,
-                        image: "https://cdn.myanimelist.net/images/anime/1644/142052l.jpg",
+                            'Despite not understanding much about fleeting teen romance, first-year high school student Kazuhiko Nukumizu still wonders how he would react if his life were to be turned into a love story. Regardless, as a self-proclaimed "background character," Nukumizu is satisfied continuing his life as an introvert with a negligible social life. However, he suddenly finds himself too close to the spotlight when he witnesses his popular classmate Anna Yanami be rejected by her childhood friend in the middle of a family restaurant. \n\nWhile Nukumizu wishes he could just forget what he saw and move on, Anna ends up forcefully confiding herself in Nukumizu, lamenting her status as a childhood friend fated to have her beloved stolen. As he becomes dragged into Anna\'s situation, Nukumizu soon gets caught up in the relationship drama of two more girls: Lemon Yakishio, an outgoing member of the track and field club; and Chika Komari, a shy member of the literature club. Now thrust out of his comfort zone, Nukumizu finds himself a major character in the lives of too many losing heroines. \n\n[Written by MAL Rewrite]',
+                        episodes: 12,
+                        image: "https://cdn.myanimelist.net/images/anime/1332/143513l.jpg",
                         type: "TV",
-                        source: "Other",
-                        status: "Finished Airing",
-                        mal_rank: 6247,
+                        source: "Light novel",
+                        status: "Currently Airing",
+                        mal_rank: 240,
                         year: 2024,
-                        score: 6.6,
+                        season: "summer",
+                        score: 8.33,
                         studios: [
-                            { id: 858, type: "anime", name: "Wit Studio" },
+                            { id: 56, type: "anime", name: "A-1 Pictures" },
                         ],
                         genres: [
-                            { id: 1, type: "anime", name: "Action" },
-                            { id: 10, type: "anime", name: "Fantasy" },
+                            { id: 4, type: "anime", name: "Comedy" },
+                            { id: 22, type: "anime", name: "Romance" },
                         ],
-                        themes: [
-                            { id: 50, type: "anime", name: "Adult Cast" },
-                            { id: 62, type: "anime", name: "Isekai" },
-                        ],
+                        themes: [{ id: 23, type: "anime", name: "School" }],
                         demographics: [],
                     },
                 ],
             },
             {
                 heading: "Upcoming",
+                path: "/anime/seasons/2024/fall",
                 data: [
-                    {
-                        id: 52807,
-                        title: "One Punch Man 3",
-                        title_english: "One Punch Man Season 3",
-                        title_japanese:
-                            "\u30ef\u30f3\u30d1\u30f3\u30de\u30f3 3",
-                        synopsis: "Third season of One Punch Man.",
-                        episodes: null,
-                        image: "https://cdn.myanimelist.net/images/anime/1885/127108l.jpg",
-                        type: "TV",
-                        source: "Manga",
-                        status: "Not yet aired",
-                        mal_rank: null,
-                        year: null,
-                        score: null,
-                        studios: [{ id: 7, type: "anime", name: "J.C.Staff" }],
-                        genres: [
-                            { id: 1, type: "anime", name: "Action" },
-                            { id: 4, type: "anime", name: "Comedy" },
-                        ],
-                        themes: [
-                            { id: 50, type: "anime", name: "Adult Cast" },
-                            { id: 20, type: "anime", name: "Parody" },
-                            { id: 31, type: "anime", name: "Super Power" },
-                        ],
-                        demographics: [
-                            { id: 42, type: "anime", name: "Seinen" },
-                        ],
-                    },
                     {
                         id: 54857,
                         title: "Re:Zero kara Hajimeru Isekai Seikatsu 3rd Season",
@@ -412,6 +396,7 @@ export default async function Home() {
                         status: "Not yet aired",
                         mal_rank: null,
                         year: 2024,
+                        season: "fall",
                         score: null,
                         studios: [
                             { id: 314, type: "anime", name: "White Fox" },
@@ -429,59 +414,6 @@ export default async function Home() {
                         demographics: [],
                     },
                     {
-                        id: 49233,
-                        title: "Youjo Senki II",
-                        title_english: "Saga of Tanya the Evil II",
-                        title_japanese: "\u5e7c\u5973\u6226\u8a18 II",
-                        synopsis: "Second season of Youjo Senki.",
-                        episodes: null,
-                        image: "https://cdn.myanimelist.net/images/anime/1437/115925l.jpg",
-                        type: "TV",
-                        source: "Light novel",
-                        status: "Not yet aired",
-                        mal_rank: null,
-                        year: null,
-                        score: null,
-                        studios: [{ id: 1567, type: "anime", name: "Nut" }],
-                        genres: [
-                            { id: 1, type: "anime", name: "Action" },
-                            { id: 10, type: "anime", name: "Fantasy" },
-                        ],
-                        themes: [
-                            { id: 62, type: "anime", name: "Isekai" },
-                            { id: 38, type: "anime", name: "Military" },
-                            { id: 72, type: "anime", name: "Reincarnation" },
-                        ],
-                        demographics: [],
-                    },
-                    {
-                        id: 53065,
-                        title: "Sono Bisque Doll wa Koi wo Suru (Zoku-hen)",
-                        title_english: "My Dress-Up Darling (Sequel)",
-                        title_japanese:
-                            "\u305d\u306e\u7740\u305b\u66ff\u3048\u4eba\u5f62\u306f\u604b\u3092\u3059\u308b (\u7d9a\u7de8)",
-                        synopsis: "Sequel of Sono Bisque Doll wa Koi wo Suru.",
-                        episodes: null,
-                        image: "https://cdn.myanimelist.net/images/anime/1160/128045l.jpg",
-                        type: null,
-                        source: "Manga",
-                        status: "Not yet aired",
-                        mal_rank: null,
-                        year: null,
-                        score: null,
-                        studios: [
-                            { id: 1835, type: "anime", name: "CloverWorks" },
-                        ],
-                        genres: [{ id: 22, type: "anime", name: "Romance" }],
-                        themes: [
-                            { id: 69, type: "anime", name: "Otaku Culture" },
-                            { id: 23, type: "anime", name: "School" },
-                        ],
-                        demographics: [
-                            { id: 42, type: "anime", name: "Seinen" },
-                        ],
-                    },
-                    {
                         id: 40333,
                         title: "Uzumaki",
                         title_english: "Uzumaki: Spiral into Horror",
@@ -495,6 +427,7 @@ export default async function Home() {
                         status: "Not yet aired",
                         mal_rank: null,
                         year: 2024,
+                        season: "fall",
                         score: null,
                         studios: [{ id: 1967, type: "anime", name: "Drive" }],
                         genres: [
@@ -525,6 +458,7 @@ export default async function Home() {
                         status: "Not yet aired",
                         mal_rank: null,
                         year: 2024,
+                        season: "fall",
                         score: null,
                         studios: [{ id: 441, type: "anime", name: "8bit" }],
                         genres: [{ id: 30, type: "anime", name: "Sports" }],
@@ -535,10 +469,106 @@ export default async function Home() {
                             { id: 27, type: "anime", name: "Shounen" },
                         ],
                     },
+                    {
+                        id: 50306,
+                        title: "Seirei Gensouki 2",
+                        title_english:
+                            "Seirei Gensouki: Spirit Chronicles Season 2",
+                        title_japanese: "\u7cbe\u970a\u5e7b\u60f3\u8a182",
+                        synopsis: "Second season of Seirei Gensouki.",
+                        episodes: null,
+                        image: "https://cdn.myanimelist.net/images/anime/1087/144583l.jpg",
+                        type: "TV",
+                        source: "Light novel",
+                        status: "Not yet aired",
+                        mal_rank: null,
+                        year: 2024,
+                        season: "fall",
+                        score: null,
+                        studios: [
+                            {
+                                id: 73,
+                                type: "anime",
+                                name: "TMS Entertainment",
+                            },
+                        ],
+                        genres: [
+                            { id: 1, type: "anime", name: "Action" },
+                            { id: 2, type: "anime", name: "Adventure" },
+                            { id: 10, type: "anime", name: "Fantasy" },
+                            { id: 22, type: "anime", name: "Romance" },
+                        ],
+                        themes: [
+                            { id: 35, type: "anime", name: "Harem" },
+                            { id: 62, type: "anime", name: "Isekai" },
+                            { id: 72, type: "anime", name: "Reincarnation" },
+                        ],
+                        demographics: [],
+                    },
+                    {
+                        id: 57334,
+                        title: "Dandadan",
+                        title_english: "Dandadan",
+                        title_japanese: "\u30c0\u30f3\u30c0\u30c0\u30f3",
+                        synopsis:
+                            "After being aggressively rejected, Momo Ayase finds herself sulking when she stumbles across a boy being bullied. Saved by her rash kindness, the alien-obsessed boy attempts to speak to her about extraterrestrial interests he believes they share. Rejecting his claims, Ayase proclaimed that she instead is a believer in ghosts, starting an argument between the two over which is real.\n\nIn a bet to determine who is correct, the two decide to separately visit locations associated with both the extraterrestrial and the supernatural\u2014Ayase visiting the former and the boy visiting the latter. When the two reach their respective places, it turns out that neither was wrong and that both aliens and ghosts do exist.\n\nThis marks the beginning of Ayase and the boy's adventure, as they attempt to fix the surreal, supernatural, and extraterrestrial elements around them to return to a normal life.\n\n[Written by MAL Rewrite]",
+                        episodes: null,
+                        image: "https://cdn.myanimelist.net/images/anime/1584/143719l.jpg",
+                        type: "TV",
+                        source: "Manga",
+                        status: "Not yet aired",
+                        mal_rank: null,
+                        year: 2024,
+                        season: "fall",
+                        score: null,
+                        studios: [
+                            { id: 1591, type: "anime", name: "Science SARU" },
+                        ],
+                        genres: [
+                            { id: 1, type: "anime", name: "Action" },
+                            { id: 4, type: "anime", name: "Comedy" },
+                            { id: 37, type: "anime", name: "Supernatural" },
+                        ],
+                        themes: [],
+                        demographics: [
+                            { id: 27, type: "anime", name: "Shounen" },
+                        ],
+                    },
+                    {
+                        id: 52995,
+                        title: "Arifureta Shokugyou de Sekai Saikyou Season 3",
+                        title_english:
+                            "Arifureta: From Commonplace to World's Strongest Season 3",
+                        title_japanese:
+                            "\u3042\u308a\u3075\u308c\u305f\u8077\u696d\u3067\u4e16\u754c\u6700\u5f37 season 3",
+                        synopsis:
+                            "Third season of Arifureta Shokugyou de Sekai Saikyou.",
+                        episodes: 16,
+                        image: "https://cdn.myanimelist.net/images/anime/1594/142236l.jpg",
+                        type: "TV",
+                        source: "Light novel",
+                        status: "Not yet aired",
+                        mal_rank: null,
+                        year: 2024,
+                        season: "fall",
+                        score: null,
+                        studios: [{ id: 163, type: "anime", name: "asread." }],
+                        genres: [
+                            { id: 1, type: "anime", name: "Action" },
+                            { id: 2, type: "anime", name: "Adventure" },
+                            { id: 10, type: "anime", name: "Fantasy" },
+                        ],
+                        themes: [
+                            { id: 35, type: "anime", name: "Harem" },
+                            { id: 62, type: "anime", name: "Isekai" },
+                        ],
+                        demographics: [],
+                    },
                 ],
             },
             {
                 heading: "Popular TV Series",
+                path: "/anime/tv-series/popular",
                 data: [
                     {
                         id: 16498,
@@ -554,6 +584,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 109,
                         year: 2013,
+                        season: "spring",
                         score: 8.55,
                         studios: [
                             { id: 858, type: "anime", name: "Wit Studio" },
@@ -587,6 +618,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 84,
                         year: 2006,
+                        season: "fall",
                         score: 8.62,
                         studios: [{ id: 11, type: "anime", name: "Madhouse" }],
                         genres: [
@@ -615,6 +647,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 2,
                         year: 2009,
+                        season: "spring",
                         score: 9.09,
                         studios: [{ id: 4, type: "anime", name: "Bones" }],
                         genres: [
@@ -640,8 +673,9 @@ export default async function Home() {
                         type: "TV",
                         source: "Web manga",
                         status: "Finished Airing",
-                        mal_rank: 140,
+                        mal_rank: 141,
                         year: 2015,
+                        season: "fall",
                         score: 8.49,
                         studios: [{ id: 11, type: "anime", name: "Madhouse" }],
                         genres: [
@@ -672,6 +706,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 3192,
                         year: 2012,
+                        season: "summer",
                         score: 7.21,
                         studios: [
                             { id: 56, type: "anime", name: "A-1 Pictures" },
@@ -702,6 +737,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 152,
                         year: 2019,
+                        season: "spring",
                         score: 8.46,
                         studios: [{ id: 43, type: "anime", name: "ufotable" }],
                         genres: [
@@ -718,6 +754,7 @@ export default async function Home() {
             },
             {
                 heading: "Popular Movies",
+                path: "/anime/movies/popular",
                 data: [
                     {
                         id: 32281,
@@ -733,6 +770,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 28,
                         year: 2016,
+                        season: null,
                         score: 8.83,
                         studios: [
                             {
@@ -765,6 +803,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 18,
                         year: 2016,
+                        season: null,
                         score: 8.93,
                         studios: [
                             { id: 2, type: "anime", name: "Kyoto Animation" },
@@ -795,6 +834,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 40,
                         year: 2001,
+                        season: null,
                         score: 8.77,
                         studios: [
                             { id: 21, type: "anime", name: "Studio Ghibli" },
@@ -823,6 +863,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 102,
                         year: 2020,
+                        season: null,
                         score: 8.57,
                         studios: [{ id: 43, type: "anime", name: "ufotable" }],
                         genres: [
@@ -849,6 +890,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 68,
                         year: 2004,
+                        season: null,
                         score: 8.67,
                         studios: [
                             { id: 21, type: "anime", name: "Studio Ghibli" },
@@ -877,6 +919,7 @@ export default async function Home() {
                         status: "Finished Airing",
                         mal_rank: 70,
                         year: 1997,
+                        season: null,
                         score: 8.66,
                         studios: [
                             { id: 21, type: "anime", name: "Studio Ghibli" },
@@ -1194,26 +1237,47 @@ export default async function Home() {
     };
     return (
         <main>
-            <div className="max-width space-y-4 mb-10">
+            <div className="max-width space-y-8 mb-10">
                 {data["data"].map((item, idx) => (
                     <section key={idx}>
-                        <h2 className="text-xl text-center md:text-left font-suse uppercase font-semibold mb-4">
-                            {item.heading}
-                        </h2>
-                        <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap lg:[&_article:last-child]:hidden">
+                        <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                            <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                                {item.heading}
+                            </h2>
+                            <Link
+                                href={item.path}
+                                className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                            >
+                                Explore More
+                            </Link>
+                        </div>
+                        <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-center flex-wrap lg:[&_article:last-child]:hidden">
                             {item.data.map((item) => (
                                 <ItemCardSmall item={item} key={item.id} />
                             ))}
                         </div>
                     </section>
                 ))}
+
                 <section>
-                    <h2 className="text-xl text-center md:text-left font-suse uppercase font-semibold mb-4">
-                        Top #10 Anime
-                    </h2>
+                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                            Top #10 Anime
+                        </h2>
+                        <Link
+                            href={"#"}
+                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            Explore Further
+                        </Link>
+                    </div>
                     <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
-                        {topAnime.data.map((item) => (
-                            <ItemCardSmall item={item} key={item.id} />
+                        {topAnime.data.map((item, idx) => (
+                            <ItemCardSmall
+                                item={item}
+                                key={item.id}
+                                rank={idx + 1}
+                            />
                         ))}
                     </div>
                 </section>

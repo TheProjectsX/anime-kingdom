@@ -65,7 +65,7 @@ const PageNavbar = () => {
                             dismissOnClick={false}
                             renderTrigger={() => (
                                 <button className="btn btn-ghost">
-                                    <HiOutlineMenuAlt2 className="text-white text-3xl" />
+                                    <HiOutlineMenuAlt2 className="text-white text-2xl" />
                                 </button>
                             )}
                         >
