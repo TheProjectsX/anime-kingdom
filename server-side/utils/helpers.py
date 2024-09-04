@@ -1,3 +1,6 @@
+import re
+
+
 # Remove property from Object
 def removeProperty(obj, properties):
     new_obj = obj.copy()
@@ -64,6 +67,21 @@ def getUniqueVAALang(dataset):
 
     # Convert the keys of the OrderedDict to a list
     return list(unique_languages.keys())
+
+
+# Get Duration from Text
+def getDuration(text):
+    if not text:
+        return None
+
+    numbers = [int(x) for x in re.findall(r"\d+", text)]
+
+    if len(numbers) == 0:
+        return None
+    elif len(numbers) == 1:
+        return numbers[0]
+    else:
+        return numbers
 
 
 # Function to find common voice actors
