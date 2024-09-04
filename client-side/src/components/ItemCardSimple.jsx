@@ -14,6 +14,15 @@ const ItemCardSimple = ({ item, rank }) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
+    if (item === null) {
+        return (
+            <article>
+                <div className="skeleton w-52 sm:w-44 lg:w-48 h-[290px] sm:h-[250px] lg:h-[272px] mb-3"></div>
+                <p className="skeleton h-5 w-40"></p>
+            </article>
+        );
+    }
+
     return (
         <article className="dark">
             <Tooltip
@@ -23,7 +32,7 @@ const ItemCardSimple = ({ item, rank }) => {
                     <div className="p-3 max-w-80">
                         <div className="flex gap-3 items-start justify-between">
                             <h4 className="text-lg font-semibold font-suse mb-2">
-                                {item.title_english}
+                                {item.title_english ?? item.title}
                             </h4>
                             <p className="font-semibold font-suse">
                                 {item.score ?? ""}
@@ -36,7 +45,7 @@ const ItemCardSimple = ({ item, rank }) => {
                         <div className="mb-2 flex gap-2">
                             Studio:{" "}
                             <p className="flex flex-wrap gap-2">
-                                {item.studios.map((item) => (
+                                {item.studios?.map((item) => (
                                     <Link
                                         href={"#"}
                                         className="text-amber-700 dark:text-amber-500 inline-block hover:underline underline-offset-2"
@@ -49,7 +58,7 @@ const ItemCardSimple = ({ item, rank }) => {
                         </div>
                         <div className="text-zinc-800 dark:text-zinc-300 text-sm font-medium mb-3 flex">
                             {animeType[item.type?.toLowerCase()] ?? item.type}{" "}
-                            {item.type.toLowerCase() === "movie"
+                            {item.type?.toLowerCase() === "movie"
                                 ? item.duration &&
                                   ` - ${item.duration[0]} hour(s) ${item.duration[1]} mins`
                                 : item.episodes &&
@@ -78,7 +87,7 @@ const ItemCardSimple = ({ item, rank }) => {
                             </Tooltip>
                         </div>
                         <p className="flex gap-2 flex-wrap">
-                            {item.genres.map((item) => (
+                            {item.genres?.map((item) => (
                                 <Link
                                     href={"#"}
                                     key={item.id}
@@ -101,14 +110,14 @@ const ItemCardSimple = ({ item, rank }) => {
                     )}
                     <img
                         src={item.image}
-                        alt={item.title_english}
+                        alt={item.title_english ?? item.title}
                         className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-3 rounded-lg hover:scale-110 transition-[transform] duration-300"
                     />
                     <Link
                         href={"#"}
                         className="text-sm md:text-base font-semibold text-gray-500 font-suse hover:underline underline-offset-4 truncate-text"
                     >
-                        {item.title_english}
+                        {item.title_english ?? item.title}
                     </Link>
                 </div>
             </Tooltip>

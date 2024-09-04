@@ -59,6 +59,14 @@ const ItemCardGrid = ({ item, rank }) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
+    if (item === null) {
+        return (
+            <article className="h-[290px] sm:h-[250px] lg:h-[272px] bg-white rounded-md overflow-hidden">
+                <div className="w-52 sm:w-44 lg:w-48 h-full skeleton rounded-none"></div>
+            </article>
+        );
+    }
+
     return (
         <article className="flex h-[290px] sm:h-[250px] lg:h-[272px] rounded-md overflow-hidden">
             <div className="w-52 sm:w-44 lg:w-48 flex-shrink-0 relative">
@@ -71,7 +79,7 @@ const ItemCardGrid = ({ item, rank }) => {
                 <Link href={"#"}>
                     <img
                         src={item.image}
-                        alt={item.title_english}
+                        alt={item.title_english ?? item.title}
                         className="w-full h-full"
                     />
                 </Link>
@@ -80,10 +88,10 @@ const ItemCardGrid = ({ item, rank }) => {
                         href={"#"}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
                     >
-                        {item.title_english}
+                        {item.title_english ?? item.title}
                     </Link>
                     <p className="flex gap-2 flex-wrap">
-                        {item.studios.map((item) => (
+                        {item.studios?.map((item) => (
                             <Link
                                 href={"#"}
                                 className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
@@ -127,8 +135,11 @@ const ItemCardGrid = ({ item, rank }) => {
                             <p className="text-xs mb-2 font-semibold">
                                 {animeType[item.type?.toLowerCase()] ??
                                     item.type}{" "}
-                                {item.episodes &&
-                                    ` - ${item.episodes} Episodes`}{" "}
+                                {item.type?.toLowerCase() === "movie"
+                                    ? `${item.duration[0]} hour(s), ${item.duration[1]} mins`
+                                    : item.episodes
+                                    ? `${item.episodes} episodes`
+                                    : `${item.duration ?? 0} mins`}{" "}
                             </p>
                         </div>
                         {/* Header Info Score */}

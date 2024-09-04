@@ -18,7 +18,7 @@ const PageFooter = () => {
                         <div>
                             <Footer.Brand
                                 href="/"
-                                src="https://anilist.co/img/icons/icon.svg"
+                                src="/logo_transparent.png"
                                 alt="Anime Kingdom Logo"
                                 name="AniDom"
                             />

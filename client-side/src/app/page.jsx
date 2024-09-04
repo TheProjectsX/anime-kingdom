@@ -4,10 +4,42 @@ import ItemCardGrid from "@/components/ItemCardGrid";
 import ItemCardList from "@/components/ItemCardList";
 import ItemCardSimple from "@/components/ItemCardSimple";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const [layout, setLayout] = useState("card");
+    const [homepageData, setHomepageData] = useState([
+        {
+            heading: "Trending Now",
+            data: [null, null, null, null, null, null],
+        },
+        {
+            heading: "Popular this Season",
+            data: [null, null, null, null, null, null],
+        },
+        {
+            heading: "Upcoming",
+            data: [null, null, null, null, null, null],
+        },
+        {
+            heading: "Popular TV Series",
+            data: [null, null, null, null, null, null],
+        },
+        {
+            heading: "Popular Movies",
+            data: [null, null, null, null, null, null],
+        },
+    ]);
+    const [topAnimeData, setTopAnimeData] = useState([
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ]);
 
     const data = {
         success: true,
@@ -1513,6 +1545,29 @@ export default function Home() {
             },
         ],
     };
+
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/anime/home?limit=6`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    if (homepageData[0].data[0] === null) {
+                        setHomepageData(data.data ?? []);
+                    }
+                }
+            });
+
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/top/anime?limit=10`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    if (topAnimeData[0] === null) {
+                        setTopAnimeData(data.data ?? []);
+                    }
+                }
+            });
+    }, []);
+
     return (
         <main className="max-width space-y-8 mb-10">
             {/* Layout Options */}
@@ -1575,22 +1630,22 @@ export default function Home() {
             {/* Card View */}
             {layout === "card" && (
                 <>
-                    {data["data"].map((item, idx) => (
+                    {homepageData.map((item, idx) => (
                         <section key={idx}>
                             <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
                                 <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
                                     {item.heading}
                                 </h2>
                                 <Link
-                                    href={item.path}
+                                    href={item.path ?? "#"}
                                     className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
                                 >
                                     Explore More
                                 </Link>
                             </div>
                             <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-center flex-wrap lg:[&_article:last-child]:hidden">
-                                {item.data.map((item) => (
-                                    <ItemCardSimple item={item} key={item.id} />
+                                {item.data.map((item, idx) => (
+                                    <ItemCardSimple item={item} key={idx} />
                                 ))}
                             </div>
                         </section>
@@ -1608,10 +1663,10 @@ export default function Home() {
                             </Link>
                         </div>
                         <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
-                            {topAnime.data.map((item, idx) => (
+                            {topAnimeData.map((item, idx) => (
                                 <ItemCardSimple
                                     item={item}
-                                    key={item.id}
+                                    key={idx}
                                     rank={idx + 1}
                                 />
                             ))}
@@ -1623,22 +1678,22 @@ export default function Home() {
             {/* Grid View */}
             {layout === "grid" && (
                 <>
-                    {data["data"].map((item, idx) => (
+                    {homepageData.map((item, idx) => (
                         <section key={idx}>
                             <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
                                 <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
                                     {item.heading}
                                 </h2>
                                 <Link
-                                    href={item.path}
+                                    href={item.path ?? "#"}
                                     className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
                                 >
                                     Explore More
                                 </Link>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                {item.data.map((item) => (
-                                    <ItemCardGrid item={item} key={item.id} />
+                                {item.data.map((item, idx) => (
+                                    <ItemCardGrid item={item} key={idx} />
                                 ))}
                             </div>
                         </section>
@@ -1656,10 +1711,10 @@ export default function Home() {
                             </Link>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            {topAnime.data.map((item, idx) => (
+                            {topAnimeData.map((item, idx) => (
                                 <ItemCardGrid
                                     item={item}
-                                    key={item.id}
+                                    key={idx}
                                     rank={idx + 1}
                                 />
                             ))}
@@ -1671,22 +1726,22 @@ export default function Home() {
             {/* List View */}
             {layout === "list" && (
                 <>
-                    {data["data"].map((item, idx) => (
+                    {homepageData.map((item, idx) => (
                         <section key={idx}>
                             <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
                                 <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
                                     {item.heading}
                                 </h2>
                                 <Link
-                                    href={item.path}
+                                    href={item.path ?? "#"}
                                     className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
                                 >
                                     Explore More
                                 </Link>
                             </div>
                             <div className="space-y-5">
-                                {item.data.map((item) => (
-                                    <ItemCardList item={item} key={item.id} />
+                                {item.data.map((item, idx) => (
+                                    <ItemCardList item={item} key={idx} />
                                 ))}
                             </div>
                         </section>
@@ -1705,10 +1760,10 @@ export default function Home() {
                             </Link>
                         </div>
                         <div className="space-y-5">
-                            {topAnime.data.map((item, idx) => (
+                            {topAnimeData.map((item, idx) => (
                                 <ItemCardList
                                     item={item}
-                                    key={item.id}
+                                    key={idx}
                                     rank={idx + 1}
                                 />
                             ))}

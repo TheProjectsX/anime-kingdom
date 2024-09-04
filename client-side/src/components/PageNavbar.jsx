@@ -35,7 +35,7 @@ const PageNavbar = () => {
                 {/* Temp Logo */}
                 <Link href="/">
                     <Image
-                        src={"https://anilist.co/img/icons/icon.svg"}
+                        src={"/logo_transparent.png"}
                         alt="Anime Kingdom Logo"
                         width={50}
                         height={50}

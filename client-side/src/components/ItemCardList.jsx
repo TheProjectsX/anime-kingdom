@@ -60,6 +60,15 @@ const ItemCardList = ({ item, rank }) => {
         if (!word) return ""; // Handle empty strings
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
+    if (item === null) {
+        return (
+            <article className="bg-white p-3 flex gap-5 rounded-sm">
+                <div className="w-16 h-20 skeleton"></div>
+                <p className="h-5 w-52 mt-3 skeleton"></p>
+            </article>
+        );
+    }
+
     return (
         <article className="flex items-center gap-3">
             {rank && (
@@ -72,7 +81,7 @@ const ItemCardList = ({ item, rank }) => {
                 <Link href={"#"} className="flex-shrink-0">
                     <img
                         src={item.image}
-                        alt={item.title_english}
+                        alt={item.title_english ?? item.title}
                         className="w-14 h-20 hover:scale-[3.5] transition-[transform] duration-500"
                     />
                 </Link>
@@ -82,10 +91,10 @@ const ItemCardList = ({ item, rank }) => {
                             href={"#"}
                             className="text-gray-600 font-semibold font-suse mb-2.5 inline-block hover:text-green-500 transition-colors"
                         >
-                            {item.title_english}
+                            {item.title_english ?? item.title}
                         </Link>
                         <p className="flex gap-2 flex-wrap">
-                            {item.genres.map((item) => (
+                            {item.genres?.map((item) => (
                                 <Link
                                     href={"#"}
                                     key={item.id}
@@ -111,7 +120,7 @@ const ItemCardList = ({ item, rank }) => {
                                     item.type}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {item.type.toLowerCase() === "movie"
+                                {item.type?.toLowerCase() === "movie"
                                     ? `${item.duration[0]} hour(s), ${item.duration[1]} mins`
                                     : item.episodes
                                     ? `${item.episodes} episodes`
