@@ -1037,7 +1037,13 @@ def getHomepageAnime(limit=6):
 
     currentYear = topSeasonAnime.get("data", [{}])[0].get("year", 2024)
     currentSeason = topSeasonAnime.get("data", [{}])[0].get("season", "")
-    nextYear, nextSeason = getNextSeason(currentYear, currentSeason)
+
+    try:
+        nextYear, nextSeason = getNextSeason(currentYear, currentSeason)
+    except Exception as e:
+        print(str(e))
+        nextYear = "upcoming"
+        nextSeason = ""
 
     upcomingAnime, _ = getSeasonalAnime(nextYear, nextSeason, limit=limit)
     popularTvSeries, _ = getFilteredAnime(

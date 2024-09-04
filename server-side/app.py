@@ -1,9 +1,11 @@
 from flask import Flask, request, Response
+from flask_cors import CORS
 import utils.functions as fns
 import json
 import anime_quotes
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
 
 
 @app.route("/")
