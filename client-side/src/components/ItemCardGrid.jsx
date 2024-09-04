@@ -1,3 +1,4 @@
+import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
 const ItemCardGrid = ({ item, rank }) => {
@@ -106,9 +107,23 @@ const ItemCardGrid = ({ item, rank }) => {
                             <p className="text-xs font-semibold text-gray-400">
                                 {item.status} ({item.source})
                             </p>
-                            <p className="text-gray-500 font-semibold">
-                                {capitalizeWord(item.season)} {item.year}
-                            </p>
+                            <Tooltip
+                                content={
+                                    <p>
+                                        {item.aired?.string?.includes("to") &&
+                                            "from "}
+                                        {item.aired?.string}
+                                    </p>
+                                }
+                                placement="right"
+                                className={`${
+                                    item.aired?.string ? "" : "hidden"
+                                }`}
+                            >
+                                <p className="text-gray-500 font-semibold">
+                                    {capitalizeWord(item.season)} {item.year}
+                                </p>
+                            </Tooltip>
                             <p className="text-xs mb-2 font-semibold">
                                 {animeType[item.type?.toLowerCase()] ??
                                     item.type}{" "}

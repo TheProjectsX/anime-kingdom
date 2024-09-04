@@ -1,17 +1,7 @@
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
-const ItemCardSmall = ({ item, rank }) => {
-    const truncateTextStyle = {
-        display: "-webkit-box", // Display as a block with flexbox capabilities
-        WebkitBoxOrient: "vertical", // Set the box orientation to vertical
-        overflow: "hidden", // Hide the overflowing content
-        WebkitLineClamp: 2, // Set the number of lines to clamp (2 lines)
-        lineClamp: 2, // Standard property for line clamping (if supported)
-        textOverflow: "ellipsis", // Add ellipsis at the end
-        // maxHeight: "2.50rem", // Limit the height of the container (2 lines)
-    };
-
+const ItemCardSimple = ({ item, rank }) => {
     const animeType = {
         tv: "TV Show",
         movie: "Movie",
@@ -57,16 +47,36 @@ const ItemCardSmall = ({ item, rank }) => {
                                 ))}
                             </p>
                         </div>
-                        <p className="text-zinc-800 dark:text-zinc-300 text-sm font-medium mb-3">
+                        <div className="text-zinc-800 dark:text-zinc-300 text-sm font-medium mb-3 flex">
                             {animeType[item.type?.toLowerCase()] ?? item.type}{" "}
-                            {item.episodes && ` - ${item.episodes} Episodes`} -{" "}
-                            <Link
-                                href={"#"}
-                                className="hover:underline underline-offset-2"
+                            {item.type.toLowerCase() === "movie"
+                                ? item.duration &&
+                                  ` - ${item.duration[0]} hour(s) ${item.duration[1]} mins`
+                                : item.episodes &&
+                                  ` - ${item.episodes} Episodes`}{" "}
+                            <span>&nbsp;-&nbsp;</span>
+                            <Tooltip
+                                content={
+                                    <span>
+                                        {item.aired?.string?.includes("to") &&
+                                            "from "}
+                                        {item.aired?.string}
+                                    </span>
+                                }
+                                placement="right"
+                                className={`${
+                                    item.aired?.string ? "" : "hidden"
+                                } w-max`}
+                                style="light"
                             >
-                                {capitalizeWord(item.season)} {item.year}
-                            </Link>
-                        </p>
+                                <Link
+                                    href={"#"}
+                                    className="hover:underline underline-offset-2"
+                                >
+                                    {capitalizeWord(item.season)} {item.year}
+                                </Link>
+                            </Tooltip>
+                        </div>
                         <p className="flex gap-2 flex-wrap">
                             {item.genres.map((item) => (
                                 <Link
@@ -96,8 +106,7 @@ const ItemCardSmall = ({ item, rank }) => {
                     />
                     <Link
                         href={"#"}
-                        className="text-sm md:text-base font-semibold text-gray-500 font-suse hover:underline underline-offset-4"
-                        style={truncateTextStyle}
+                        className="text-sm md:text-base font-semibold text-gray-500 font-suse hover:underline underline-offset-4 truncate-text"
                     >
                         {item.title_english}
                     </Link>
@@ -107,4 +116,4 @@ const ItemCardSmall = ({ item, rank }) => {
     );
 };
 
-export default ItemCardSmall;
+export default ItemCardSimple;

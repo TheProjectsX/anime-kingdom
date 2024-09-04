@@ -1,3 +1,4 @@
+import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
 const ItemCardList = ({ item, rank }) => {
@@ -117,14 +118,26 @@ const ItemCardList = ({ item, rank }) => {
                                     : `${item.duration ?? 0} mins`}
                             </p>
                         </div>
-                        <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
-                            <p className="font-semibold font-suse text-gray-500">
-                                {capitalizeWord(item.season)} {item.year}
-                            </p>
-                            <p className="text-sm font-semibold text-gray-400">
-                                {item.status}
-                            </p>
-                        </div>
+                        <Tooltip
+                            content={
+                                <p>
+                                    {item.aired?.string?.includes("to") &&
+                                        "from "}
+                                    {item.aired?.string}
+                                </p>
+                            }
+                            placement="right"
+                            className={`${item.aired?.string ? "" : "hidden"}`}
+                        >
+                            <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
+                                <p className="font-semibold font-suse text-gray-500">
+                                    {capitalizeWord(item.season)} {item.year}
+                                </p>
+                                <p className="text-sm font-semibold text-gray-400">
+                                    {item.status}
+                                </p>
+                            </div>
+                        </Tooltip>
                     </div>
                 </div>
             </div>

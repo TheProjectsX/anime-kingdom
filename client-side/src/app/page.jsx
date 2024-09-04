@@ -1,9 +1,19 @@
+"use client";
+
 import ItemCardGrid from "@/components/ItemCardGrid";
 import ItemCardList from "@/components/ItemCardList";
-import ItemCardSmall from "@/components/ItemCardSmall";
+import ItemCardSimple from "@/components/ItemCardSimple";
 import Link from "next/link";
+import { useState } from "react";
 
-export default async function Home() {
+// Icons
+import { RiLayoutGrid2Fill } from "react-icons/ri";
+import { TfiLayoutGrid2Alt } from "react-icons/tfi";
+import { CgLayoutList } from "react-icons/cg";
+
+export default function Home() {
+    const [layout, setLayout] = useState("cards");
+
     const data = {
         success: true,
         data: [
@@ -24,6 +34,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "1999-10-20T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 20, 1999 to ?",
+                        },
                         mal_rank: 54,
                         year: 1999,
                         season: "fall",
@@ -55,6 +70,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "1996-01-08T00:00:00+00:00",
+                            to: null,
+                            string: "Jan 8, 1996 to ?",
+                        },
                         mal_rank: 428,
                         year: 1996,
                         season: "winter",
@@ -92,6 +112,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-04-05T00:00:00+00:00",
+                            to: null,
+                            string: "Apr 5, 2024 to ?",
+                        },
                         mal_rank: 975,
                         year: 2024,
                         season: "spring",
@@ -126,6 +151,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-03T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 3, 2024 to ?",
+                        },
                         mal_rank: 117,
                         year: 2024,
                         season: "summer",
@@ -158,6 +188,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-05-04T00:00:00+00:00",
+                            to: null,
+                            string: "May 4, 2024 to ?",
+                        },
                         mal_rank: 811,
                         year: 2024,
                         season: "spring",
@@ -188,6 +223,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-03T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 3, 2024 to ?",
+                        },
                         mal_rank: 759,
                         year: 2024,
                         season: "summer",
@@ -221,6 +261,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-03T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 3, 2024 to ?",
+                        },
                         mal_rank: 117,
                         year: 2024,
                         season: "summer",
@@ -254,6 +299,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-03T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 3, 2024 to ?",
+                        },
                         mal_rank: 759,
                         year: 2024,
                         season: "summer",
@@ -281,6 +331,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Web manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-07T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 7, 2024 to ?",
+                        },
                         mal_rank: 3446,
                         year: 2024,
                         season: "summer",
@@ -317,6 +372,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-07T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 7, 2024 to ?",
+                        },
                         mal_rank: 2310,
                         year: 2024,
                         season: "summer",
@@ -348,6 +408,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-07T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 7, 2024 to ?",
+                        },
                         mal_rank: 964,
                         year: 2024,
                         season: "summer",
@@ -385,6 +450,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Currently Airing",
+                        aired: {
+                            from: "2024-07-14T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 14, 2024 to ?",
+                        },
                         mal_rank: 240,
                         year: 2024,
                         season: "summer",
@@ -421,6 +491,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Not yet aired",
+                        aired: {
+                            from: "2024-10-02T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 2, 2024 to ?",
+                        },
                         mal_rank: null,
                         year: 2024,
                         season: "fall",
@@ -454,6 +529,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Not yet aired",
+                        aired: {
+                            from: "2024-09-28T00:00:00+00:00",
+                            to: null,
+                            string: "Sep 28, 2024 to ?",
+                        },
                         mal_rank: null,
                         year: 2024,
                         season: "fall",
@@ -487,6 +567,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Not yet aired",
+                        aired: {
+                            from: "2024-10-05T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 5, 2024 to ?",
+                        },
                         mal_rank: null,
                         year: 2024,
                         season: "fall",
@@ -514,6 +599,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Not yet aired",
+                        aired: {
+                            from: "2024-10-01T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 2024 to ?",
+                        },
                         mal_rank: null,
                         year: 2024,
                         season: "fall",
@@ -552,6 +642,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Not yet aired",
+                        aired: {
+                            from: "2024-10-04T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 4, 2024 to ?",
+                        },
                         mal_rank: null,
                         year: 2024,
                         season: "fall",
@@ -585,6 +680,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Not yet aired",
+                        aired: {
+                            from: "2024-10-14T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 14, 2024 to ?",
+                        },
                         mal_rank: null,
                         year: 2024,
                         season: "fall",
@@ -621,6 +721,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2013-04-07T00:00:00+00:00",
+                            to: "2013-09-29T00:00:00+00:00",
+                            string: "Apr 7, 2013 to Sep 29, 2013",
+                        },
                         mal_rank: 109,
                         year: 2013,
                         season: "spring",
@@ -657,6 +762,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2006-10-04T00:00:00+00:00",
+                            to: "2007-06-27T00:00:00+00:00",
+                            string: "Oct 4, 2006 to Jun 27, 2007",
+                        },
                         mal_rank: 84,
                         year: 2006,
                         season: "fall",
@@ -688,6 +798,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2009-04-05T00:00:00+00:00",
+                            to: "2010-07-04T00:00:00+00:00",
+                            string: "Apr 5, 2009 to Jul 4, 2010",
+                        },
                         mal_rank: 2,
                         year: 2009,
                         season: "spring",
@@ -718,6 +833,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Web manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2015-10-05T00:00:00+00:00",
+                            to: "2015-12-21T00:00:00+00:00",
+                            string: "Oct 5, 2015 to Dec 21, 2015",
+                        },
                         mal_rank: 141,
                         year: 2015,
                         season: "fall",
@@ -751,6 +871,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Light novel",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2012-07-08T00:00:00+00:00",
+                            to: "2012-12-23T00:00:00+00:00",
+                            string: "Jul 8, 2012 to Dec 23, 2012",
+                        },
                         mal_rank: 3193,
                         year: 2012,
                         season: "summer",
@@ -784,6 +909,11 @@ export default async function Home() {
                         type: "TV",
                         source: "Manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2019-04-06T00:00:00+00:00",
+                            to: "2019-09-28T00:00:00+00:00",
+                            string: "Apr 6, 2019 to Sep 28, 2019",
+                        },
                         mal_rank: 152,
                         year: 2019,
                         season: "spring",
@@ -819,6 +949,11 @@ export default async function Home() {
                         type: "Movie",
                         source: "Original",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2016-08-26T00:00:00+00:00",
+                            to: null,
+                            string: "Aug 26, 2016",
+                        },
                         mal_rank: 28,
                         year: 2016,
                         season: null,
@@ -854,6 +989,11 @@ export default async function Home() {
                         type: "Movie",
                         source: "Manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2016-09-17T00:00:00+00:00",
+                            to: null,
+                            string: "Sep 17, 2016",
+                        },
                         mal_rank: 18,
                         year: 2016,
                         season: null,
@@ -887,6 +1027,11 @@ export default async function Home() {
                         type: "Movie",
                         source: "Original",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2001-07-20T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 20, 2001",
+                        },
                         mal_rank: 40,
                         year: 2001,
                         season: null,
@@ -918,6 +1063,11 @@ export default async function Home() {
                         type: "Movie",
                         source: "Manga",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2020-10-16T00:00:00+00:00",
+                            to: null,
+                            string: "Oct 16, 2020",
+                        },
                         mal_rank: 102,
                         year: 2020,
                         season: null,
@@ -947,6 +1097,11 @@ export default async function Home() {
                         type: "Movie",
                         source: "Novel",
                         status: "Finished Airing",
+                        aired: {
+                            from: "2004-11-20T00:00:00+00:00",
+                            to: null,
+                            string: "Nov 20, 2004",
+                        },
                         mal_rank: 68,
                         year: 2004,
                         season: null,
@@ -978,6 +1133,11 @@ export default async function Home() {
                         type: "Movie",
                         source: "Original",
                         status: "Finished Airing",
+                        aired: {
+                            from: "1997-07-12T00:00:00+00:00",
+                            to: null,
+                            string: "Jul 12, 1997",
+                        },
                         mal_rank: 70,
                         year: 1997,
                         season: null,
@@ -1023,6 +1183,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2023-09-29T00:00:00+00:00",
+                    to: "2024-03-22T00:00:00+00:00",
+                    string: "Sep 29, 2023 to Mar 22, 2024",
+                },
                 mal_rank: 1,
                 year: 2023,
                 score: 9.33,
@@ -1050,6 +1215,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2009-04-05T00:00:00+00:00",
+                    to: "2010-07-04T00:00:00+00:00",
+                    string: "Apr 5, 2009 to Jul 4, 2010",
+                },
                 mal_rank: 2,
                 year: 2009,
                 score: 9.09,
@@ -1077,6 +1247,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Visual novel",
                 status: "Finished Airing",
+                aired: {
+                    from: "2011-04-06T00:00:00+00:00",
+                    to: "2011-09-14T00:00:00+00:00",
+                    string: "Apr 6, 2011 to Sep 14, 2011",
+                },
                 mal_rank: 3,
                 year: 2011,
                 score: 9.07,
@@ -1106,6 +1281,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2015-04-08T00:00:00+00:00",
+                    to: "2016-03-30T00:00:00+00:00",
+                    string: "Apr 8, 2015 to Mar 30, 2016",
+                },
                 mal_rank: 4,
                 year: 2015,
                 score: 9.06,
@@ -1139,6 +1319,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2019-04-29T00:00:00+00:00",
+                    to: "2019-07-01T00:00:00+00:00",
+                    string: "Apr 29, 2019 to Jul 1, 2019",
+                },
                 mal_rank: 5,
                 year: 2019,
                 score: 9.05,
@@ -1169,6 +1354,11 @@ export default async function Home() {
                 type: "Movie",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2021-01-08T00:00:00+00:00",
+                    to: null,
+                    string: "Jan 8, 2021",
+                },
                 mal_rank: 6,
                 year: 2021,
                 score: 9.04,
@@ -1203,6 +1393,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2011-04-04T00:00:00+00:00",
+                    to: "2012-03-26T00:00:00+00:00",
+                    string: "Apr 4, 2011 to Mar 26, 2012",
+                },
                 mal_rank: 7,
                 year: 2011,
                 score: 9.03,
@@ -1235,6 +1430,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2011-10-02T00:00:00+00:00",
+                    to: "2014-09-24T00:00:00+00:00",
+                    string: "Oct 2, 2011 to Sep 24, 2014",
+                },
                 mal_rank: 8,
                 year: 2011,
                 score: 9.03,
@@ -1262,6 +1462,11 @@ export default async function Home() {
                 type: "ONA",
                 source: "Light novel",
                 status: "Currently Airing",
+                aired: {
+                    from: "2024-07-06T00:00:00+00:00",
+                    to: null,
+                    string: "Jul 6, 2024 to ?",
+                },
                 mal_rank: 11,
                 year: 2024,
                 score: 9.02,
@@ -1288,6 +1493,11 @@ export default async function Home() {
                 type: "TV",
                 source: "Manga",
                 status: "Finished Airing",
+                aired: {
+                    from: "2012-10-04T00:00:00+00:00",
+                    to: "2013-03-28T00:00:00+00:00",
+                    string: "Oct 4, 2012 to Mar 28, 2013",
+                },
                 mal_rank: 10,
                 year: 2012,
                 score: 9.02,
@@ -1310,7 +1520,64 @@ export default async function Home() {
     };
     return (
         <main>
-            {/* <div className="max-width space-y-8 mb-10">
+            {/* Layout Options */}
+            <div className="max-width flex justify-end gap-2 mb-5 pt-5 !pr-5">
+                <button
+                    className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
+                        layout === "card" ? "text-gray-600" : ""
+                    }`}
+                    onClick={() => setLayout("card")}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        version="1.1"
+                        viewBox="0 0 17 17"
+                        width="20px"
+                        height="20px"
+                        fill="currentColor"
+                    >
+                        <path d="M0 0h5v5h-5v-5zM6 5h5v-5h-5v5zM12 0v5h5v-5h-5zM0 11h5v-5h-5v5zM6 11h5v-5h-5v5zM12 11h5v-5h-5v5zM0 17h5v-5h-5v5zM6 17h5v-5h-5v5zM12 17h5v-5h-5v5z" />
+                    </svg>
+                </button>
+
+                <button
+                    className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
+                        layout === "grid" ? "text-gray-600" : ""
+                    }`}
+                    onClick={() => setLayout("grid")}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="3 3 18 18"
+                        width="20px"
+                        height="20px"
+                        fill="currentColor"
+                    >
+                        <path d="M11,11H3V4A1,1,0,0,1,4,3h7ZM21,4a1,1,0,0,0-1-1H13v8h8ZM4,21h7V13H3v7A1,1,0,0,0,4,21Zm17-1V13H13v8h7A1,1,0,0,0,21,20Z" />
+                    </svg>
+                </button>
+
+                <button
+                    className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
+                        layout === "list" ? "text-gray-600" : ""
+                    }`}
+                    onClick={() => setLayout("list")}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                        viewBox="8 8 16 16"
+                        width="20px"
+                        height="20px"
+                        fill="currentColor"
+                    >
+                        <path d="M8 12h4v-4h-4v4zM8 18h4v-4h-4v4zM8 24h4v-4h-4v4zM14 8v4h10v-4h-10zM14 18h10v-4h-10v4zM14 24h10v-4h-10v4z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div className="max-width space-y-8 mb-10">
                 {data["data"].map((item, idx) => (
                     <section key={idx}>
                         <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
@@ -1326,7 +1593,7 @@ export default async function Home() {
                         </div>
                         <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-center flex-wrap lg:[&_article:last-child]:hidden">
                             {item.data.map((item) => (
-                                <ItemCardSmall item={item} key={item.id} />
+                                <ItemCardSimple item={item} key={item.id} />
                             ))}
                         </div>
                     </section>
@@ -1346,7 +1613,7 @@ export default async function Home() {
                     </div>
                     <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
                         {topAnime.data.map((item, idx) => (
-                            <ItemCardSmall
+                            <ItemCardSimple
                                 item={item}
                                 key={item.id}
                                 rank={idx + 1}
@@ -1354,7 +1621,7 @@ export default async function Home() {
                         ))}
                     </div>
                 </section>
-            </div> */}
+            </div>
             {/* <div className="max-width space-y-8 mb-10">
                 {data["data"].map((item, idx) => (
                     <section key={idx}>
@@ -1400,7 +1667,7 @@ export default async function Home() {
                     </div>
                 </section>
             </div> */}
-            <div className="max-width space-y-8 mb-10">
+            {/* <div className="max-width space-y-8 mb-10">
                 {data["data"].map((item, idx) => (
                     <section key={idx}>
                         <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
@@ -1444,7 +1711,7 @@ export default async function Home() {
                         ))}
                     </div>
                 </section>
-            </div>
+            </div> */}
 
             {/* Test Div */}
             {/* <div className="max-width space-y-8 mb-52">
