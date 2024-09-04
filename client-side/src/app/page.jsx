@@ -1,3 +1,4 @@
+import ItemCardGrid from "@/components/ItemCardGrid";
 import ItemCardSmall from "@/components/ItemCardSmall";
 import Link from "next/link";
 
@@ -1237,7 +1238,7 @@ export default async function Home() {
     };
     return (
         <main>
-            <div className="max-width space-y-8 mb-10">
+            {/* <div className="max-width space-y-8 mb-10">
                 {data["data"].map((item, idx) => (
                     <section key={idx}>
                         <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
@@ -1281,7 +1282,78 @@ export default async function Home() {
                         ))}
                     </div>
                 </section>
+            </div> */}
+            <div className="max-width space-y-8 mb-10">
+                {data["data"].map((item, idx) => (
+                    <section key={idx}>
+                        <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                            <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                                {item.heading}
+                            </h2>
+                            <Link
+                                href={item.path}
+                                className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                            >
+                                Explore More
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            {item.data.map((item) => (
+                                <ItemCardGrid item={item} key={item.id} />
+                            ))}
+                        </div>
+                    </section>
+                ))}
+
+                <section>
+                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                            Top #10 Anime
+                        </h2>
+                        <Link
+                            href={"#"}
+                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            Explore Further
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {topAnime.data.map((item, idx) => (
+                            <ItemCardGrid
+                                item={item}
+                                key={item.id}
+                                rank={idx + 1}
+                            />
+                        ))}
+                    </div>
+                </section>
             </div>
+
+            {/* Test Div */}
+            {/* <div className="max-width space-y-8 mb-52">
+                <section>
+                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                            Top #10 Anime
+                        </h2>
+                        <Link
+                            href={"#"}
+                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            Explore Further
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {data.data[0].data.map((item, idx) => (
+                            <ItemCardGrid
+                                item={item}
+                                key={item.id}
+                                rank={idx + 1}
+                            />
+                        ))}
+                    </div>
+                </section>
+            </div> */}
         </main>
     );
 }

@@ -17,5 +17,9 @@ module.exports = {
             },
         },
     },
-    plugins: [require("daisyui"), flowbite.plugin()],
+    plugins: [
+        require("daisyui"),
+        flowbite.plugin(),
+        require("tailwind-scrollbar"),
+    ],
 };
