@@ -56,6 +56,7 @@ def getSearchedAnime(query="", limit=12):
                 .get("year", "")
             ),
             "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
         }
 
         returnResponse["data"].append(data)
@@ -127,6 +128,7 @@ def getFilteredAnime(
             ),
             "season": item.get("season"),
             "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
             "studios": replaceProperty(
                 removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
             ),
@@ -238,6 +240,7 @@ def getAnimeSimpleData(id):
         "type": serverData.get("type"),
         "episodes": serverData.get("episodes"),
         "score": serverData.get("score"),
+        "scored_by": serverData.get("scored_by"),
         "mal_rank": serverData.get("rank"),
         "season": serverData.get("season"),
         "year": serverData.get("year"),
@@ -659,6 +662,7 @@ def getSeasonalAnime(year, season="", filter="", continuing="false", limit=20, p
             ),
             "season": item.get("season"),
             "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
             "studios": replaceProperty(
                 removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
             ),
@@ -732,6 +736,7 @@ def getTopAnime(type="", filter="", page=1, limit=25):
                 .get("year", "")
             ),
             "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
             "studios": replaceProperty(
                 removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
             ),
@@ -845,6 +850,7 @@ def getTopManga(page=1, limit=25):
                 .get("year", "")
             ),
             "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
         }
 
         returnResponse["data"].append(data)
