@@ -6,13 +6,8 @@ import ItemCardSimple from "@/components/ItemCardSimple";
 import Link from "next/link";
 import { useState } from "react";
 
-// Icons
-import { RiLayoutGrid2Fill } from "react-icons/ri";
-import { TfiLayoutGrid2Alt } from "react-icons/tfi";
-import { CgLayoutList } from "react-icons/cg";
-
 export default function Home() {
-    const [layout, setLayout] = useState("cards");
+    const [layout, setLayout] = useState("card");
 
     const data = {
         success: true,
@@ -1519,9 +1514,9 @@ export default function Home() {
         ],
     };
     return (
-        <main>
+        <main className="max-width space-y-8 mb-10">
             {/* Layout Options */}
-            <div className="max-width flex justify-end gap-2 mb-5 pt-5 !pr-5">
+            <div className="flex justify-end gap-2 pt-5 pr-5">
                 <button
                     className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
                         layout === "card" ? "text-gray-600" : ""
@@ -1577,167 +1572,150 @@ export default function Home() {
                 </button>
             </div>
 
-            <div className="max-width space-y-8 mb-10">
-                {data["data"].map((item, idx) => (
-                    <section key={idx}>
+            {/* Card View */}
+            {layout === "card" && (
+                <>
+                    {data["data"].map((item, idx) => (
+                        <section key={idx}>
+                            <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                                <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                                    {item.heading}
+                                </h2>
+                                <Link
+                                    href={item.path}
+                                    className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                                >
+                                    Explore More
+                                </Link>
+                            </div>
+                            <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-center flex-wrap lg:[&_article:last-child]:hidden">
+                                {item.data.map((item) => (
+                                    <ItemCardSimple item={item} key={item.id} />
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+                    <section>
                         <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
                             <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                                {item.heading}
+                                Top #10 Anime
                             </h2>
                             <Link
-                                href={item.path}
+                                href={"#"}
                                 className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
                             >
-                                Explore More
+                                Explore Further
                             </Link>
                         </div>
-                        <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-center flex-wrap lg:[&_article:last-child]:hidden">
-                            {item.data.map((item) => (
-                                <ItemCardSimple item={item} key={item.id} />
+                        <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
+                            {topAnime.data.map((item, idx) => (
+                                <ItemCardSimple
+                                    item={item}
+                                    key={item.id}
+                                    rank={idx + 1}
+                                />
                             ))}
                         </div>
                     </section>
-                ))}
+                </>
+            )}
 
-                <section>
-                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
-                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                            Top #10 Anime
-                        </h2>
-                        <Link
-                            href={"#"}
-                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
-                        >
-                            Explore Further
-                        </Link>
-                    </div>
-                    <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
-                        {topAnime.data.map((item, idx) => (
-                            <ItemCardSimple
-                                item={item}
-                                key={item.id}
-                                rank={idx + 1}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </div>
-            {/* <div className="max-width space-y-8 mb-10">
-                {data["data"].map((item, idx) => (
-                    <section key={idx}>
+            {/* Grid View */}
+            {layout === "grid" && (
+                <>
+                    {data["data"].map((item, idx) => (
+                        <section key={idx}>
+                            <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                                <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                                    {item.heading}
+                                </h2>
+                                <Link
+                                    href={item.path}
+                                    className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                                >
+                                    Explore More
+                                </Link>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                {item.data.map((item) => (
+                                    <ItemCardGrid item={item} key={item.id} />
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+                    <section>
                         <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
                             <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                                {item.heading}
+                                Top #10 Anime
                             </h2>
                             <Link
-                                href={item.path}
+                                href={"#"}
                                 className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
                             >
-                                Explore More
+                                Explore Further
                             </Link>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            {item.data.map((item) => (
-                                <ItemCardGrid item={item} key={item.id} />
+                            {topAnime.data.map((item, idx) => (
+                                <ItemCardGrid
+                                    item={item}
+                                    key={item.id}
+                                    rank={idx + 1}
+                                />
                             ))}
                         </div>
                     </section>
-                ))}
+                </>
+            )}
 
-                <section>
-                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
-                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                            Top #10 Anime
-                        </h2>
-                        <Link
-                            href={"#"}
-                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
-                        >
-                            Explore Further
-                        </Link>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {topAnime.data.map((item, idx) => (
-                            <ItemCardGrid
-                                item={item}
-                                key={item.id}
-                                rank={idx + 1}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </div> */}
-            {/* <div className="max-width space-y-8 mb-10">
-                {data["data"].map((item, idx) => (
-                    <section key={idx}>
+            {/* List View */}
+            {layout === "list" && (
+                <>
+                    {data["data"].map((item, idx) => (
+                        <section key={idx}>
+                            <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
+                                <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
+                                    {item.heading}
+                                </h2>
+                                <Link
+                                    href={item.path}
+                                    className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                                >
+                                    Explore More
+                                </Link>
+                            </div>
+                            <div className="space-y-5">
+                                {item.data.map((item) => (
+                                    <ItemCardList item={item} key={item.id} />
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+
+                    <section>
                         <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
                             <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                                {item.heading}
+                                Top #10 Anime
                             </h2>
                             <Link
-                                href={item.path}
+                                href={"#"}
                                 className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
                             >
-                                Explore More
+                                Explore Further
                             </Link>
                         </div>
                         <div className="space-y-5">
-                            {item.data.map((item) => (
-                                <ItemCardList item={item} key={item.id} />
+                            {topAnime.data.map((item, idx) => (
+                                <ItemCardList
+                                    item={item}
+                                    key={item.id}
+                                    rank={idx + 1}
+                                />
                             ))}
                         </div>
                     </section>
-                ))}
-
-                <section>
-                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
-                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                            Top #10 Anime
-                        </h2>
-                        <Link
-                            href={"#"}
-                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
-                        >
-                            Explore Further
-                        </Link>
-                    </div>
-                    <div className="space-y-5">
-                        {topAnime.data.map((item, idx) => (
-                            <ItemCardList
-                                item={item}
-                                key={item.id}
-                                rank={idx + 1}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </div> */}
-
-            {/* Test Div */}
-            {/* <div className="max-width space-y-8 mb-52">
-                <section>
-                    <div className="mb-4 flex justify-between items-end flex-wrap gap-2">
-                        <h2 className="text-base sm:text-xl text-center md:text-left font-suse uppercase font-semibold">
-                            Top #10 Anime
-                        </h2>
-                        <Link
-                            href={"#"}
-                            className="text-sm sm:text-base font-semibold text-gray-500 hover:text-gray-700 transition-colors"
-                        >
-                            Explore Further
-                        </Link>
-                    </div>
-                    <div className="space-y-5">
-                        {data.data[0].data.map((item, idx) => (
-                            <ItemCardList
-                                item={item}
-                                key={item.id}
-                                rank={idx + 1}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </div> */}
+                </>
+            )}
         </main>
     );
 }
