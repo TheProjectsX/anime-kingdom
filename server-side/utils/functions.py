@@ -47,6 +47,11 @@ def getSearchedAnime(query="", limit=12):
             ),
             "type": item.get("type"),
             "status": item.get("status"),
+            "aired": {
+                "from": item.get("aired", {}).get("from"),
+                "to": item.get("aired", {}).get("to"),
+                "string": item.get("aired", {}).get("string"),
+            },
             "year": (
                 item.get("year")
                 if not item.get("year") == None
@@ -118,6 +123,11 @@ def getFilteredAnime(
             "type": item.get("type"),
             "source": item.get("source"),
             "status": item.get("status"),
+            "aired": {
+                "from": item.get("aired", {}).get("from"),
+                "to": item.get("aired", {}).get("to"),
+                "string": item.get("aired", {}).get("string"),
+            },
             "mal_rank": item.get("rank"),
             "year": (
                 item.get("year")
@@ -654,6 +664,11 @@ def getSeasonalAnime(year, season="", filter="", continuing="false", limit=20, p
             "type": item.get("type"),
             "source": item.get("source"),
             "status": item.get("status"),
+            "aired": {
+                "from": item.get("aired", {}).get("from"),
+                "to": item.get("aired", {}).get("to"),
+                "string": item.get("aired", {}).get("string"),
+            },
             "mal_rank": item.get("rank"),
             "year": (
                 item.get("year")
@@ -730,6 +745,11 @@ def getTopAnime(type="", filter="", page=1, limit=25):
             "type": item.get("type"),
             "source": item.get("source"),
             "status": item.get("status"),
+            "aired": {
+                "from": item.get("aired", {}).get("from"),
+                "to": item.get("aired", {}).get("to"),
+                "string": item.get("aired", {}).get("string"),
+            },
             "mal_rank": item.get("rank"),
             "year": (
                 item.get("year")
@@ -844,6 +864,11 @@ def getTopManga(page=1, limit=25):
             "type": item.get("type"),
             "source": item.get("source"),
             "status": item.get("status"),
+            "published": {
+                "from": item.get("published", {}).get("from"),
+                "to": item.get("published", {}).get("to"),
+                "string": item.get("published", {}).get("string"),
+            },
             "mal_rank": item.get("rank"),
             "year": (
                 item.get("year")
