@@ -2,6 +2,7 @@ from .base_paths import *
 from .helpers import *
 import urllib.parse
 import requests
+import time
 
 
 # Get Banner Image from AniList: Inner Function
@@ -1033,7 +1034,9 @@ def getHomepageAnime(limit=6):
     trendingAnime, _ = getFilteredAnime(
         filters={"status": "airing"}, order_by="popularity", limit=limit
     )
+    time.sleep(0.3)
     topSeasonAnime, _ = getSeasonalAnime("now", limit=limit)
+    time.sleep(0.3)
 
     currentYear = topSeasonAnime.get("data", [{}])[0].get("year", 2024)
     currentSeason = topSeasonAnime.get("data", [{}])[0].get("season", "")
@@ -1046,9 +1049,12 @@ def getHomepageAnime(limit=6):
         nextSeason = ""
 
     upcomingAnime, _ = getSeasonalAnime(nextYear, nextSeason, limit=limit)
+    time.sleep(0.3)
+
     popularTvSeries, _ = getFilteredAnime(
         filters={"type": "tv"}, order_by="popularity", limit=limit
     )
+    time.sleep(0.3)
     popularMovies, _ = getFilteredAnime(
         filters={"type": "movie"}, order_by="popularity", limit=limit
     )
@@ -1056,29 +1062,41 @@ def getHomepageAnime(limit=6):
     returnData = [
         {
             "heading": "Trending Now",
-            "path": "/anime/trending",
+            "path": "/search/anime/trending",
             "data": trendingAnime.get("data", []),
         },
         {
             "heading": "Popular This Season",
-            "path": "/anime/seasons/now",
+            "path": "/search/anime/seasons/now",
             "data": topSeasonAnime.get("data", []),
         },
         {
             "heading": "Upcoming",
-            "path": f"/anime/seasons/{nextYear}/{nextSeason}",
+            "path": f"/search/anime/seasons/{nextYear}/{nextSeason}",
             "data": upcomingAnime.get("data", []),
         },
         {
             "heading": "Popular TV Series",
-            "path": "/anime/tv-series/popular",
+            "path": "/search/anime/tv-series/popular",
             "data": popularTvSeries.get("data", []),
         },
         {
             "heading": "Popular Movies",
-            "path": "/anime/movies/popular",
+            "path": "/search/anime/movies/popular",
             "data": popularMovies.get("data", []),
         },
     ]
+
+    # for idx, i in enumerate(
+    #     [
+    #         trendingAnime,
+    #         topSeasonAnime,
+    #         upcomingAnime,
+    #         popularTvSeries,
+    #         popularMovies,
+    #     ]
+    # ):
+    #     if len(i.get("data", [])) < 6:
+    #         print(idx, i)
 
     return {"success": True, "data": returnData}, 200
