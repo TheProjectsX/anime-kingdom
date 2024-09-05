@@ -17,8 +17,8 @@ const ItemCardSimple = ({ item, rank }) => {
     if (item === null) {
         return (
             <article>
-                <div className="skeleton w-52 sm:w-44 lg:w-48 h-[290px] sm:h-[250px] lg:h-[272px] mb-3"></div>
-                <p className="skeleton h-5 w-40"></p>
+                <div className="skeleton bg-slate-300 w-52 sm:w-44 lg:w-48 h-[290px] sm:h-[250px] lg:h-[272px] mb-3"></div>
+                <p className="skeleton bg-slate-300 h-5 w-40"></p>
             </article>
         );
     }
