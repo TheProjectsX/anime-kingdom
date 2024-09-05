@@ -28,3 +28,11 @@
     line-clamp: 2;
     text-overflow: ellipsis;
 }
+
+input {
+    box-shadow: none !important;
+}
+
+input:focus {
+    box-shadow: none !important;
+}

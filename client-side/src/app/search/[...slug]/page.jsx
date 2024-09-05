@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import AnimePage from "../routes/AnimePage";
 
-const page = ({ params }) => {
+const page = async ({ params }) => {
     const { slug } = params;
+    let filters;
 
     const routes = [
         "anime",
@@ -22,10 +23,17 @@ const page = ({ params }) => {
     if (!routes.includes(path)) {
         return notFound();
     }
+    // if (path.startsWith("anime")) {
+    //     filters = await (
+    //         await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/anime/filters`)
+    //     ).json();
+    // }
 
     return (
         <main className="max-width space-y-8 mb-10">
-            {path.startsWith("anime") && <AnimePage slug={slug} />}
+            {path.startsWith("anime") && (
+                <AnimePage path={path} filters={filters} />
+            )}
         </main>
     );
 };

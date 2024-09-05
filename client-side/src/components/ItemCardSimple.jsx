@@ -111,7 +111,7 @@ const ItemCardSimple = ({ item, rank }) => {
                     <img
                         src={item.image}
                         alt={item.title_english ?? item.title}
-                        className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-3 rounded-lg hover:scale-110 transition-[transform] duration-300"
+                        className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-2 rounded-lg hover:scale-110 transition-[transform] duration-300"
                     />
                     <Link
                         href={"#"}

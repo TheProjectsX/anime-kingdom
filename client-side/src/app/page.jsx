@@ -1643,7 +1643,7 @@ export default function Home() {
                                     Explore More
                                 </Link>
                             </div>
-                            <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-4 justify-center flex-wrap lg:[&_article:last-child]:hidden">
+                            <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap lg:[&_article:last-child]:hidden">
                                 {item.data.map((item, idx) => (
                                     <ItemCardSimple item={item} key={idx} />
                                 ))}
