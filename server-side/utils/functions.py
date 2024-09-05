@@ -501,6 +501,23 @@ def getAnimeVideos(id):
     return returnResponse, 200
 
 
+# Get Anime Genres
+def getAnimeGenres():
+    path = f"/anime"
+
+    serverResponse = genresBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    returnResponse = {
+        "success": True,
+        "data": replaceProperty(removeProperty(serverData, "url"), "mal_id", "id"),
+    }
+
+    return returnResponse, 200
+
+
 ##### CHARACTERS FUNCTIONS #####
 
 
@@ -1029,6 +1046,7 @@ def getVoiceArtistsCompared(anime_01_id, anime_02_id, language="Japanese"):
 
 
 ##### EXTRA Functions #####
+# Get homepage Anime
 def getHomepageAnime(limit=6):
     # Trending, Top Season, Upcoming, All time top
     trendingAnime, _ = getFilteredAnime(
@@ -1100,3 +1118,41 @@ def getHomepageAnime(limit=6):
     #         print(idx, i)
 
     return {"success": True, "data": returnData}, 200
+
+
+# Get Anime Filters
+def getAnimeFilters():
+    genres, _ = getAnimeGenres()
+    serverSeasons, _ = getSeasonList()
+    seasons = ["Winter", "Spring", "Summer", "Fall"]
+    years = [x.get("year") for x in serverSeasons.get("data", [{}])]
+
+    animeType = [
+        {"value": "tv", "label": "TV Series"},
+        {"value": "movie", "label": "Movie"},
+        {"value": "special", "label": "Specials"},
+        {"value": "ova", "label": "OVA"},
+        {"value": "ona", "label": "ONA"},
+        {"value": "music", "label": "Music"},
+        {"value": "tv_special", "label": "TV Specials"},
+        {"value": "cm", "label": "CM"},
+        {"value": "pv", "label": "PV"},
+    ]
+    status = [
+        {"value": "airing", "label": "Airing"},
+        {"value": "complete", "label": "Completed"},
+        {"value": "upcoming", "label": "Upcoming"},
+    ]
+
+    returnResponse = {
+        "success": True,
+        "data": {
+            "genres": replaceProperty(replaceProperty(genres.get("data", []), "id", "value"), "name", "label"),
+            "years": years,
+            "seasons": seasons,
+            "type": animeType,
+            "status": status,
+        },
+    }
+
+    return returnResponse, 200

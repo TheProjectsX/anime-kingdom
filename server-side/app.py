@@ -18,22 +18,31 @@ ANIME ROUTES
 """
 
 
-# Search for Anime
-@app.route("/anime")
-def searchAnime():
-    searchQuery = request.args.get("query", "")
-    limit = request.args.get("limit", 12)
-
-    result, statusCode = fns.getSearchedAnime(searchQuery, limit=limit)
-
-    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
-
-
+##### Routes for Client Side Only #####
 # Get Anime list for Homepage
 @app.route("/anime/home")
 def homepageAnime():
     limit = request.args.get("limit", 6)
     result, statusCode = fns.getHomepageAnime(limit)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Filter Options
+@app.route("/anime/filters")
+def animeFilterOptions():
+    result, statusCode = fns.getAnimeFilters()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Search for Anime
+@app.route("/anime/search")
+def searchAnime():
+    searchQuery = request.args.get("query", "")
+    limit = request.args.get("limit", 12)
+
+    result, statusCode = fns.getSearchedAnime(searchQuery, limit=limit)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -67,6 +76,14 @@ def animeByFilter():
         start_date=start_date,
         end_date=end_date,
     )
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Anime Genres
+@app.route("/anime/genres")
+def animeGenres():
+    result, statusCode = fns.getAnimeGenres()
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
