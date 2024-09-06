@@ -23,6 +23,9 @@ const AnimePage = ({ path, filters }) => {
     if (path === "anime/tv-series/popular") {
         apiSearchParams["order_by"] = "popularity";
         apiSearchParams["type"] = "tv";
+    } else if (path === "anime/trending") {
+        apiSearchParams["order_by"] = "popularity";
+        apiSearchParams["status"] = "airing";
     }
 
     const fetchData = async () => {
@@ -48,7 +51,16 @@ const AnimePage = ({ path, filters }) => {
         <section className="my-10">
             <FilterOptions
                 onChange={(data) => {
-                    apiSearchParams = { ...apiSearchParams, ...data };
+                    if (Object.values(data).every((value) => value === "")) {
+                        data = { order_by: "popularity", status: "airing" };
+                    } else {
+                        data["order_by"] = "";
+                    }
+                    apiSearchParams = {
+                        ...apiSearchParams,
+                        ...data,
+                        order_by: "",
+                    };
                     fetchData();
                 }}
             />

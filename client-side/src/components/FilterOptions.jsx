@@ -118,16 +118,13 @@ const FilterOptions = ({ options: o, onChange = (data) => {} }) => {
     const onStatusChange = ({
         query = "",
         genres = "",
-        year = "",
-        season = "",
         type = "",
         status = "",
     }) => {
+        const form = formRef.current;
         const data = {
-            query: query,
+            query: query === "" ? form.query.value : query,
             genres: genres,
-            year: year,
-            season: season,
             type: type,
             status: status,
         };
@@ -163,7 +160,7 @@ const FilterOptions = ({ options: o, onChange = (data) => {} }) => {
                 />
             </label>
 
-            <label className="flex flex-col gap-1 min-w-40">
+            <label className="flex flex-col gap-1 w-48">
                 <span className="text-sm font-semibold text-gray-600 ml-2">
                     Genres:
                 </span>
@@ -181,52 +178,7 @@ const FilterOptions = ({ options: o, onChange = (data) => {} }) => {
                 />
             </label>
 
-            <label className="flex flex-col gap-1 min-w-40">
-                <span className="text-sm font-semibold text-gray-600 ml-2">
-                    Year:
-                </span>
-                <Select
-                    isMulti={false}
-                    name="year"
-                    options={
-                        options.years?.map((item) => ({
-                            label: item,
-                            value: item,
-                        })) ?? []
-                    }
-                    className="basic-multi-select w-full"
-                    classNamePrefix="select"
-                    placeholder="Any"
-                    isClearable={true}
-                    onChange={(item) =>
-                        onStatusChange({ year: item?.value ?? "" })
-                    }
-                />
-            </label>
-            <label className="flex flex-col gap-1 min-w-40">
-                <span className="text-sm font-semibold text-gray-600 ml-2">
-                    Season:
-                </span>
-                <Select
-                    isMulti={false}
-                    name="season"
-                    options={
-                        options.seasons?.map((item) => ({
-                            label: item,
-                            value: item,
-                        })) ?? []
-                    }
-                    className="basic-multi-select w-full"
-                    classNamePrefix="select"
-                    placeholder="Any"
-                    isClearable={true}
-                    isSearchable={false}
-                    onChange={(item) =>
-                        onStatusChange({ season: item?.value ?? "" })
-                    }
-                />
-            </label>
-            <label className="flex flex-col gap-1 min-w-40">
+            <label className="flex flex-col gap-1 min-w-48">
                 <span className="text-sm font-semibold text-gray-600 ml-2">
                     Type:
                 </span>
@@ -244,7 +196,7 @@ const FilterOptions = ({ options: o, onChange = (data) => {} }) => {
                     }
                 />
             </label>
-            <label className="flex flex-col gap-1 min-w-40">
+            <label className="flex flex-col gap-1 min-w-48">
                 <span className="text-sm font-semibold text-gray-600 ml-2">
                     Status:
                 </span>
