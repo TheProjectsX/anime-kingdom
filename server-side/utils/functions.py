@@ -72,14 +72,28 @@ def getSearchedAnime(query="", limit=12):
 
 # Get Filtered Anime
 def getFilteredAnime(
-    filters={"q": "", "type": "", "status": "", "rating": "", "genres": ""},
+    query="",
+    filters={
+        "type": "",
+        "status": "",
+        "rating": "",
+        "genres": "",
+    },
+    min_score=1,
+    max_score="",
     page=1,
     limit=20,
     order_by="",
     start_date="",
     end_date="",
 ):
-    path = f"?page={page}&limit={limit}&order_by={order_by}&start_date={start_date}&end_date={end_date}"
+    if type(filters) is not dict:
+        filters = {}
+
+    filters.update(
+        {"order_by": order_by, "start_date": start_date, "end_date": end_date}
+    )
+    path = f"?q={query}&page={page}&limit={limit}&min_score={min_score}&max_score={max_score}"
 
     for key, value in filters.items():
         if value == "":
@@ -1147,7 +1161,9 @@ def getAnimeFilters():
     returnResponse = {
         "success": True,
         "data": {
-            "genres": replaceProperty(replaceProperty(genres.get("data", []), "id", "value"), "name", "label"),
+            "genres": replaceProperty(
+                replaceProperty(genres.get("data", []), "id", "value"), "name", "label"
+            ),
             "years": years,
             "seasons": seasons,
             "type": animeType,

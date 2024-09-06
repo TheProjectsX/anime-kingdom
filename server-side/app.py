@@ -50,11 +50,14 @@ def searchAnime():
 # Get Anime by Filters
 @app.route("/anime/filter")
 def animeByFilter():
-    q = request.args.get("query", "")
+    query = request.args.get("query", "")
     genres = request.args.get("genres", "")
     typeA = request.args.get("type", "")
     status = request.args.get("status", "")
     rating = request.args.get("rating", "")
+
+    min_score = request.args.get("min_score", 1)
+    max_score = request.args.get("max_score", "")
 
     page = request.args.get("page", 1)
     limit = request.args.get("limit", 20)
@@ -63,13 +66,15 @@ def animeByFilter():
     end_date = request.args.get("end_date", "")
 
     result, statusCode = fns.getFilteredAnime(
+        query=query,
         filters={
-            "q": q,
             "genres": genres,
             "type": typeA,
             "status": status,
             "rating": rating,
         },
+        min_score=min_score,
+        max_score=max_score,
         page=page,
         limit=limit,
         order_by=order_by,
