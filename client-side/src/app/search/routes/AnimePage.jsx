@@ -79,11 +79,13 @@ const AnimePage = ({ path, slug, filters }) => {
     };
 
     // Function to Fetch data from server and save in state
-    const fetchData = async () => {
+    const fetchData = async (extraPath) => {
         const response = await loadAnimeData(
             individualPathData[path]["tread"],
-            apiSearchParams,
-            individualPathData[path]["extraPath"] ?? ""
+            path.startsWith("anime/seasons")
+                ? { filter: apiSearchParams["type"] ?? "" }
+                : apiSearchParams,
+            extraPath ?? individualPathData[path]["extraPath"] ?? ""
         );
         if (response.success) {
             setAnimeData(response.data ?? []);
@@ -96,9 +98,14 @@ const AnimePage = ({ path, slug, filters }) => {
         } else if (updatedQuery.query !== "") {
             updatedQuery["order_by"] = "";
         }
-
         apiSearchParams = { ...apiSearchParams, ...updatedQuery };
-        fetchData();
+
+        if (path.startsWith("anime/seasons")) {
+            const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
+            fetchData(seasonPath);
+        } else {
+            fetchData();
+        }
     };
 
     useEffect(() => {
@@ -110,7 +117,12 @@ const AnimePage = ({ path, slug, filters }) => {
             <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
                 {individualPathData[path]["title"]}
             </h4>
-            <FilterOptions onChange={updateDataOnChange} options={filters} />
+            <FilterOptions
+                onChange={updateDataOnChange}
+                options={filters}
+                seasonal={path.startsWith("anime/seasons")}
+                slug={slug}
+            />
             {/* Layout Options */}
             <div className="flex justify-end gap-2 pr-5 mb-6">
                 <button

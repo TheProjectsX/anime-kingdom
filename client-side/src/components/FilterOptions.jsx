@@ -3,18 +3,25 @@ import { useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import Select from "react-select";
 
-const FilterOptions = ({ options, onChange = (data) => {} }) => {
+const FilterOptions = ({
+    options,
+    onChange = (data) => {},
+    seasonal,
+    slug,
+}) => {
     const formRef = useRef(null);
     const [filterOptions, setFilterOptions] = useState({
         query: "",
         genres: "",
         type: "",
         status: "",
+        ...(seasonal ? { year: slug.at(-2) } : {}),
+        ...(seasonal ? { season: slug.at(-1) } : {}),
     });
 
-    const onStatusChange = ({ genres, type, status } = {}) => {
+    const onStatusChange = ({ genres, type, status, year, season } = {}) => {
         const form = formRef.current;
-        const query = form.query.value;
+        const query = form.query?.value;
 
         let data = filterOptions;
 
@@ -24,10 +31,19 @@ const FilterOptions = ({ options, onChange = (data) => {} }) => {
             ...(genres !== undefined ? { genres: genres } : {}),
             ...(type !== undefined ? { type: type } : {}),
             ...(status !== undefined ? { status: status } : {}),
+            ...(year !== undefined ? { year: year } : {}),
+            ...(season !== undefined ? { season: season } : {}),
         };
+
         setFilterOptions(data);
         onChange(data);
     };
+
+    function capitalizeWord(word) {
+        if (!word) return ""; // Handle empty strings
+
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
 
     return (
         <form
@@ -38,43 +54,102 @@ const FilterOptions = ({ options, onChange = (data) => {} }) => {
                 onStatusChange();
             }}
         >
-            <label className="flex flex-col gap-1 w-full lg:w-auto">
-                <span className="text-sm font-semibold text-gray-600 ml-2">
-                    Search:
-                </span>
-                <TextInput
-                    type="text"
-                    name="query"
-                    icon={IoSearch}
-                    placeholder="Type name and press Enter..."
-                    title="Search anime by name"
-                    className="w-full"
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            onStatusChange();
+            {!seasonal && (
+                <label className="flex flex-col gap-1 w-full lg:w-auto">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Search:
+                    </span>
+                    <TextInput
+                        type="text"
+                        name="query"
+                        icon={IoSearch}
+                        placeholder="Type name and press Enter..."
+                        title="Search anime by name"
+                        className="w-full"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                onStatusChange();
+                            }
+                        }}
+                    />
+                </label>
+            )}
+
+            {!seasonal && (
+                <label className="flex flex-col gap-1 w-48">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Genres:
+                    </span>
+                    <Select
+                        isMulti={false}
+                        name="genres"
+                        options={options?.genres ?? []}
+                        className="basic-multi-select w-full"
+                        classNamePrefix="select"
+                        placeholder="Any"
+                        isClearable={true}
+                        onChange={(item) =>
+                            onStatusChange({ genres: item?.value ?? "" })
                         }
-                    }}
-                />
-            </label>
-
-            <label className="flex flex-col gap-1 w-48">
-                <span className="text-sm font-semibold text-gray-600 ml-2">
-                    Genres:
-                </span>
-                <Select
-                    isMulti={false}
-                    name="genres"
-                    options={options?.genres ?? []}
-                    className="basic-multi-select w-full"
-                    classNamePrefix="select"
-                    placeholder="Any"
-                    isClearable={true}
-                    onChange={(item) =>
-                        onStatusChange({ genres: item?.value ?? "" })
-                    }
-                />
-            </label>
-
+                    />
+                </label>
+            )}
+            {seasonal && (
+                <label className="flex flex-col gap-1 w-48">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Year:
+                    </span>
+                    <Select
+                        isMulti={false}
+                        name="year"
+                        defaultValue={{
+                            label: slug.at(-2),
+                            value: slug.at(-2),
+                        }}
+                        options={
+                            options?.years?.map((item) => ({
+                                value: item,
+                                label: item,
+                            })) ?? []
+                        }
+                        className="basic-multi-select w-full"
+                        classNamePrefix="select"
+                        placeholder="Any"
+                        // isClearable={true}
+                        onChange={(item) =>
+                            onStatusChange({ year: item?.value ?? "" })
+                        }
+                    />
+                </label>
+            )}
+            {seasonal && (
+                <label className="flex flex-col gap-1 w-48">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Season:
+                    </span>
+                    <Select
+                        isMulti={false}
+                        name="season"
+                        defaultValue={{
+                            label: capitalizeWord(slug.at(-1)),
+                            value: slug.at(-1),
+                        }}
+                        options={
+                            options?.seasons?.map((item) => ({
+                                label: capitalizeWord(item),
+                                value: item.toLowerCase(),
+                            })) ?? []
+                        }
+                        className="basic-multi-select w-full"
+                        classNamePrefix="select"
+                        placeholder="Any"
+                        // isClearable={true}
+                        onChange={(item) =>
+                            onStatusChange({ season: item?.value ?? "" })
+                        }
+                    />
+                </label>
+            )}
             <label className="flex flex-col gap-1 min-w-48">
                 <span className="text-sm font-semibold text-gray-600 ml-2">
                     Type:
@@ -93,24 +168,26 @@ const FilterOptions = ({ options, onChange = (data) => {} }) => {
                     }
                 />
             </label>
-            <label className="flex flex-col gap-1 min-w-48">
-                <span className="text-sm font-semibold text-gray-600 ml-2">
-                    Status:
-                </span>
-                <Select
-                    isMulti={false}
-                    name="status"
-                    options={options?.status ?? []}
-                    className="basic-multi-select w-full"
-                    classNamePrefix="select"
-                    placeholder="Any"
-                    isClearable={true}
-                    isSearchable={false}
-                    onChange={(item) =>
-                        onStatusChange({ status: item?.value ?? "" })
-                    }
-                />
-            </label>
+            {!seasonal && (
+                <label className="flex flex-col gap-1 min-w-48">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Status:
+                    </span>
+                    <Select
+                        isMulti={false}
+                        name="status"
+                        options={options?.status ?? []}
+                        className="basic-multi-select w-full"
+                        classNamePrefix="select"
+                        placeholder="Any"
+                        isClearable={true}
+                        isSearchable={false}
+                        onChange={(item) =>
+                            onStatusChange({ status: item?.value ?? "" })
+                        }
+                    />
+                </label>
+            )}
         </form>
     );
 };

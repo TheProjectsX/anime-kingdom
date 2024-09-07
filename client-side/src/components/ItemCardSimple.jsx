@@ -34,7 +34,7 @@ const ItemCardSimple = ({ item, rank }) => {
                             <h4 className="text-lg font-semibold font-suse mb-2">
                                 {item.title_english ?? item.title}
                             </h4>
-                            <p className="font-semibold font-suse">
+                            <p className="font-semibold font-suse text-orange-500">
                                 {item.score ?? ""}
                             </p>
                         </div>
@@ -111,7 +111,7 @@ const ItemCardSimple = ({ item, rank }) => {
                     <img
                         src={item.image}
                         alt={item.title_english ?? item.title}
-                        className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-2 rounded-lg xhover:scale-110 transition-[transform] duration-300"
+                        className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-2 rounded-lg xhover:scale-110 transition-[transform] duration-300 bg-pink-400"
                     />
                     <Link
                         href={"#"}
