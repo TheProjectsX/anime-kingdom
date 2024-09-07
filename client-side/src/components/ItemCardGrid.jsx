@@ -2,51 +2,6 @@ import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
 const ItemCardGrid = ({ item, rank }) => {
-    const item1 = {
-        id: 54744,
-        title: "Tokidoki Bosotto Russia-go de Dereru Tonari no Alya-san",
-        title_english: "Alya Sometimes Hides Her Feelings in Russian",
-        title_japanese: "時々ボソッとロシア語でデレる隣のアーリャさん",
-        synopsis:
-            "Seirei Academy is a prestigious school attended by the very best students in Japan. Alisa Mikhailovna \"Alya\" Kujou, the half-Russian and half-Japanese treasurer of the school's student council, is known for her intelligence, stunning looks, and rigid personality. Contrasting her near-flawless persona, Alya's unmotivated classmate Masachika Kuze slacks off during lessons and seems to show no interest in her.\n\nInitially irritated, Alya gradually becomes more intrigued by Masachika and starts expressing her affection for him in Russian. However, she is oblivious to his secret—he understands the language fluently! Due to a childhood friend who was temporarily staying in Japan, Masachika has been studying Russian in hopes of reuniting with her.\n\nAs the two spend more time together, the playful and eccentric relationship between them quickly deepens. In the meantime, both must learn to navigate their new growing feelings for one another.\n\n[Written by MAL Rewrite]",
-        episodes: 12,
-        image: "https://cdn.myanimelist.net/images/anime/1825/142258l.jpg",
-        type: "TV",
-        source: "Light novel",
-        status: "Currently Airing",
-        mal_rank: 759,
-        year: 2024,
-        season: "summer",
-        score: 7.91,
-        studios: [
-            {
-                id: 95,
-                type: "anime",
-                name: "Doga Kobo",
-            },
-        ],
-        genres: [
-            {
-                id: 4,
-                type: "anime",
-                name: "Comedy",
-            },
-            {
-                id: 22,
-                type: "anime",
-                name: "Romance",
-            },
-        ],
-        themes: [
-            {
-                id: 23,
-                type: "anime",
-                name: "School",
-            },
-        ],
-        demographics: [],
-    };
-
     const animeType = {
         tv: "TV Show",
         movie: "Movie",
@@ -62,7 +17,7 @@ const ItemCardGrid = ({ item, rank }) => {
     if (item === null) {
         return (
             <article className="h-[290px] sm:h-[250px] lg:h-[272px] bg-white rounded-md overflow-hidden">
-                <div className="w-52 sm:w-44 lg:w-48 h-full skeleton rounded-none"></div>
+                <div className="w-52 sm:w-44 lg:w-48 h-full skeleton bg-slate-300 rounded-none"></div>
             </article>
         );
     }

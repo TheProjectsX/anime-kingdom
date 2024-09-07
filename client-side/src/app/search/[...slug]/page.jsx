@@ -16,23 +16,26 @@ const page = async ({ params }) => {
         "anime/movies",
         "anime/movies/popular",
         "anime/top",
+        "anime/seasons",
     ];
 
     const path = slug.join("/");
 
-    if (!routes.includes(path)) {
+    if (!routes.includes(path) && !path.startsWith("anime/seasons")) {
         return notFound();
     }
-    // if (path.startsWith("anime")) {
-    //     filters = await (
-    //         await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/anime/filters`)
-    //     ).json();
-    // }
+    if (path.startsWith("anime")) {
+        const response = await (
+            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/anime/filters`)
+        ).json();
+
+        filters = response.data ?? [];
+    }
 
     return (
         <main className="max-width space-y-8 mb-10">
             {path.startsWith("anime") && (
-                <AnimePage path={path} filters={filters} />
+                <AnimePage path={path} slug={slug} filters={filters} />
             )}
         </main>
     );
