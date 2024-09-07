@@ -7,8 +7,11 @@ import { loadAnimeData } from "@/utils/DataLoader";
 import ItemCardList from "@/components/ItemCardList";
 import ItemCardGrid from "@/components/ItemCardGrid";
 
+import InfiniteScroll from "react-infinite-scroller";
+
 const AnimePage = ({ path, slug, filters }) => {
     const [layout, setLayout] = useState("card");
+    const [hasMoreData, setHasMoreData] = useState(true);
 
     const limit = 20;
     let apiSearchParams = {
@@ -79,16 +82,19 @@ const AnimePage = ({ path, slug, filters }) => {
     };
 
     // Function to Fetch data from server and save in state
-    const fetchData = async (extraPath) => {
+    const fetchData = async () => {
         const response = await loadAnimeData(
             individualPathData[path]["tread"],
             path.startsWith("anime/seasons")
                 ? { filter: apiSearchParams["type"] ?? "" }
                 : apiSearchParams,
-            extraPath ?? individualPathData[path]["extraPath"] ?? ""
+            individualPathData[path]["extraPath"] ?? ""
         );
         if (response.success) {
             setAnimeData(response.data ?? []);
+        }
+        if (!response.pagination?.has_next_page) {
+            setHasMoreData(false);
         }
     };
 
@@ -102,9 +108,36 @@ const AnimePage = ({ path, slug, filters }) => {
 
         if (path.startsWith("anime/seasons")) {
             const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
-            fetchData(seasonPath);
+            individualPathData["anime/seasons"]["extraPath"] = seasonPath;
+            fetchData();
         } else {
             fetchData();
+        }
+    };
+
+    const loadMoreData = async (page) => {
+        setHasMoreData(false);
+        apiSearchParams["page"] = page;
+        console.log(apiSearchParams["page"]);
+        setAnimeData([...animeData, ...Array(6).fill(null)]);
+
+        const response = await loadAnimeData(
+            individualPathData[path]["tread"],
+            path.startsWith("anime/seasons")
+                ? { filter: apiSearchParams["type"] ?? "" }
+                : apiSearchParams,
+            individualPathData[path]["extraPath"] ?? ""
+        );
+
+        if (response.success) {
+            setAnimeData((prevAnimeData) => [
+                ...prevAnimeData.slice(0, -6),
+                ...(response.data ?? []),
+            ]);
+
+            if (response.pagination?.has_next_page) {
+                setHasMoreData(true);
+            }
         }
     };
 
@@ -112,6 +145,7 @@ const AnimePage = ({ path, slug, filters }) => {
         fetchData();
     }, []);
 
+    // console.log(animeData);
     return (
         <section className="my-10">
             <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
@@ -182,15 +216,27 @@ const AnimePage = ({ path, slug, filters }) => {
 
             {/* Card View */}
             {layout === "card" && (
-                <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap">
-                    {animeData.map((item, idx) => (
-                        <ItemCardSimple
-                            item={item}
-                            key={idx}
-                            rank={path === "anime/top" ? idx + 1 : null}
-                        />
-                    ))}
-                </div>
+                <InfiniteScroll
+                    pageStart={1}
+                    hasMore={hasMoreData}
+                    loadMore={loadMoreData}
+                    threshold={0}
+                    // loader={Array(limit)
+                    //     .fill(null)
+                    //     .map((item, idx) => (
+                    //         <ItemCardSimple item={item} key={idx} />
+                    //     ))}
+                >
+                    <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap">
+                        {animeData.map((item, idx) => (
+                            <ItemCardSimple
+                                item={item}
+                                key={idx}
+                                rank={path === "anime/top" ? idx + 1 : null}
+                            />
+                        ))}
+                    </div>
+                </InfiniteScroll>
             )}
 
             {/* Grid View */}
