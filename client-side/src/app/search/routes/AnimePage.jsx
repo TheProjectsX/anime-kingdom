@@ -2,30 +2,33 @@
 
 import FilterOptions from "@/components/FilterOptions";
 import ItemCardSimple from "@/components/ItemCardSimple";
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import { loadAnimeData } from "@/utils/DataLoader";
 import ItemCardList from "@/components/ItemCardList";
 import ItemCardGrid from "@/components/ItemCardGrid";
 
 import InfiniteScroll from "react-infinite-scroller";
 
+const limit = 20;
+
+let apiSearchParams = {
+    query: "",
+    genres: "",
+    type: "",
+    status: "",
+    rating: "",
+    page: 1,
+    limit: limit,
+    order_by: "",
+    start_date: "",
+    end_date: "",
+};
+
 const AnimePage = ({ path, slug, filters }) => {
     const [layout, setLayout] = useState("card");
     const [hasMoreData, setHasMoreData] = useState(true);
-
-    const limit = 20;
-    let apiSearchParams = {
-        query: "",
-        genres: "",
-        type: "",
-        status: "",
-        rating: "",
-        page: 1,
-        limit: limit,
-        order_by: "",
-        start_date: "",
-        end_date: "",
-    };
+    const [animeData, setAnimeData] = useState(Array(limit).fill(null));
+    const [currentPage, setCurrentPage] = useState(1);
 
     function capitalizeWord(word) {
         if (!word) return ""; // Handle empty strings
@@ -38,6 +41,7 @@ const AnimePage = ({ path, slug, filters }) => {
             payload: {
                 order_by: "popularity",
                 status: "airing",
+                type: "",
             },
         },
         "anime/tv-series/popular": {
@@ -75,7 +79,6 @@ const AnimePage = ({ path, slug, filters }) => {
         path = "anime/seasons";
     }
 
-    const [animeData, setAnimeData] = useState(Array(limit).fill(null));
     apiSearchParams = {
         ...apiSearchParams,
         ...individualPathData[path]["payload"],
@@ -99,12 +102,19 @@ const AnimePage = ({ path, slug, filters }) => {
     };
 
     const updateDataOnChange = (updatedQuery) => {
+        console.log(updatedQuery);
+        setCurrentPage(1);
         if (Object.values(updatedQuery).every((value) => value === "")) {
             updatedQuery = individualPathData[path]["payload"];
         } else if (updatedQuery.query !== "") {
             updatedQuery["order_by"] = "";
         }
-        apiSearchParams = { ...apiSearchParams, ...updatedQuery };
+        apiSearchParams = {
+            ...apiSearchParams,
+            ...updatedQuery,
+            page: 1,
+        };
+        console.log(updatedQuery);
 
         if (path.startsWith("anime/seasons")) {
             const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
@@ -115,10 +125,10 @@ const AnimePage = ({ path, slug, filters }) => {
         }
     };
 
-    const loadMoreData = async (page) => {
+    const loadMoreData = async () => {
         setHasMoreData(false);
-        apiSearchParams["page"] = page;
-        console.log(apiSearchParams["page"]);
+        apiSearchParams["page"] = currentPage + 1;
+        console.log(apiSearchParams);
         setAnimeData([...animeData, ...Array(6).fill(null)]);
 
         const response = await loadAnimeData(
@@ -134,6 +144,7 @@ const AnimePage = ({ path, slug, filters }) => {
                 ...prevAnimeData.slice(0, -6),
                 ...(response.data ?? []),
             ]);
+            setCurrentPage((prev) => prev + 1);
 
             if (response.pagination?.has_next_page) {
                 setHasMoreData(true);
@@ -217,15 +228,11 @@ const AnimePage = ({ path, slug, filters }) => {
             {/* Card View */}
             {layout === "card" && (
                 <InfiniteScroll
+                    initialLoad={false}
                     pageStart={1}
                     hasMore={hasMoreData}
                     loadMore={loadMoreData}
                     threshold={0}
-                    // loader={Array(limit)
-                    //     .fill(null)
-                    //     .map((item, idx) => (
-                    //         <ItemCardSimple item={item} key={idx} />
-                    //     ))}
                 >
                     <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap">
                         {animeData.map((item, idx) => (
