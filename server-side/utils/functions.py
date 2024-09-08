@@ -79,6 +79,7 @@ def getFilteredAnime(
         "rating": "",
         "genres": "",
     },
+    sfw="true",
     min_score=1,
     max_score="",
     page=1,
@@ -93,7 +94,7 @@ def getFilteredAnime(
     filters.update(
         {"order_by": order_by, "start_date": start_date, "end_date": end_date}
     )
-    path = f"?q={query}&page={page}&limit={limit}&min_score={min_score}&max_score={max_score}"
+    path = f"?q={query}&page={page}&limit={limit}&sfw={sfw}&min_score={min_score}&max_score={max_score}"
 
     for key, value in filters.items():
         if value == "":
@@ -1099,7 +1100,7 @@ def getHomepageAnime(limit=6):
         },
         {
             "heading": "Popular This Season",
-            "path": "/search/anime/seasons/now",
+            "path": f"/search/anime/seasons/{currentYear}/{currentSeason}",
             "data": topSeasonAnime.get("data", []),
         },
         {
@@ -1119,18 +1120,6 @@ def getHomepageAnime(limit=6):
         },
     ]
 
-    # for idx, i in enumerate(
-    #     [
-    #         trendingAnime,
-    #         topSeasonAnime,
-    #         upcomingAnime,
-    #         popularTvSeries,
-    #         popularMovies,
-    #     ]
-    # ):
-    #     if len(i.get("data", [])) < 6:
-    #         print(idx, i)
-
     return {"success": True, "data": returnData}, 200
 
 
@@ -1138,7 +1127,7 @@ def getHomepageAnime(limit=6):
 def getAnimeFilters():
     genres, _ = getAnimeGenres()
     serverSeasons, _ = getSeasonList()
-    seasons = ["Winter", "Spring", "Summer", "Fall"]
+    seasons = ["winter", "spring", "summer", "fall"]
     years = [x.get("year") for x in serverSeasons.get("data", [{}])]
 
     animeType = [

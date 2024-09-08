@@ -65,6 +65,8 @@ def animeByFilter():
     start_date = request.args.get("start_date", "")
     end_date = request.args.get("end_date", "")
 
+    sfw = request.args.get("sfw", "true")
+
     result, statusCode = fns.getFilteredAnime(
         query=query,
         filters={
@@ -73,6 +75,7 @@ def animeByFilter():
             "status": status,
             "rating": rating,
         },
+        sfw=sfw,
         min_score=min_score,
         max_score=max_score,
         page=page,
