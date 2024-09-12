@@ -8,7 +8,7 @@ import PageFooter from "@/components/PageFooter";
 export default function RootLayout({ children }) {
     return (
         <html lang="en" data-theme="light">
-            <body className="font-ubuntu space-y-4 bg-slate-100">
+            <body className="font-ubuntu bg-slate-100">
                 <PageNavbar />
                 {children}
                 <PageFooter />
