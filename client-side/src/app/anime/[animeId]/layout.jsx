@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
+import AnimeDataContext from "@/context/AnimeDataContext";
 
 export default function RootLayout({ children, params }) {
     const { animeId } = params;
@@ -64,8 +65,31 @@ export default function RootLayout({ children, params }) {
         score: 8.34,
         scored_by: 27425,
         mal_rank: 236,
+        popularity: 1615,
+        members: 146588,
+        favorites: 1068,
         season: "summer",
         year: 2024,
+        statistics: {
+            watching: 92589,
+            completed: 27,
+            on_hold: 1828,
+            dropped: 1472,
+            plan_to_watch: 50636,
+            total: 146552,
+            scores: [
+                { score: 1, votes: 97, percentage: 0.4 },
+                { score: 2, votes: 40, percentage: 0.1 },
+                { score: 3, votes: 70, percentage: 0.3 },
+                { score: 4, votes: 181, percentage: 0.7 },
+                { score: 5, votes: 368, percentage: 1.3 },
+                { score: 6, votes: 987, percentage: 3.6 },
+                { score: 7, votes: 3526, percentage: 12.9 },
+                { score: 8, votes: 8982, percentage: 32.8 },
+                { score: 9, votes: 8022, percentage: 29.3 },
+                { score: 10, votes: 5142, percentage: 18.8 },
+            ],
+        },
         producers: [
             { mal_id: 17, type: "anime", name: "Aniplex" },
             { mal_id: 76, type: "anime", name: "Yomiuri Telecasting" },
@@ -168,190 +192,199 @@ export default function RootLayout({ children, params }) {
     };
 
     return (
-        <main className="max-width !px-0 mb-10">
-            <div className="">
-                <img
-                    src={animeBaseData.banner}
-                    alt={animeBaseData.title_english ?? animeBaseData.title}
-                    className="w-full"
-                />
-            </div>
+        <AnimeDataContext.Provider value={{ animeBaseData }}>
+            <main className="max-width !px-0 mb-10">
+                <div className="">
+                    <img
+                        src={animeBaseData.banner}
+                        alt={animeBaseData.title_english ?? animeBaseData.title}
+                        className="w-full"
+                    />
+                </div>
 
-            <div className="space-y-8">
-                <header className="flex gap-4 bg-white p-5 pb-3">
-                    <div className="flex-shrink-0 w-52 -mt-20">
-                        <img
-                            src={animeBaseData.image_large}
-                            alt={
-                                animeBaseData.title_english ??
-                                animeBaseData.title
-                            }
-                            className="w-full h-[295px] mb-2"
-                        />
-                        <div className="w-full skeleton rounded-none p-2 text-center">
-                            Here may be some items
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <article className="flex-grow mb-2.5">
-                            <h1 className="text-2xl font-semibold font-suse mb-4 text-gray-600">
-                                {animeBaseData.title_english ??
-                                    animeBaseData.title}
-                            </h1>
-                            <p className="text-gray-600 flex-grow">
-                                {animeBaseData.synopsis.slice(0, 290).trim()}...{" "}
-                                <span
-                                    className="text-xs cursor-pointer hover:underline underline-offset-2"
-                                    onClick={(e) =>
-                                        (e.target.parentElement.innerHTML =
-                                            animeBaseData.synopsis)
-                                    }
-                                >
-                                    read more
-                                </span>
-                            </p>
-                        </article>
-
-                        <div className="w-full skeleton rounded-none p-2 text-center">
-                            Here may be some Route items
-                        </div>
-                    </div>
-                </header>
-
-                {/* The main Information */}
-                <div className="px-5 flex gap-4">
-                    <aside className="bg-white w-52 px-4 py-3 space-y-2.5">
-                        <InfoItems
-                            heading={"Type"}
-                            info={
-                                animeType[animeBaseData.type?.toLowerCase()] ??
-                                animeBaseData.type
-                            }
-                        />
-                        <InfoItems
-                            heading={"Episodes"}
-                            info={animeBaseData.episodes}
-                        />
-                        <InfoItems
-                            heading={"Duration"}
-                            info={
-                                animeBaseData.type?.toLowerCase() === "movie"
-                                    ? `${animeBaseData.duration[0]} hour(s), ${animeBaseData.duration[1]} mins`
-                                    : `${animeBaseData.duration ?? 0} mins`
-                            }
-                        />
-                        <InfoItems
-                            heading={"Status"}
-                            info={animeBaseData.status}
-                        />
-                        <InfoItems
-                            heading={"Season"}
-                            info={`${capitalizeWord(animeBaseData.season)} ${
-                                animeBaseData.year
-                            }`}
-                        />
-                        <InfoItems
-                            heading={"Start Date"}
-                            info={formatDate(animeBaseData.aired?.from)}
-                        />
-                        <InfoItems
-                            heading={"End Date"}
-                            info={formatDate(animeBaseData.aired?.to)}
-                        />
-
-                        {animeBaseData.titles.map((item, idx) => (
-                            <InfoItems
-                                key={idx}
-                                heading={item.type}
-                                info={item.title}
+                <div className="space-y-8">
+                    <header className="flex gap-4 bg-white p-5 pb-3">
+                        <div className="flex-shrink-0 w-52 -mt-20">
+                            <img
+                                src={animeBaseData.image_large}
+                                alt={
+                                    animeBaseData.title_english ??
+                                    animeBaseData.title
+                                }
+                                className="w-full h-[295px] mb-2"
                             />
-                        ))}
+                            <div className="w-full skeleton rounded-none p-2 text-center">
+                                Here may be some items
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <article className="flex-grow mb-2.5">
+                                <h1 className="text-2xl font-semibold font-suse mb-4 text-gray-600">
+                                    {animeBaseData.title_english ??
+                                        animeBaseData.title}
+                                </h1>
+                                <p className="text-gray-600 flex-grow">
+                                    {animeBaseData.synopsis
+                                        .slice(0, 290)
+                                        .trim()}
+                                    ...{" "}
+                                    <span
+                                        className="text-xs cursor-pointer hover:underline underline-offset-2"
+                                        onClick={(e) =>
+                                            (e.target.parentElement.innerHTML =
+                                                animeBaseData.synopsis)
+                                        }
+                                    >
+                                        read more
+                                    </span>
+                                </p>
+                            </article>
 
-                        <InfoItems
-                            heading={"Score"}
-                            info={animeBaseData.score}
-                        />
-                        <InfoItems
-                            heading={"Scored By"}
-                            info={animeBaseData.scored_by}
-                        />
-                        <InfoItems
-                            heading={"Rank (MAL)"}
-                            info={`#${animeBaseData.mal_rank}`}
-                        />
-                        <InfoItems
-                            heading={"Rating"}
-                            info={animeBaseData.rating}
-                        />
-                        <InfoItems
-                            heading={"Source"}
-                            info={animeBaseData.source}
-                        />
-                        <InfoItems
-                            heading={"Genres"}
-                            info={animeBaseData.genres.map((item) => (
-                                <Fragment key={item.mal_id}>
-                                    {item.name}
-                                    <br />
-                                </Fragment>
-                            ))}
-                        />
-                        <InfoItems
-                            heading={"Themes"}
-                            info={animeBaseData.themes.map((item) => (
-                                <Fragment key={item.mal_id}>
-                                    {item.name}
-                                    <br />
-                                </Fragment>
-                            ))}
-                        />
-                        <InfoItems
-                            heading={"Studios"}
-                            info={animeBaseData.studios.map((item) => (
-                                <Fragment key={item.mal_id}>
-                                    {item.name}
-                                    <br />
-                                </Fragment>
-                            ))}
-                        />
-                        <InfoItems
-                            heading={"Producers"}
-                            info={animeBaseData.producers.map((item) => (
-                                <Fragment key={item.mal_id}>
-                                    {item.name}
-                                    <br />
-                                </Fragment>
-                            ))}
-                        />
+                            <div className="w-full skeleton rounded-none p-2 text-center">
+                                Here may be some Route items
+                            </div>
+                        </div>
+                    </header>
 
-                        <div className="divider !mt-0"></div>
+                    {/* The main Information */}
+                    <div className="px-5 flex gap-4">
+                        <aside className="bg-white w-52 px-4 py-3 space-y-2.5">
+                            <InfoItems
+                                heading={"Type"}
+                                info={
+                                    animeType[
+                                        animeBaseData.type?.toLowerCase()
+                                    ] ?? animeBaseData.type
+                                }
+                            />
+                            <InfoItems
+                                heading={"Episodes"}
+                                info={animeBaseData.episodes}
+                            />
+                            <InfoItems
+                                heading={"Duration"}
+                                info={
+                                    animeBaseData.type?.toLowerCase() ===
+                                    "movie"
+                                        ? `${animeBaseData.duration[0]} hour(s), ${animeBaseData.duration[1]} mins`
+                                        : `${animeBaseData.duration ?? 0} mins`
+                                }
+                            />
+                            <InfoItems
+                                heading={"Status"}
+                                info={animeBaseData.status}
+                            />
+                            <InfoItems
+                                heading={"Season"}
+                                info={`${capitalizeWord(
+                                    animeBaseData.season
+                                )} ${animeBaseData.year}`}
+                            />
+                            <InfoItems
+                                heading={"Start Date"}
+                                info={formatDate(animeBaseData.aired?.from)}
+                            />
+                            <InfoItems
+                                heading={"End Date"}
+                                info={formatDate(animeBaseData.aired?.to)}
+                            />
 
-                        <InfoItems
-                            className="!mt-0"
-                            heading={"Streaming"}
-                            info={animeBaseData.streaming.map((item) => (
-                                <Fragment key={item.name}>
-                                    {item.name}
-                                    <br />
-                                </Fragment>
+                            {animeBaseData.titles.map((item, idx) => (
+                                <InfoItems
+                                    key={idx}
+                                    heading={item.type}
+                                    info={item.title}
+                                />
                             ))}
-                        />
 
-                        <InfoItems
-                            heading={"External"}
-                            info={animeBaseData.external.map((item) => (
-                                <Fragment key={item.name}>
-                                    {item.name}
-                                    <br />
-                                </Fragment>
-                            ))}
-                        />
-                    </aside>
-                    <div className="flex-grow skeleton rounded-none text-center p-4">
-                        The Info Items
+                            <InfoItems
+                                heading={"Score"}
+                                info={animeBaseData.score}
+                            />
+                            <InfoItems
+                                heading={"Scored By"}
+                                info={animeBaseData.scored_by}
+                            />
+                            <InfoItems
+                                heading={"Rank (MAL)"}
+                                info={`#${animeBaseData.mal_rank}`}
+                            />
+                            <InfoItems
+                                heading={"Rating"}
+                                info={animeBaseData.rating}
+                            />
+                            <InfoItems
+                                heading={"Source"}
+                                info={animeBaseData.source}
+                            />
+                            <InfoItems
+                                heading={"Genres"}
+                                info={animeBaseData.genres.map((item) => (
+                                    <Fragment key={item.mal_id}>
+                                        {item.name}
+                                        <br />
+                                    </Fragment>
+                                ))}
+                            />
+                            <InfoItems
+                                heading={"Themes"}
+                                info={animeBaseData.themes.map((item) => (
+                                    <Fragment key={item.mal_id}>
+                                        {item.name}
+                                        <br />
+                                    </Fragment>
+                                ))}
+                            />
+                            <InfoItems
+                                heading={"Studios"}
+                                info={animeBaseData.studios.map((item) => (
+                                    <Fragment key={item.mal_id}>
+                                        {item.name}
+                                        <br />
+                                    </Fragment>
+                                ))}
+                            />
+                            <InfoItems
+                                heading={"Producers"}
+                                info={animeBaseData.producers.map((item) => (
+                                    <Fragment key={item.mal_id}>
+                                        {item.name}
+                                        <br />
+                                    </Fragment>
+                                ))}
+                            />
+
+                            <div className="divider !mt-0"></div>
+
+                            <InfoItems
+                                className="!mt-0"
+                                heading={"Streaming"}
+                                info={animeBaseData.streaming.map(
+                                    (item, idx) => (
+                                        <Fragment key={idx}>
+                                            {item.name}
+                                            <br />
+                                        </Fragment>
+                                    )
+                                )}
+                            />
+
+                            <InfoItems
+                                heading={"External"}
+                                info={animeBaseData.external.map(
+                                    (item, idx) => (
+                                        <Fragment key={idx}>
+                                            {item.name}
+                                            <br />
+                                        </Fragment>
+                                    )
+                                )}
+                            />
+                        </aside>
+                        <section className="flex-grow">{children}</section>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </AnimeDataContext.Provider>
     );
 }
