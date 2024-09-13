@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ItemCardGrid = ({ item, rank }) => {
     const animeType = {
-        tv: "TV Show",
+        tv: "TV Series",
         movie: "Movie",
         ova: "OVA",
         ona: "ONA",
