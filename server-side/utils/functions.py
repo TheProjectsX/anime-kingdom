@@ -195,6 +195,7 @@ def getAnimeDetails(id):
         "title": serverData.get("title"),
         "title_english": serverData.get("title_english"),
         "title_japanese": serverData.get("title_japanese"),
+        "titles": serverData.get("titles", []),
         "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
         "image_large": getImageFromImages(serverData.get("images", {})).get(
             "large_image_url"
