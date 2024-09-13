@@ -175,6 +175,26 @@ def getFilteredAnime(
     return returnResponse, 200
 
 
+# Get Anime Statistics
+def getAnimeStatistics(id):
+    path = f"/{id}/statistics"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": serverData}
+
+    return returnResponse, 200
+
+
 # Get Anime Details
 def getAnimeDetails(id):
     path = f"/{id}/full"
@@ -189,6 +209,8 @@ def getAnimeDetails(id):
             "success": False,
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
+
+    statistics, _ = getAnimeStatistics(id)
 
     animeData = {
         "id": serverData.get("mal_id"),
@@ -223,8 +245,12 @@ def getAnimeDetails(id):
         "score": serverData.get("score"),
         "scored_by": serverData.get("scored_by"),
         "mal_rank": serverData.get("rank"),
+        "popularity": serverData.get("popularity"),
+        "members": serverData.get("members"),
+        "favorites": serverData.get("favorites"),
         "season": serverData.get("season"),
         "year": serverData.get("year"),
+        "statistics": statistics.get("data", {}),
         "producers": removeProperty(serverData.get("producers", {}), "url"),
         "studios": removeProperty(serverData.get("studios", {}), "url"),
         "genres": removeProperty(serverData.get("genres", {}), "url"),
