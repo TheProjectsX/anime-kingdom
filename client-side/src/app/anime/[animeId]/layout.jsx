@@ -256,12 +256,6 @@ export default function RootLayout({ children, params }) {
                                     Overview
                                 </Link>
                                 <Link
-                                    href={`${baseUrl}/videos`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Videos
-                                </Link>
-                                <Link
                                     href={`${baseUrl}/characters`}
                                     className="px-2 py-1 hover:text-[dodgerBlue]"
                                 >
@@ -274,16 +268,23 @@ export default function RootLayout({ children, params }) {
                                     Staffs
                                 </Link>
                                 <Link
-                                    href={`${baseUrl}/socials`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Social
-                                </Link>
-                                <Link
-                                    href={`${baseUrl}/revires`}
+                                    href={`${baseUrl}/reviews`}
                                     className="px-2 py-1 hover:text-[dodgerBlue]"
                                 >
                                     Review
+                                </Link>
+
+                                <Link
+                                    href={`${baseUrl}/videos`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Videos
+                                </Link>
+                                <Link
+                                    href={`${baseUrl}/pictures`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Pictures
                                 </Link>
                             </div>
                         </div>
