@@ -522,15 +522,19 @@ def getAnimeVideos(id):
             "success": False,
             "message": serverResponse.get("error", "Item not Found"),
         }, serverResponse.get("status", 404)
-    returnResponse = {"success": True, "data": []}
+    returnResponse = {
+        "success": True,
+        "data": {"promo": [], "episodes": [], "music_video": []},
+    }
 
     for item in serverData["promo"]:
-        trailer = item["trailer"]
+        trailer = item.get("trailer", {})
         data = {
-            "title": item["title"],
+            "title": item.get("title"),
             "url": trailer.get("url"),
             "embed_url": trailer.get("embed_url"),
             "images": {
+                "image": trailer.get("images", {}).get("image_url"),
                 "small": trailer.get("images", {}).get("small_image_url"),
                 "medium": trailer.get("images", {}).get("medium_image_url"),
                 "large": trailer.get("images", {}).get("large_image_url"),
@@ -538,7 +542,37 @@ def getAnimeVideos(id):
             },
         }
 
-        returnResponse["data"].append(data)
+        returnResponse["data"]["promo"].append(data)
+
+    for item in serverData["episodes"]:
+        data = {
+            "title": item.get("title"),
+            "episode": item.get("episode"),
+            "images": {
+                "image": getImageFromImages(item.get("images")).get("image_url"),
+            },
+        }
+
+        returnResponse["data"]["episodes"].append(data)
+
+    for item in serverData["music_videos"]:
+        video = item.get("video", {})
+        data = {
+            "title": item.get("title"),
+            "embed_url": video.get("embed_url"),
+            "images": {
+                "image": getImageFromImages(video.get("images")).get("image_url"),
+            },
+            "images": {
+                "image": video.get("images", {}).get("image_url"),
+                "small": video.get("images", {}).get("small_image_url"),
+                "medium": video.get("images", {}).get("medium_image_url"),
+                "large": video.get("images", {}).get("large_image_url"),
+                "maximum": video.get("images", {}).get("maximum_image_url"),
+            },
+        }
+
+        returnResponse["data"]["music_video"].append(data)
 
     return returnResponse, 200
 
