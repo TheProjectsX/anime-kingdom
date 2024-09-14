@@ -168,9 +168,9 @@ def animeRecommendations(id):
 
 
 # Get an Anime Images
-@app.route("/anime/<int:id>/images")
+@app.route("/anime/<int:id>/pictures")
 def animeImages(id):
-    result, statusCode = fns.getAnimeImages(id)
+    result, statusCode = fns.getAnimePictures(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -197,7 +197,7 @@ def characterDetails(id):
 
 
 # Get an Anime Character Images
-@app.route("/characters/<int:id>/images")
+@app.route("/characters/<int:id>/pictures")
 def characterImages(id):
     result, statusCode = fns.getCharacterImages(id)
 

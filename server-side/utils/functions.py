@@ -518,7 +518,7 @@ def getAnimeRecommendations(id):
 
 
 # Get Anime Imaged
-def getAnimeImages(id):
+def getAnimePictures(id):
     path = f"/{id}/pictures"
 
     serverResponse = animeBase(path)
