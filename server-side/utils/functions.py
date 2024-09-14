@@ -353,6 +353,38 @@ def getAnimeCharacters(id):
     return returnResponse, 200
 
 
+# Get Anime Staffs
+def getAnimeStaffs(id):
+    path = f"/{id}/staff"
+
+    serverResponse = animeBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverResponse["data"]:
+        person = item["person"]
+
+        data = {
+            "id": person.get("mal_id", ""),
+            "name": person.get("name"),
+            "image": getImageFromImages(person.get("images", {})).get("image_url"),
+            "positions": item.get("positions", []),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
 # Get Anime Episodes
 def getAnimeEpisodes(id, page=1):
     path = f"/{id}/episodes?page={page}"

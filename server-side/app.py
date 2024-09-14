@@ -113,6 +113,14 @@ def animeSimpleData(id):
 
 
 # Get an Anime Characters with VA
+@app.route("/anime/<int:id>/staffs")
+def animeStaffs(id):
+    result, statusCode = fns.getAnimeStaffs(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get an Anime Characters with VA
 @app.route("/anime/<int:id>/characters")
 def animeCharacters(id):
     result, statusCode = fns.getAnimeCharacters(id)
