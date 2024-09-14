@@ -292,7 +292,7 @@ export default function RootLayout({ children, params }) {
 
                     {/* The main Information */}
                     <div className="px-5 flex gap-4">
-                        <aside className="bg-white w-52 px-4 py-3 space-y-2.5 flex-shrink-0">
+                        <aside className="bg-white w-52 h-fit px-4 py-3 space-y-2.5 flex-shrink-0">
                             <InfoItems
                                 heading={"Type"}
                                 info={
