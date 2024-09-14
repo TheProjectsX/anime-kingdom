@@ -2,6 +2,7 @@
 
 import { Fragment } from "react";
 import AnimeDataContext from "@/context/AnimeDataContext";
+import Link from "next/link";
 
 export default function RootLayout({ children, params }) {
     const { animeId } = params;
@@ -191,6 +192,13 @@ export default function RootLayout({ children, params }) {
         );
     };
 
+    const baseUrl = `/anime/${animeId}/${
+        animeBaseData.title_english
+            ?.replace(/[^a-zA-Z\s]/g, "")
+            .replace(/\s+/g, "-") ??
+        animeBaseData.title?.replace(/[^a-zA-Z\s]/g, "").replace(/\s+/g, "-")
+    }`;
+
     return (
         <AnimeDataContext.Provider value={{ animeBaseData }}>
             <main className="max-width !px-0 mb-10">
@@ -240,15 +248,50 @@ export default function RootLayout({ children, params }) {
                                 </p>
                             </article>
 
-                            <div className="w-full skeleton rounded-none p-2 text-center">
-                                Here may be some Route items
+                            <div className="px-4 w-full flex justify-evenly text-sm text-gray-500">
+                                <Link
+                                    href={baseUrl}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Overview
+                                </Link>
+                                <Link
+                                    href={`${baseUrl}/videos`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Videos
+                                </Link>
+                                <Link
+                                    href={`${baseUrl}/characters`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Characters
+                                </Link>
+                                <Link
+                                    href={`${baseUrl}/staffs`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Staffs
+                                </Link>
+                                <Link
+                                    href={`${baseUrl}/socials`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Social
+                                </Link>
+                                <Link
+                                    href={`${baseUrl}/revires`}
+                                    className="px-2 py-1 hover:text-[dodgerBlue]"
+                                >
+                                    Review
+                                </Link>
                             </div>
                         </div>
                     </header>
 
                     {/* The main Information */}
                     <div className="px-5 flex gap-4">
-                        <aside className="bg-white w-52 px-4 py-3 space-y-2.5">
+                        <aside className="bg-white w-52 px-4 py-3 space-y-2.5 flex-shrink-0">
                             <InfoItems
                                 heading={"Type"}
                                 info={

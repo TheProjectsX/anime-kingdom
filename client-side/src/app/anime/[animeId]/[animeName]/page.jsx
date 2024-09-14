@@ -3,7 +3,7 @@
 import AnimeDataContext from "@/context/AnimeDataContext";
 import { useContext } from "react";
 
-const page = () => {
+const page = ({ params }) => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
 
@@ -27,107 +27,104 @@ const page = () => {
     };
 
     return (
-        <>
-            <div className="space-y-8">
-                <header>
-                    <p className="font-semibold text-xl text-gray-600 mb-4">
-                        Anime Rating Info
-                    </p>
-                    <div className="flex justify-evenly flex-wrap gap-4">
-                        {" "}
-                        <HeaderCard
-                            header={"Score"}
-                            info={`#${animeBaseData.score}`}
-                            infoTitle={`Scored By: ${animeBaseData.scored_by} members`}
-                        />
-                        <HeaderCard
-                            header={"Rank"}
-                            info={`#${animeBaseData.mal_rank}`}
-                        />
-                        <HeaderCard
-                            header={"Popularity"}
-                            info={`#${animeBaseData.popularity}`}
-                        />
-                        <HeaderCard
-                            header={"Favorites"}
-                            info={`#${animeBaseData.favorites}`}
-                        />
-                        {/* <HeaderCard
+        <div className="space-y-8">
+            <header>
+                <p className="font-semibold text-xl text-gray-600 mb-4">
+                    Anime Rating Info
+                </p>
+                <div className="flex justify-evenly flex-wrap gap-4">
+                    {" "}
+                    <HeaderCard
+                        header={"Score"}
+                        info={`#${animeBaseData.score}`}
+                        infoTitle={`Scored By: ${animeBaseData.scored_by} members`}
+                    />
+                    <HeaderCard
+                        header={"Rank"}
+                        info={`#${animeBaseData.mal_rank}`}
+                    />
+                    <HeaderCard
+                        header={"Popularity"}
+                        info={`#${animeBaseData.popularity}`}
+                    />
+                    <HeaderCard
+                        header={"Favorites"}
+                        info={`#${animeBaseData.favorites}`}
+                    />
+                    {/* <HeaderCard
                         header={"Members"}
                         info={`#${animeBaseData.members}`}
                     /> */}
-                    </div>
-                </header>
+                </div>
+            </header>
 
-                <div>
-                    <p className="font-semibold text-xl text-gray-600 mb-4">
-                        Anime Rating Info
-                    </p>
-                    <div className="p-5 rounded-lg bg-white">
-                        <div className="flex gap-2 items-center text-center *:flex-grow">
-                            <div>
-                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                    Watching
-                                </h4>
-                                <p className="text-lg font-semibold">
-                                    {animeBaseData.statistics.watching}
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                    Completed
-                                </h4>
-                                <p className="text-lg font-semibold">
-                                    {animeBaseData.statistics.completed}
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                    On Hold
-                                </h4>
-                                <p className="text-lg font-semibold">
-                                    {animeBaseData.statistics.on_hold}
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                    Dropped
-                                </h4>
-                                <p className="text-lg font-semibold">
-                                    {animeBaseData.statistics.dropped}
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                    Watch list
-                                </h4>
-                                <p className="text-lg font-semibold">
-                                    {animeBaseData.statistics.plan_to_watch}
-                                </p>
-                            </div>
+            <div>
+                <p className="font-semibold text-xl text-gray-600 mb-4">
+                    Anime Rating Info
+                </p>
+                <div className="p-5 rounded-lg bg-white">
+                    <div className="flex gap-2 items-center text-center *:flex-grow">
+                        <div>
+                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                Watching
+                            </h4>
+                            <p className="text-lg font-semibold">
+                                {animeBaseData.statistics.watching}
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                Completed
+                            </h4>
+                            <p className="text-lg font-semibold">
+                                {animeBaseData.statistics.completed}
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                On Hold
+                            </h4>
+                            <p className="text-lg font-semibold">
+                                {animeBaseData.statistics.on_hold}
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                Dropped
+                            </h4>
+                            <p className="text-lg font-semibold">
+                                {animeBaseData.statistics.dropped}
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                Watch list
+                            </h4>
+                            <p className="text-lg font-semibold">
+                                {animeBaseData.statistics.plan_to_watch}
+                            </p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div>
-                    <p className="font-semibold text-xl text-gray-600 mb-4">
-                        Trailer
-                    </p>
-                    <p align="center">
-                        <iframe
+            <div>
+                <p className="font-semibold text-xl text-gray-600 mb-4">
+                    Trailer
+                </p>
+                <p align="center">
+                    {/* <iframe
                             width="560"
                             height="315"
                             src={
-                                animeBaseData.trailer?.youtube_id &&
-                                `https://www.youtube.com/embed/${animeBaseData.trailer?.youtube_id}`
+                                animeBaseData.trailer?.embed
                             }
                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
-                        ></iframe>
-                    </p>
-                </div>
+                        ></iframe> */}
+                </p>
             </div>
-        </>
+        </div>
     );
 };
 
