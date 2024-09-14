@@ -420,11 +420,11 @@ const page = async ({ params }) => {
         },
     ];
     return (
-        <div className="space-y-4">
+        <div className="space-y-3">
             {animeCharactersData.map((item) => (
                 <div
                     key={item.id}
-                    className="bg-white rounded-lg flex justify-between items-start"
+                    className="bg-white flex justify-between items-start shadow-sm"
                 >
                     {/* Character */}
                     <div className="flex gap-3 items-start hover:cursor-pointer group flex-grow">
