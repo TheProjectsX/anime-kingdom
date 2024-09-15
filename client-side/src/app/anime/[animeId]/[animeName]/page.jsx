@@ -113,15 +113,13 @@ const page = ({ params }) => {
                     Trailer
                 </p>
                 <p align="center">
-                    {/* <iframe
-                            width="560"
-                            height="315"
-                            src={
-                                animeBaseData.trailer?.embed
-                            }
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        ></iframe> */}
+                    <iframe
+                        width="560"
+                        height="315"
+                        src={animeBaseData.trailer?.embed}
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                    ></iframe>
                 </p>
             </div>
         </div>

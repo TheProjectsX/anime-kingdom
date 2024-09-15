@@ -1,7 +1,7 @@
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
-const ItemCardList = ({ item, rank }) => {
+const ItemCardList = ({ animeData, rank }) => {
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -13,7 +13,7 @@ const ItemCardList = ({ item, rank }) => {
         if (!word) return ""; // Handle empty strings
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
-    if (item === null) {
+    if (animeData === null) {
         return (
             <article className="bg-white p-3 flex gap-5 rounded-sm">
                 <div className="w-16 h-20 skeleton bg-slate-300"></div>
@@ -31,23 +31,23 @@ const ItemCardList = ({ item, rank }) => {
                 </p>
             )}
             <div className="bg-white p-3 rounded-sm flex items-center gap-5 flex-grow">
-                <Link href={"#"} className="flex-shrink-0">
+                <Link href={`/anime/${animeData.id}`} className="flex-shrink-0">
                     <img
-                        src={item.image}
-                        alt={item.title_english ?? item.title}
+                        src={animeData.image}
+                        alt={animeData.title_english ?? animeData.title}
                         className="w-14 h-20 hover:scale-[3.5] transition-[transform] duration-500"
                     />
                 </Link>
                 <div className="flex flex-grow flex-col gap-3 md:gap-0 md:flex-row">
                     <div className="flex-grow">
                         <Link
-                            href={"#"}
+                            href={`/anime/${animeData.id}`}
                             className="text-gray-600 font-semibold font-suse mb-2.5 inline-block hover:text-green-500 transition-colors"
                         >
-                            {item.title_english ?? item.title}
+                            {animeData.title_english ?? animeData.title}
                         </Link>
                         <p className="flex gap-2 flex-wrap">
-                            {item.genres?.map((item) => (
+                            {animeData.genres?.map((item) => (
                                 <Link
                                     href={"#"}
                                     key={item.id}
@@ -61,42 +61,45 @@ const ItemCardList = ({ item, rank }) => {
                     <div className="flex flex-wrap md:flex-nowrap *:mr-3">
                         <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
                             <p className="font-semibold font-suse text-gray-500">
-                                {item.score}
+                                {animeData.score}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {item.scored_by} users
+                                {animeData.scored_by} users
                             </p>
                         </div>
                         <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
                             <p className="font-semibold font-suse text-gray-500">
-                                {animeType[item.type?.toLowerCase()] ??
-                                    item.type}
+                                {animeType[animeData.type?.toLowerCase()] ??
+                                    animeData.type}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {item.type?.toLowerCase() === "movie"
-                                    ? `${item.duration[0]} hour(s), ${item.duration[1]} mins`
-                                    : item.episodes
-                                    ? `${item.episodes} episodes`
-                                    : `${item.duration ?? 0} mins`}
+                                {animeData.type?.toLowerCase() === "movie"
+                                    ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
+                                    : animeData.episodes
+                                    ? `${animeData.episodes} episodes`
+                                    : `${animeData.duration ?? 0} mins`}
                             </p>
                         </div>
                         <Tooltip
                             content={
                                 <p>
-                                    {item.aired?.string?.includes("to") &&
+                                    {animeData.aired?.string?.includes("to") &&
                                         "from "}
-                                    {item.aired?.string}
+                                    {animeData.aired?.string}
                                 </p>
                             }
                             placement="right"
-                            className={`${item.aired?.string ? "" : "hidden"}`}
+                            className={`${
+                                animeData.aired?.string ? "" : "hidden"
+                            }`}
                         >
                             <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
                                 <p className="font-semibold font-suse text-gray-500">
-                                    {capitalizeWord(item.season)} {item.year}
+                                    {capitalizeWord(animeData.season)}{" "}
+                                    {animeData.year}
                                 </p>
                                 <p className="text-sm font-semibold text-gray-400">
-                                    {item.status}
+                                    {animeData.status}
                                 </p>
                             </div>
                         </Tooltip>

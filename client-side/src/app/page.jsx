@@ -138,7 +138,10 @@ export default function Home() {
                             </div>
                             <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap lg:[&_article:last-child]:hidden">
                                 {item.data.map((item, idx) => (
-                                    <ItemCardSimple item={item} key={idx} />
+                                    <ItemCardSimple
+                                        animeData={item}
+                                        key={idx}
+                                    />
                                 ))}
                             </div>
                         </section>
@@ -158,7 +161,7 @@ export default function Home() {
                         <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
                             {topAnimeData.map((item, idx) => (
                                 <ItemCardSimple
-                                    item={item}
+                                    animeData={item}
                                     key={idx}
                                     rank={idx + 1}
                                 />
@@ -186,7 +189,7 @@ export default function Home() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 {item.data.map((item, idx) => (
-                                    <ItemCardGrid item={item} key={idx} />
+                                    <ItemCardGrid animeData={item} key={idx} />
                                 ))}
                             </div>
                         </section>
@@ -206,7 +209,7 @@ export default function Home() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             {topAnimeData.map((item, idx) => (
                                 <ItemCardGrid
-                                    item={item}
+                                    animeData={item}
                                     key={idx}
                                     rank={idx + 1}
                                 />
@@ -234,7 +237,7 @@ export default function Home() {
                             </div>
                             <div className="space-y-5">
                                 {item.data.map((item, idx) => (
-                                    <ItemCardList item={item} key={idx} />
+                                    <ItemCardList animeData={item} key={idx} />
                                 ))}
                             </div>
                         </section>
@@ -255,7 +258,7 @@ export default function Home() {
                         <div className="space-y-5">
                             {topAnimeData.map((item, idx) => (
                                 <ItemCardList
-                                    item={item}
+                                    animeData={item}
                                     key={idx}
                                     rank={idx + 1}
                                 />

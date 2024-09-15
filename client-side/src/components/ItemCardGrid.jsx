@@ -1,7 +1,7 @@
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
-const ItemCardGrid = ({ item, rank }) => {
+const ItemCardGrid = ({ animeData, rank }) => {
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -14,7 +14,7 @@ const ItemCardGrid = ({ item, rank }) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
-    if (item === null) {
+    if (animeData === null) {
         return (
             <article className="h-[290px] sm:h-[250px] lg:h-[272px] bg-white rounded-md overflow-hidden">
                 <div className="w-52 sm:w-44 lg:w-48 h-full skeleton bg-slate-300 rounded-none"></div>
@@ -31,22 +31,22 @@ const ItemCardGrid = ({ item, rank }) => {
                         <span className="text-lg font-medium">{rank}</span>
                     </p>
                 )}
-                <Link href={"#"}>
+                <Link href={`/anime/${animeData.id}`}>
                     <img
-                        src={item.image}
-                        alt={item.title_english ?? item.title}
+                        src={animeData.image}
+                        alt={animeData.title_english ?? animeData.title}
                         className="w-full h-full"
                     />
                 </Link>
                 <div className="w-full absolute bottom-0 bg-slate-700/80 p-2">
                     <Link
-                        href={"#"}
+                        href={`/anime/${animeData.id}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
                     >
-                        {item.title_english ?? item.title}
+                        {animeData.title_english ?? animeData.title}
                     </Link>
                     <p className="flex gap-2 flex-wrap">
-                        {item.studios?.map((item) => (
+                        {animeData.studios?.map((item) => (
                             <Link
                                 href={"#"}
                                 className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
@@ -68,45 +68,49 @@ const ItemCardGrid = ({ item, rank }) => {
                         {/* Header Info Data */}
                         <div>
                             <p className="text-xs font-semibold text-gray-400">
-                                {item.status} ({item.source})
+                                {animeData.status} ({animeData.source})
                             </p>
                             <Tooltip
                                 content={
                                     <p>
-                                        {item.aired?.string?.includes("to") &&
-                                            "from "}
-                                        {item.aired?.string}
+                                        {animeData.aired?.string?.includes(
+                                            "to"
+                                        ) && "from "}
+                                        {animeData.aired?.string}
                                     </p>
                                 }
                                 placement="right"
                                 className={`${
-                                    item.aired?.string ? "" : "hidden"
+                                    animeData.aired?.string ? "" : "hidden"
                                 }`}
                             >
                                 <p className="text-gray-500 font-semibold">
-                                    {capitalizeWord(item.season)} {item.year}
+                                    {capitalizeWord(animeData.season)}{" "}
+                                    {animeData.year}
                                 </p>
                             </Tooltip>
                             <p className="text-xs mb-2 font-semibold">
-                                {animeType[item.type?.toLowerCase()] ??
-                                    item.type}{" "}
-                                {item.type?.toLowerCase() === "movie"
-                                    ? `${item.duration[0]} hour(s), ${item.duration[1]} mins`
-                                    : item.episodes
-                                    ? `${item.episodes} episodes`
-                                    : `${item.duration ?? 0} mins`}{" "}
+                                {animeType[animeData.type?.toLowerCase()] ??
+                                    animeData.type}{" "}
+                                {animeData.type?.toLowerCase() === "movie"
+                                    ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
+                                    : animeData.episodes
+                                    ? `${animeData.episodes} episodes`
+                                    : `${animeData.duration ?? 0} mins`}{" "}
                             </p>
                         </div>
                         {/* Header Info Score */}
                         <p className="font-semibold font-suse">
-                            {item.score ?? ""}
+                            {animeData.score ?? ""}
                         </p>
                     </div>
-                    <p className="text-[13px] text-zinc-500">{item.synopsis}</p>
+                    <p className="text-[13px] text-zinc-500">
+                        {animeData.synopsis}
+                    </p>
                 </div>
                 {/* Genres */}
                 <div className="flex gap-2 justify-center w-full flex-wrap absolute bottom-0 p-2.5 bg-slate-100">
-                    {item.genres.slice(0, 2).map((item) => (
+                    {animeData.genres.slice(0, 2).map((item) => (
                         <Link
                             href={"#"}
                             key={item.id}
