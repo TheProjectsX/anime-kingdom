@@ -1,78 +1,56 @@
 "use client";
 
 import AnimeDataContext from "@/context/AnimeDataContext";
-import { useContext } from "react";
-import { MdDownload } from "react-icons/md";
+import { useContext, useEffect, useState } from "react";
 
-const page = () => {
+let animePicturesPrimaryData = Array(5).fill(null);
+
+const page = ({ params }) => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
 
-    const animePicturesData = [
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1859/140358.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1859/140358t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1859/140358l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1204/142102.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1204/142102t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1204/142102l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1904/142675.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1904/142675t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1904/142675l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1359/142920.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1359/142920t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1359/142920l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1215/143237.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1215/143237t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1215/143237l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1239/143497.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1239/143497t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1239/143497l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1332/143513.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1332/143513t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1332/143513l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1875/144628.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1875/144628t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1875/144628l.jpg",
-        },
-        {
-            url: "https://cdn.myanimelist.net/images/anime/1705/145056.jpg",
-            small_image_url:
-                "https://cdn.myanimelist.net/images/anime/1705/145056t.jpg",
-            large_image_url:
-                "https://cdn.myanimelist.net/images/anime/1705/145056l.jpg",
-        },
-    ];
+    const [animePicturesData, setAnimePicturesData] = useState(
+        animePicturesPrimaryData
+    );
+
+    const { animeId } = params;
+
+    useEffect(() => {
+        const loadData = async () => {
+            const serverResponse = await (
+                await fetch(
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/pictures`
+                )
+            ).json();
+
+            if (!serverResponse.success) {
+                console.log("Not Found");
+                // Do Something
+            }
+
+            animePicturesPrimaryData = serverResponse.data ?? [];
+            setAnimePicturesData(serverResponse.data ?? []);
+        };
+
+        // Load data only if the data is not already loaded
+        if (animePicturesPrimaryData.every((item) => !item)) {
+            loadData();
+        }
+    }, []);
+
+    // If every animePicturesData is null, return skeleton
+    if (animePicturesData.every((item) => !item)) {
+        return (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+                {animePicturesData.map((item, idx) => (
+                    <div
+                        key={idx}
+                        className="w-[90%] sm:w-[80%] pb-[114%] skeleton rounded-none"
+                    ></div>
+                ))}
+            </div>
+        );
+    }
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
