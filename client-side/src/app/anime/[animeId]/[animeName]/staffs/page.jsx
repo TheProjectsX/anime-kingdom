@@ -26,7 +26,11 @@ const page = ({ params }) => {
             animeStaffsPrimaryData = serverResponse.data ?? [];
             setAnimeStaffsData(serverResponse.data ?? []);
         };
-        loadData();
+
+        // Load data only if the data is not already loaded
+        if (animeStaffsPrimaryData.every((item) => !item)) {
+            loadData();
+        }
     }, []);
 
     // If every animeStaffsData is null, return skeleton
