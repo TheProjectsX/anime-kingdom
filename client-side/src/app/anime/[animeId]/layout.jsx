@@ -7,7 +7,6 @@ export default async function RootLayout({ children, params }) {
     );
     const serverData = await res.json();
 
-    console.log(serverData);
     if (!serverData.success) {
         console.log("Not Found");
         // Do something

@@ -1,87 +1,22 @@
+let animeVideoData = null;
+
 const page = async ({ params }) => {
     const { animeId } = params;
 
-    const serverResponse = await (
-        await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/videos`
-        )
-    ).json();
+    if (!animeVideoData) {
+        const serverResponse = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/videos`
+            )
+        ).json();
 
-    if (!serverResponse.success) {
-        console.log("Not Found");
+        if (!serverResponse.success) {
+            console.log("Not Found");
+            // Do something
+        }
+
+        animeVideoData = serverResponse.data ?? {};
     }
-
-    // const animeVideoData = serverResponse.get("data", {});
-    const animeVideoData = {
-        promo: [
-            {
-                title: "PV 2",
-                url: "https://www.youtube.com/watch?v=uytJ6_KTCZI",
-                embed_url:
-                    "https://www.youtube.com/embed/uytJ6_KTCZI?enablejsapi=1&wmode=opaque&autoplay=1",
-                images: {
-                    image: "https://img.youtube.com/vi/uytJ6_KTCZI/default.jpg",
-                    small: "https://img.youtube.com/vi/uytJ6_KTCZI/sddefault.jpg",
-                    medium: "https://img.youtube.com/vi/uytJ6_KTCZI/mqdefault.jpg",
-                    large: "https://img.youtube.com/vi/uytJ6_KTCZI/hqdefault.jpg",
-                    maximum:
-                        "https://img.youtube.com/vi/uytJ6_KTCZI/maxresdefault.jpg",
-                },
-            },
-            {
-                title: "PV 1",
-                url: "https://www.youtube.com/watch?v=4hNkfpYhFZc",
-                embed_url:
-                    "https://www.youtube.com/embed/4hNkfpYhFZc?enablejsapi=1&wmode=opaque&autoplay=1",
-                images: {
-                    image: "https://img.youtube.com/vi/4hNkfpYhFZc/default.jpg",
-                    small: "https://img.youtube.com/vi/4hNkfpYhFZc/sddefault.jpg",
-                    medium: "https://img.youtube.com/vi/4hNkfpYhFZc/mqdefault.jpg",
-                    large: "https://img.youtube.com/vi/4hNkfpYhFZc/hqdefault.jpg",
-                    maximum:
-                        "https://img.youtube.com/vi/4hNkfpYhFZc/maxresdefault.jpg",
-                },
-            },
-            {
-                title: "Announcement",
-                url: "https://www.youtube.com/watch?v=xPJaoemjeTY",
-                embed_url:
-                    "https://www.youtube.com/embed/xPJaoemjeTY?enablejsapi=1&wmode=opaque&autoplay=1",
-                images: {
-                    image: "https://img.youtube.com/vi/xPJaoemjeTY/default.jpg",
-                    small: "https://img.youtube.com/vi/xPJaoemjeTY/sddefault.jpg",
-                    medium: "https://img.youtube.com/vi/xPJaoemjeTY/mqdefault.jpg",
-                    large: "https://img.youtube.com/vi/xPJaoemjeTY/hqdefault.jpg",
-                    maximum:
-                        "https://img.youtube.com/vi/xPJaoemjeTY/maxresdefault.jpg",
-                },
-            },
-        ],
-        episodes: [
-            {
-                title: "Losing the Battle before It Is Ever Fought",
-                episode: "Episode 3",
-                images: {
-                    image: "https://img1.ak.crunchyroll.com/i/spire1-tmb/fd69813de8561ef8fa51ea2899f6bcf61722095763_large.jpg",
-                },
-            },
-            {
-                title: "The Promised Failure for You",
-                episode: "Episode 2",
-                images: {
-                    image: "https://img1.ak.crunchyroll.com/i/spire4-tmb/76225a8b58ae4fe72fdb052b83c59fa11721489974_large.jpg",
-                },
-            },
-            {
-                title: "Professional Childhood Friend Yanami Anna's Style of Losing",
-                episode: "Episode 1",
-                images: {
-                    image: "https://img1.ak.crunchyroll.com/i/spire4-tmb/ab0f8a610587215a5cd9ea6249980f9c1720884504_large.jpg",
-                },
-            },
-        ],
-        music_video: [],
-    };
 
     return (
         <div className="space-y-8">
