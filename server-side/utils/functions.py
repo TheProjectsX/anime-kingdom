@@ -722,6 +722,109 @@ def getCharacterImages(id):
     return returnResponse, 200
 
 
+##### PEOPLES FUNCTIONS #####
+
+
+# Get Anime Character Details
+def getPeopleDetails(id):
+    path = f"/{id}/full"
+
+    serverResponse = peopleBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    returnResponse = {
+        "success": True,
+        "data": {
+            "id": serverData.get("mal_id"),
+            "name": serverData.get("name"),
+            "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
+            "nicknames": [
+                serverData.get("given_name"),
+                serverData.get("family_name"),
+                *serverData.get("alternate_names", []),
+            ],
+            "favorites": serverData.get("favorites"),
+            "birthday": serverData.get("birthday"),
+            "about": serverData.get("about"),
+            "anime": [],
+            "manga": [],
+            "voices": [],
+        },
+    }
+
+    for item in serverData["anime"]:
+        anime = item.get("anime", {})
+        data = {
+            "id": anime.get("mal_id"),
+            "position": item.get("position"),
+            "title": anime.get("title"),
+            "image": getImageFromImages(anime.get("images", {})).get("image_url"),
+            "large_image": getImageFromImages(anime.get("images", {})).get(
+                "large_image_url"
+            ),
+        }
+
+        returnResponse["data"]["anime"].append(data)
+
+    for item in serverData["manga"]:
+        manga = item.get("manga", {})
+        data = {
+            "id": manga.get("mal_id"),
+            "position": item.get("position"),
+            "title": manga.get("title"),
+            "image": getImageFromImages(manga.get("images", {})).get("image_url"),
+            "large_image": getImageFromImages(manga.get("images", {})).get(
+                "large_image_url"
+            ),
+        }
+
+        returnResponse["data"]["manga"].append(data)
+
+    for item in serverData["voices"]:
+        anime = item.get("anime", {})
+        character = item.get("character", {})
+
+        data = {
+            "id": character.get("mal_id"),
+            "role": item.get("role"),
+            "title": anime.get("title"),
+            "name": character.get("name"),
+            "image": getImageFromImages(anime.get("images", {})).get("image_url"),
+            "character_image": getImageFromImages(character.get("images", {})).get(
+                "image_url"
+            ),
+        }
+
+        returnResponse["data"]["voices"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Anime Character Imaged
+def getPeopleImages(id):
+    path = f"/{id}/pictures"
+
+    serverResponse = peopleBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverData:
+        images = replaceProperty(getImageFromImages(item), "image_url", "url")
+        returnResponse["data"].append(images)
+
+    return returnResponse, 200
+
+
 ##### SEASONAL FUNCTIONS #####
 
 
