@@ -644,7 +644,10 @@ def getCharacterDetails(id):
             "id": serverData.get("mal_id"),
             "name": serverData.get("name"),
             "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
-            "nicknames": serverData.get("nicknames"),
+            "nicknames": [
+                serverData.get("name_kanji"),
+                *serverData.get("nicknames", []),
+            ],
             "favorites": serverData.get("favorites"),
             "about": serverData.get("about"),
             "anime": [],
