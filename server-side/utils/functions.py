@@ -791,10 +791,8 @@ def getStaffDetails(id):
             "role": item.get("role"),
             "title": anime.get("title"),
             "name": character.get("name"),
-            "image": getImageFromImages(anime.get("images", {})).get("image_url"),
-            "character_image": getImageFromImages(character.get("images", {})).get(
-                "image_url"
-            ),
+            "image": getImageFromImages(character.get("images", {})).get("image_url"),
+            "anime_image": getImageFromImages(anime.get("images", {})).get("image_url"),
         }
 
         returnResponse["data"]["voices"].append(data)
