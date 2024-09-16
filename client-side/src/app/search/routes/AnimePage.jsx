@@ -237,7 +237,7 @@ const AnimePage = ({ path, slug, filters }) => {
                     <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap">
                         {animeData.map((item, idx) => (
                             <ItemCardSimple
-                                item={item}
+                                animeData={item}
                                 key={idx}
                                 rank={path === "anime/top" ? idx + 1 : null}
                             />
@@ -251,7 +251,7 @@ const AnimePage = ({ path, slug, filters }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {animeData.map((item, idx) => (
                         <ItemCardGrid
-                            item={item}
+                            animeData={item}
                             key={idx}
                             rank={path === "anime/top" ? idx + 1 : null}
                         />
@@ -264,7 +264,7 @@ const AnimePage = ({ path, slug, filters }) => {
                 <div className="space-y-5">
                     {animeData.map((item, idx) => (
                         <ItemCardList
-                            item={item}
+                            animeData={item}
                             key={idx}
                             rank={path === "anime/top" ? idx + 1 : null}
                         />

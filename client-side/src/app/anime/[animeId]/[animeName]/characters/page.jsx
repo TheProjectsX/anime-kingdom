@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 let animeCharactersPrimaryData = Array(5).fill(null);
@@ -80,9 +81,12 @@ const page = ({ params }) => {
                             className="w-[58px] h-[90px] bg-slate-200"
                         />
                         <div className="py-2.5">
-                            <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                            <Link
+                                href={`/characters/${item.id}`}
+                                className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600"
+                            >
                                 {item.name}
-                            </h3>
+                            </Link>
                             <p className="text-gray-600 text-sm mb-0.5 font-medium">
                                 {item.role}
                             </p>

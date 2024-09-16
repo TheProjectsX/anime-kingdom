@@ -57,7 +57,7 @@ const page = ({ params }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {animeStaffsData.map((item) => (
                 <div
-                    key={item.key}
+                    key={item.id}
                     className="bg-white flex gap-3 items-start hover:cursor-pointer group shadow-sm"
                 >
                     <img
