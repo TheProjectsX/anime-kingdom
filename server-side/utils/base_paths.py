@@ -34,8 +34,8 @@ def charactersBase(path=""):
     return response
 
 
-# Anime People Info Base
-def peopleBase(path=""):
+# Anime Staff Info Base
+def staffBase(path=""):
     path = f"people{path}"
     response = basePath(path)
 

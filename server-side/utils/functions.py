@@ -722,14 +722,14 @@ def getCharacterImages(id):
     return returnResponse, 200
 
 
-##### PEOPLES FUNCTIONS #####
+##### STAFFS FUNCTIONS #####
 
 
-# Get Anime Character Details
-def getPeopleDetails(id):
+# Get Anime Staff Details
+def getStaffDetails(id):
     path = f"/{id}/full"
 
-    serverResponse = peopleBase(path)
+    serverResponse = staffBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
     serverData = serverResponse.get("data")
@@ -802,11 +802,11 @@ def getPeopleDetails(id):
     return returnResponse, 200
 
 
-# Get Anime Character Imaged
-def getPeopleImages(id):
+# Get Anime Staff Imaged
+def getStaffImages(id):
     path = f"/{id}/pictures"
 
-    serverResponse = peopleBase(path)
+    serverResponse = staffBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
     serverData = serverResponse.get("data")

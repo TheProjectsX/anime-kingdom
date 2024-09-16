@@ -210,17 +210,17 @@ PEOPLES ROUTE
 
 
 # Get an Anime Character Details
-@app.route("/peoples/<int:id>")
-def peopleDetails(id):
-    result, statusCode = fns.getPeopleDetails(id)
+@app.route("/staffs/<int:id>")
+def staffDetails(id):
+    result, statusCode = fns.getStaffDetails(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Get an Anime Character Images
-@app.route("/peoples/<int:id>/pictures")
-def peopleImages(id):
-    result, statusCode = fns.getPeopleImages(id)
+@app.route("/staffs/<int:id>/pictures")
+def staffImages(id):
+    result, statusCode = fns.getStaffImages(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
