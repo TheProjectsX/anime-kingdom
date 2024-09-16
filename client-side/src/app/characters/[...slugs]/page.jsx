@@ -14,57 +14,6 @@ const page = async ({ params }) => {
         path = "/";
     }
 
-    // const animeCharacterData = {
-    //     id: 213637,
-    //     name: "Anna Yanami",
-    //     image: "https://cdn.myanimelist.net/images/characters/16/542560.jpg",
-    //     nicknames: ["八奈見杏菜", "Yanna-chan"],
-    //     favorites: 778,
-    //     about: "Birthday: November 29\nHeight: 156 cm\n\nOne of the loser heroines. She is the popular girl in Kazuhiko's class with a bright and charming personality. Though she's often the target of many other boys' affections, she's had a long-lasting crush on her childhood friend S\u014dsuke Hakamada, who never reciprocated her feelings at all and instead started dating her rival Karen Himemiya, much to her frustration and inner jealousy. She is a glutton and is often seen eating.\n\n(Source: Wikipedia)",
-    //     anime: [
-    //         {
-    //             id: 57524,
-    //             role: "Main",
-    //             title: "Make Heroine ga Oosugiru!",
-    //             image: "https://cdn.myanimelist.net/images/anime/1332/143513.jpg?s=1f475fae976c3792122184198befe3ad",
-    //             large_image:
-    //                 "https://cdn.myanimelist.net/images/anime/1332/143513l.jpg?s=1f475fae976c3792122184198befe3ad",
-    //         },
-    //     ],
-    //     manga: [
-    //         {
-    //             id: 138481,
-    //             role: "Main",
-    //             title: "Make Heroine ga Oosugiru!",
-    //             image: "https://cdn.myanimelist.net/images/manga/2/248592.jpg?s=3ee0c724bceb2ee802bca47d79ba9819",
-    //             large_image:
-    //                 "https://cdn.myanimelist.net/images/manga/2/248592l.jpg?s=3ee0c724bceb2ee802bca47d79ba9819",
-    //         },
-    //         {
-    //             id: 146732,
-    //             role: "Main",
-    //             title: "Make Heroine ga Oosugiru! @comic",
-    //             image: "https://cdn.myanimelist.net/images/manga/3/270079.jpg?s=62e82d1dd73b05ac222c0e3c7787c37a",
-    //             large_image:
-    //                 "https://cdn.myanimelist.net/images/manga/3/270079l.jpg?s=62e82d1dd73b05ac222c0e3c7787c37a",
-    //         },
-    //     ],
-    //     voices: [
-    //         {
-    //             id: 48506,
-    //             name: "Toono, Hikaru",
-    //             language: "Japanese",
-    //             image: "https://cdn.myanimelist.net/images/voiceactors/1/79680.jpg",
-    //         },
-    //         {
-    //             id: 60509,
-    //             name: "Mellon, Trisha",
-    //             language: "English",
-    //             image: "https://cdn.myanimelist.net/images/voiceactors/2/70272.jpg",
-    //         },
-    //     ],
-    // };
-
     const serverResponse = await (
         await fetch(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/characters/${slugs[0]}`

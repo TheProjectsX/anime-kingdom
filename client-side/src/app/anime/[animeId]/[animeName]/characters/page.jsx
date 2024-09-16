@@ -74,19 +74,19 @@ const page = ({ params }) => {
                     className="bg-white flex justify-between items-start shadow-sm"
                 >
                     {/* Character */}
-                    <div className="flex gap-3 items-start hover:cursor-pointer group flex-grow">
+                    <Link
+                        href={`/characters/${item.id}`}
+                        className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
+                    >
                         <img
                             src={item.image}
                             alt={item.name}
                             className="w-[58px] h-[90px] bg-slate-200"
                         />
                         <div className="py-2.5">
-                            <Link
-                                href={`/characters/${item.id}`}
-                                className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600"
-                            >
+                            <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
                                 {item.name}
-                            </Link>
+                            </h4>
                             <p className="text-gray-600 text-sm mb-0.5 font-medium">
                                 {item.role}
                             </p>
@@ -94,13 +94,14 @@ const page = ({ params }) => {
                                 {item.favorites} Favorites
                             </p>
                         </div>
-                    </div>
+                    </Link>
 
                     {/* Voice Actors */}
                     <div className="space-y-2 flex-grow">
                         {item.voice_actors.map((va) => (
-                            <div
+                            <Link
                                 key={va.id}
+                                href={`/staffs/${va.id}`}
                                 className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                             >
                                 <img
@@ -116,7 +117,7 @@ const page = ({ params }) => {
                                         {va.language}
                                     </p>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

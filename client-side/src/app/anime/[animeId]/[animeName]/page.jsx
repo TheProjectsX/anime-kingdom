@@ -25,10 +25,9 @@ const page = ({ params }) => {
             </div>
         );
     };
-
     return (
         <div className="space-y-8">
-            <header>
+            <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Anime Rating Info
                 </p>
@@ -56,9 +55,9 @@ const page = ({ params }) => {
                         info={`#${animeBaseData.members}`}
                     /> */}
                 </div>
-            </header>
+            </section>
 
-            <div>
+            <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Anime Rating Info
                 </p>
@@ -106,9 +105,9 @@ const page = ({ params }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Trailer
                 </p>
@@ -121,7 +120,7 @@ const page = ({ params }) => {
                         allowFullScreen
                     ></iframe>
                 </p>
-            </div>
+            </section>
         </div>
     );
 };
