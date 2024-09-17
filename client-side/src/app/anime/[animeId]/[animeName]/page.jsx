@@ -1,11 +1,18 @@
 "use client";
 
 import AnimeDataContext from "@/context/AnimeDataContext";
+import Link from "next/link";
 import { useContext } from "react";
 
 const page = ({ params }) => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
+
+    function capitalizeWord(word) {
+        if (!word) return ""; // Handle empty strings
+
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
 
     const HeaderCard = ({ header, info, infoTitle }) => {
         return (
@@ -27,6 +34,36 @@ const page = ({ params }) => {
     };
     return (
         <div className="space-y-8">
+            <section>
+                <p className="font-semibold text-xl text-gray-600 mb-4">
+                    Relations
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    {animeBaseData.related?.map((item, idx) =>
+                        item.entry?.map((ent) => (
+                            <Link
+                                key={ent.mal_id}
+                                href={`/${ent.type.replace(" ", "-")}/${
+                                    ent.mal_id
+                                }`}
+                                className="bg-white p-4 rounded-lg shadow-md group"
+                            >
+                                <p className="text-sm font-semibold text-[dodgerBlue] mb-3 group-hover:text-gray-500">
+                                    {item.relation}
+                                </p>
+                                <h4 className="font-suse font-semibold text-gray-500 mb-2 group-hover:text-[dodgerBlue]">
+                                    {ent.name}
+                                </h4>
+                                <p className="text-sm text-gray-500">
+                                    {capitalizeWord(ent.type)}
+                                </p>
+                            </Link>
+                        ))
+                    )}
+                </div>
+            </section>
+
             <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Anime Rating Info
