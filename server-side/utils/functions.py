@@ -4,6 +4,7 @@ import urllib.parse
 import requests
 import time
 
+# TODO: change from (if not serverData to equivalent)
 
 ##### ANIME FUNCTIONS #####
 
@@ -813,6 +814,37 @@ def getMangaReviews(id, page=1, spoilers="false", preliminary="true"):
         data["user"] = user
 
         returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Manga Recommendations of an Manga Watchers
+def getMangaRecommendations(id):
+    path = f"/{id}/recommendations"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverData:
+        entry = item.get("entry", {})
+        image = getImageFromImages(entry.get("images", {})).get("image_url")
+        data = replaceProperty(removeProperty(entry, ["url", "images"]), "mal_id", "id")
+        data["image"] = image
+        data["votes"] = item.get("votes")
+        data["mal_recommendation"] = item.get("url")
+
+        returnResponse["data"].append(data)
+        if len(returnResponse["data"]) == 25:
+            break
 
     return returnResponse, 200
 

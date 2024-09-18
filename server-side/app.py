@@ -233,6 +233,14 @@ def mangaReviews(id):
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get an Manga Recommendations
+@app.route("/manga/<int:id>/recommendations")
+def mangaRecommendations(id):
+    result, statusCode = fns.getMangaRecommendations(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 """
 CHARACTERS ROUTE
 """
