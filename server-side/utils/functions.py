@@ -990,6 +990,23 @@ def getMangaRecommendations(id):
     return returnResponse, 200
 
 
+# Get Manga Genres
+def getMangaGenres():
+    path = f"/manga"
+
+    serverResponse = genresBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    returnResponse = {
+        "success": True,
+        "data": replaceProperty(removeProperty(serverData, "url"), "mal_id", "id"),
+    }
+
+    return returnResponse, 200
+
+
 ##### CHARACTERS FUNCTIONS #####
 
 
@@ -1716,6 +1733,41 @@ def getAnimeFilters():
             ),
             "years": years,
             "seasons": seasons,
+            "type": animeType,
+            "status": status,
+        },
+    }
+
+    return returnResponse, 200
+
+
+# Get Manga Filters
+def getMangaFilters():
+    genres, _ = getMangaGenres()
+
+    animeType = [
+        {"value": "manga", "label": "Manga"},
+        {"value": "novel", "label": "Novel"},
+        {"value": "lightnovel", "label": "Light Novel"},
+        {"value": "oneshot", "label": "One-shot"},
+        {"value": "doujin", "label": "Doujin"},
+        {"value": "manhwa", "label": "Manhwa"},
+        {"value": "manhua", "label": "Manhua"},
+    ]
+    status = [
+        {"value": "publishing", "label": "Publishing"},
+        {"value": "complete", "label": "Complete"},
+        {"value": "hiatus", "label": "Hiatus"},
+        {"value": "discontinued", "label": "Discontinued"},
+        {"value": "upcoming", "label": "Upcoming"},
+    ]
+
+    returnResponse = {
+        "success": True,
+        "data": {
+            "genres": replaceProperty(
+                replaceProperty(genres.get("data", []), "id", "value"), "name", "label"
+            ),
             "type": animeType,
             "status": status,
         },

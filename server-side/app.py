@@ -35,7 +35,7 @@ ANIME ROUTES
 """
 
 
-# Get Filter Options
+# Get Filter Options of Anime
 @app.route("/anime/filters")
 def animeFilterOptions():
     result, statusCode = fns.getAnimeFilters()
@@ -193,6 +193,14 @@ def animeVideos(id):
 """
 MANGA ROUTES
 """
+
+
+# Get Filter Options of Manga
+@app.route("/manga/filters")
+def mangaFilterOptions():
+    result, statusCode = fns.getMangaFilters()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
 # Search for Anime
