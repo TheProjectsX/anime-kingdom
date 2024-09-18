@@ -211,6 +211,14 @@ def mangaCharacters(id):
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get an Manga Images
+@app.route("/manga/<int:id>/pictures")
+def mangaImages(id):
+    result, statusCode = fns.getMangaPictures(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 """
 CHARACTERS ROUTE
 """
@@ -227,7 +235,7 @@ def characterDetails(id):
 # Get an Anime Character Images
 @app.route("/characters/<int:id>/pictures")
 def characterImages(id):
-    result, statusCode = fns.getCharacterImages(id)
+    result, statusCode = fns.getCharacterPictures(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -248,7 +256,7 @@ def staffDetails(id):
 # Get an Anime Character Images
 @app.route("/staffs/<int:id>/pictures")
 def staffImages(id):
-    result, statusCode = fns.getStaffImages(id)
+    result, statusCode = fns.getStaffPictures(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -377,7 +385,7 @@ def waifuCategories():
 def waifuImages(type, category):
     limit = request.args.get("limit", 20)
 
-    result, statusCode = fns.getWaifuImages(type, category, limit)
+    result, statusCode = fns.getWaifuPictures(type, category, limit)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

@@ -755,6 +755,29 @@ def getMangaCharacters(id):
     return returnResponse, 200
 
 
+# Get Manga Imaged
+def getMangaPictures(id):
+    path = f"/{id}/pictures"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverData:
+        images = replaceProperty(getImageFromImages(item), "image_url", "url")
+        returnResponse["data"].append(images)
+
+    return returnResponse, 200
+
+
 ##### CHARACTERS FUNCTIONS #####
 
 
@@ -828,8 +851,8 @@ def getCharacterDetails(id):
     return returnResponse, 200
 
 
-# Get Anime Character Imaged
-def getCharacterImages(id):
+# Get Anime Character Pictures
+def getCharacterPictures(id):
     path = f"/{id}/pictures"
 
     serverResponse = charactersBase(path)
@@ -930,7 +953,7 @@ def getStaffDetails(id):
 
 
 # Get Anime Staff Imaged
-def getStaffImages(id):
+def getStaffPictures(id):
     path = f"/{id}/pictures"
 
     serverResponse = staffBase(path)
@@ -1327,8 +1350,8 @@ def getWaifuImgCategories():
     return returnResponse, 200
 
 
-# Get Waifu Images
-def getWaifuImages(type="sfw", category="waifu", limit=20):
+# Get Waifu Pictures
+def getWaifuPictures(type="sfw", category="waifu", limit=20):
     url = f"{WAIFU_BASE}/many/{type}/{category}"
 
     try:
