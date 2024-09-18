@@ -195,6 +195,58 @@ MANGA ROUTES
 """
 
 
+# Search for Anime
+@app.route("/manga/search")
+def searchManga():
+    searchQuery = request.args.get("query", "")
+    limit = request.args.get("limit", 12)
+
+    result, statusCode = fns.getSearchedManga(searchQuery, limit=limit)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Anime by Filters
+@app.route("/manga/filter")
+def mangaByFilter():
+    query = request.args.get("query", "")
+    genres = request.args.get("genres", "")
+    typeA = request.args.get("type", "")
+    status = request.args.get("status", "")
+    rating = request.args.get("rating", "")
+
+    min_score = request.args.get("min_score", 1)
+    max_score = request.args.get("max_score", "")
+
+    page = request.args.get("page", 1)
+    limit = request.args.get("limit", 20)
+    order_by = request.args.get("order_by", "")
+    start_date = request.args.get("start_date", "")
+    end_date = request.args.get("end_date", "")
+
+    sfw = request.args.get("sfw", "true")
+
+    result, statusCode = fns.getFilteredManga(
+        query=query,
+        filters={
+            "genres": genres,
+            "type": typeA,
+            "status": status,
+            "rating": rating,
+        },
+        sfw=sfw,
+        min_score=min_score,
+        max_score=max_score,
+        page=page,
+        limit=limit,
+        order_by=order_by,
+        start_date=start_date,
+        end_date=end_date,
+    )
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 # Get an Manga common Data
 @app.route("/manga/<int:id>")
 def mangaDetails(id):

@@ -648,6 +648,147 @@ def getAnimeGenres():
 ##### MANGA FUNCTIONS #####
 
 
+# Search an Manga
+def getSearchedManga(query="", limit=12):
+    path = f"?q={query}&limit={limit}"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data")
+
+    if not data:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverResponse["data"]:
+        data = {
+            "id": item.get("mal_id"),
+            "title": item.get("title"),
+            "title_english": item.get("title_english", ""),
+            "title_japanese": item.get("title_japanese", ""),
+            "image": getImageFromImages(item.get("images", {})).get(
+                "large_image_url", ""
+            ),
+            "type": item.get("type"),
+            "status": item.get("status"),
+            "published": {
+                "from": item.get("published", {}).get("from"),
+                "to": item.get("published", {}).get("to"),
+                "string": item.get("published", {}).get("string"),
+            },
+            "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Filtered Anime
+def getFilteredManga(
+    query="",
+    filters={
+        "type": "",
+        "status": "",
+        "rating": "",
+        "genres": "",
+    },
+    sfw="true",
+    min_score=1,
+    max_score="",
+    page=1,
+    limit=20,
+    order_by="",
+    start_date="",
+    end_date="",
+):
+    if type(filters) is not dict:
+        filters = {}
+
+    filters.update(
+        {"order_by": order_by, "start_date": start_date, "end_date": end_date}
+    )
+    path = f"?q={query}&page={page}&limit={limit}&sfw={sfw}&min_score={min_score}&max_score={max_score}"
+
+    for key, value in filters.items():
+        if value == "":
+            continue
+        path += f"&{key}={value}"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    serverPagination = serverResponse.get("pagination", {})
+    pagination = {
+        "has_next_page": serverPagination.get("has_next_page"),
+        "pages_count": serverPagination.get("last_visible_page"),
+        "total_count": serverPagination.get("items", {}).get("total"),
+        "current_count": serverPagination.get("items", {}).get("count"),
+    }
+
+    returnResponse = {
+        "success": True,
+        "pagination": pagination,
+        "data": [],
+    }
+
+    for item in serverData:
+        data = {
+            "id": item.get("mal_id"),
+            "title": item.get("title"),
+            "title_english": item.get("title_english", ""),
+            "title_japanese": item.get("title_japanese", ""),
+            "synopsis": item.get("synopsis"),
+            "chapters": item.get("chapters"),
+            "volumes": item.get("volumes"),
+            "image": getImageFromImages(item.get("images", {})).get("image_url"),
+            "type": item.get("type"),
+            "source": item.get("source"),
+            "status": item.get("status"),
+            "published": {
+                "from": item.get("published", {}).get("from"),
+                "to": item.get("published", {}).get("to"),
+                "string": item.get("published", {}).get("string"),
+            },
+            "mal_rank": item.get("rank"),
+            "score": item.get("score"),
+            "scored_by": item.get("scored_by"),
+            "authors": replaceProperty(
+                removeProperty(item.get("authors", []), ["url"]), "mal_id", "id"
+            ),
+            "studios": replaceProperty(
+                removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
+            ),
+            "genres": replaceProperty(
+                removeProperty(item.get("genres", []), ["url"]), "mal_id", "id"
+            ),
+            "themes": replaceProperty(
+                removeProperty(item.get("themes", []), ["url"]), "mal_id", "id"
+            ),
+            "demographics": replaceProperty(
+                removeProperty(item.get("demographics", []), ["url"]), "mal_id", "id"
+            ),
+        }
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
 # Get Manga Statistics
 def getMangaStatistics(id):
     path = f"/{id}/statistics"
