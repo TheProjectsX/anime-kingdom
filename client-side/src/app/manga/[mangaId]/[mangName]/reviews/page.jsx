@@ -3,20 +3,20 @@
 import { Avatar, Tooltip } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 
-let animeReviewPrimaryData = Array(5).fill(null);
+let mangaReviewPrimaryData = Array(5).fill(null);
 
 const page = ({ params }) => {
-    const [animeReviewData, setAnimeReviewData] = useState(
-        animeReviewPrimaryData
+    const [mangaReviewData, setMangaReviewData] = useState(
+        mangaReviewPrimaryData
     );
 
-    const { animeId } = params;
+    const { mangaId } = params;
 
     useEffect(() => {
         const loadData = async () => {
             const serverResponse = await (
                 await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/reviews`
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/manga/${mangaId}/reviews`
                 )
             ).json();
 
@@ -25,12 +25,12 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            animeReviewPrimaryData = serverResponse.data ?? [];
-            setAnimeReviewData(serverResponse.data ?? []);
+            mangaReviewPrimaryData = serverResponse.data ?? [];
+            setMangaReviewData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (animeReviewPrimaryData.every((item) => !item)) {
+        if (mangaReviewPrimaryData.every((item) => !item)) {
             loadData();
         }
     }, []);
@@ -46,7 +46,7 @@ const page = ({ params }) => {
         return `${day} ${month}, ${year}`;
     };
     // If every animeReviewData is null, return skeleton
-    if (animeReviewData.every((item) => !item)) {
+    if (mangaReviewData.every((item) => !item)) {
         return (
             <div>
                 <h4 className="text-3xl font-semibold font-suse text-gray-600 mb-3">
@@ -55,7 +55,7 @@ const page = ({ params }) => {
 
                 {/* Review Cards Wrapper */}
                 <div className="space-y-5">
-                    {animeReviewData.map((item, idx) => (
+                    {mangaReviewData.map((item, idx) => (
                         <article
                             key={idx}
                             className="bg-white rounded-md p-3 shadow-md"
@@ -87,7 +87,7 @@ const page = ({ params }) => {
 
             {/* Review Cards Wrapper */}
             <div className="space-y-5">
-                {animeReviewData.map((item) => (
+                {mangaReviewData.map((item) => (
                     <article
                         key={item.id}
                         className="bg-white rounded-md p-3 shadow-md"

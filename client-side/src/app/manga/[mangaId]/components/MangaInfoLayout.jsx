@@ -1,10 +1,10 @@
 "use client";
 
 import { Fragment } from "react";
-import AnimeDataContext from "@/context/AnimeDataContext";
+import MangaDataContext from "@/context/MangaDataContext";
 import Link from "next/link";
 
-const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
+const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -40,20 +40,20 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
         );
     };
 
-    const baseUrl = `/anime/${animeId}/${
-        animeBaseData.title_english
+    const baseUrl = `/manga/${mangaId}/${
+        mangaBaseData.title_english
             ?.replace(/[^a-zA-Z\s]/g, "")
             .replace(/\s+/g, "-") ??
-        animeBaseData.title?.replace(/[^a-zA-Z\s]/g, "").replace(/\s+/g, "-")
+        mangaBaseData.title?.replace(/[^a-zA-Z\s]/g, "").replace(/\s+/g, "-")
     }`;
 
     return (
-        <AnimeDataContext.Provider value={{ animeBaseData }}>
+        <MangaDataContext.Provider value={{ mangaBaseData: mangaBaseData }}>
             <main className="max-width !px-0 mb-10">
                 <div className="">
                     <img
-                        src={animeBaseData.banner}
-                        alt={animeBaseData.title_english ?? animeBaseData.title}
+                        src={mangaBaseData.banner}
+                        alt={mangaBaseData.title_english ?? mangaBaseData.title}
                         className="w-full"
                     />
                 </div>
@@ -62,10 +62,10 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                     <header className="flex gap-4 bg-white p-5 pb-3">
                         <div className="flex-shrink-0 w-52 -mt-20">
                             <img
-                                src={animeBaseData.image_large}
+                                src={mangaBaseData.image_large}
                                 alt={
-                                    animeBaseData.title_english ??
-                                    animeBaseData.title
+                                    mangaBaseData.title_english ??
+                                    mangaBaseData.title
                                 }
                                 className="w-full h-[295px] mb-2"
                             />
@@ -76,11 +76,11 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                         <div className="flex flex-col">
                             <article className="flex-grow mb-2.5">
                                 <h1 className="text-2xl font-semibold font-suse mb-4 text-gray-600">
-                                    {animeBaseData.title_english ??
-                                        animeBaseData.title}
+                                    {mangaBaseData.title_english ??
+                                        mangaBaseData.title}
                                 </h1>
                                 <p className="text-gray-600 flex-grow">
-                                    {animeBaseData.synopsis
+                                    {mangaBaseData.synopsis
                                         .slice(0, 290)
                                         .trim()}
                                     ...{" "}
@@ -88,7 +88,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                         className="text-xs cursor-pointer hover:underline underline-offset-2"
                                         onClick={(e) =>
                                             (e.target.parentElement.innerHTML =
-                                                animeBaseData.synopsis)
+                                                mangaBaseData.synopsis)
                                         }
                                     >
                                         read more
@@ -110,23 +110,10 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                     Characters
                                 </Link>
                                 <Link
-                                    href={`${baseUrl}/staffs`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Staffs
-                                </Link>
-                                <Link
                                     href={`${baseUrl}/reviews`}
                                     className="px-2 py-1 hover:text-[dodgerBlue]"
                                 >
                                     Review
-                                </Link>
-
-                                <Link
-                                    href={`${baseUrl}/videos`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Videos
                                 </Link>
                                 <Link
                                     href={`${baseUrl}/pictures`}
@@ -145,43 +132,38 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 heading={"Type"}
                                 info={
                                     animeType[
-                                        animeBaseData.type?.toLowerCase()
-                                    ] ?? animeBaseData.type
+                                        mangaBaseData.type?.toLowerCase()
+                                    ] ?? mangaBaseData.type
                                 }
                             />
                             <InfoItems
-                                heading={"Episodes"}
-                                info={animeBaseData.episodes}
+                                heading={"Chapters"}
+                                info={mangaBaseData.chapters ?? "Unknown"}
                             />
                             <InfoItems
-                                heading={"Duration"}
-                                info={
-                                    animeBaseData.type?.toLowerCase() ===
-                                    "movie"
-                                        ? `${animeBaseData.duration[0]} hour(s), ${animeBaseData.duration[1]} mins`
-                                        : `${animeBaseData.duration ?? 0} mins`
-                                }
+                                heading={"Volumes"}
+                                info={mangaBaseData.volumes ?? "Unknown"}
                             />
                             <InfoItems
                                 heading={"Status"}
-                                info={animeBaseData.status}
+                                info={mangaBaseData.status}
                             />
                             <InfoItems
                                 heading={"Season"}
                                 info={`${capitalizeWord(
-                                    animeBaseData.season
-                                )} ${animeBaseData.year}`}
+                                    mangaBaseData.season
+                                )} ${mangaBaseData.year}`}
                             />
                             <InfoItems
                                 heading={"Start Date"}
-                                info={formatDate(animeBaseData.aired?.from)}
+                                info={formatDate(mangaBaseData.published?.from)}
                             />
                             <InfoItems
                                 heading={"End Date"}
-                                info={formatDate(animeBaseData.aired?.to)}
+                                info={formatDate(mangaBaseData.published?.to)}
                             />
 
-                            {animeBaseData.titles.map((item, idx) => (
+                            {mangaBaseData.titles.map((item, idx) => (
                                 <InfoItems
                                     key={idx}
                                     heading={item.type}
@@ -191,27 +173,28 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
 
                             <InfoItems
                                 heading={"Score"}
-                                info={animeBaseData.score}
+                                info={mangaBaseData.score}
                             />
                             <InfoItems
                                 heading={"Scored By"}
-                                info={animeBaseData.scored_by}
+                                info={mangaBaseData.scored_by}
                             />
                             <InfoItems
                                 heading={"Rank (MAL)"}
-                                info={`#${animeBaseData.mal_rank}`}
+                                info={`#${mangaBaseData.mal_rank}`}
                             />
                             <InfoItems
-                                heading={"Rating"}
-                                info={animeBaseData.rating}
-                            />
-                            <InfoItems
-                                heading={"Source"}
-                                info={animeBaseData.source}
+                                heading={"Authors"}
+                                info={mangaBaseData.authors?.map((item) => (
+                                    <Fragment key={item.mal_id}>
+                                        {item.name}
+                                        <br />
+                                    </Fragment>
+                                ))}
                             />
                             <InfoItems
                                 heading={"Genres"}
-                                info={animeBaseData.genres.map((item) => (
+                                info={mangaBaseData.genres?.map((item) => (
                                     <Fragment key={item.mal_id}>
                                         {item.name}
                                         <br />
@@ -220,25 +203,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Themes"}
-                                info={animeBaseData.themes.map((item) => (
-                                    <Fragment key={item.mal_id}>
-                                        {item.name}
-                                        <br />
-                                    </Fragment>
-                                ))}
-                            />
-                            <InfoItems
-                                heading={"Studios"}
-                                info={animeBaseData.studios.map((item) => (
-                                    <Fragment key={item.mal_id}>
-                                        {item.name}
-                                        <br />
-                                    </Fragment>
-                                ))}
-                            />
-                            <InfoItems
-                                heading={"Producers"}
-                                info={animeBaseData.producers.map((item) => (
+                                info={mangaBaseData.themes?.map((item) => (
                                     <Fragment key={item.mal_id}>
                                         {item.name}
                                         <br />
@@ -249,21 +214,8 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <div className="divider !mt-0"></div>
 
                             <InfoItems
-                                className="!mt-0"
-                                heading={"Streaming"}
-                                info={animeBaseData.streaming.map(
-                                    (item, idx) => (
-                                        <Fragment key={idx}>
-                                            {item.name}
-                                            <br />
-                                        </Fragment>
-                                    )
-                                )}
-                            />
-
-                            <InfoItems
                                 heading={"External"}
-                                info={animeBaseData.external.map(
+                                info={mangaBaseData.external.map(
                                     (item, idx) => (
                                         <Fragment key={idx}>
                                             {item.name}
@@ -277,8 +229,8 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                     </div>
                 </div>
             </main>
-        </AnimeDataContext.Provider>
+        </MangaDataContext.Provider>
     );
 };
 
-export default AnimeInfoLayout;
+export default MangaInfoLayout;

@@ -1,25 +1,25 @@
 "use client";
 
-import AnimeDataContext from "@/context/AnimeDataContext";
+import MangaDataContext from "@/context/MangaDataContext";
 import { useContext, useEffect, useState } from "react";
 
-let animePicturesPrimaryData = Array(5).fill(null);
+let mangaPicturesPrimaryData = Array(5).fill(null);
 
 const page = ({ params }) => {
-    const context = useContext(AnimeDataContext);
-    const { animeBaseData } = context;
+    const context = useContext(MangaDataContext);
+    const { mangaBaseData } = context;
 
-    const [animePicturesData, setAnimePicturesData] = useState(
-        animePicturesPrimaryData
+    const [mangaPicturesData, setMangaPicturesData] = useState(
+        mangaPicturesPrimaryData
     );
 
-    const { animeId } = params;
+    const { mangaId } = params;
 
     useEffect(() => {
         const loadData = async () => {
             const serverResponse = await (
                 await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/pictures`
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/manga/${mangaId}/pictures`
                 )
             ).json();
 
@@ -28,21 +28,21 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            animePicturesPrimaryData = serverResponse.data ?? [];
-            setAnimePicturesData(serverResponse.data ?? []);
+            mangaPicturesPrimaryData = serverResponse.data ?? [];
+            setMangaPicturesData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (animePicturesPrimaryData.every((item) => !item)) {
+        if (mangaPicturesPrimaryData.every((item) => !item)) {
             loadData();
         }
     }, []);
 
     // If every animePicturesData is null, return skeleton
-    if (animePicturesData.every((item) => !item)) {
+    if (mangaPicturesData.every((item) => !item)) {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-                {animePicturesData.map((item, idx) => (
+                {mangaPicturesData.map((item, idx) => (
                     <div
                         key={idx}
                         className="w-[90%] sm:w-[80%] pb-[114%] skeleton rounded-none"
@@ -54,7 +54,7 @@ const page = ({ params }) => {
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-            {animePicturesData.map((item, idx) => (
+            {mangaPicturesData.map((item, idx) => (
                 <div key={idx} className="w-[90%] sm:w-[80%]">
                     <a
                         href={item.large_image_url}
@@ -64,8 +64,8 @@ const page = ({ params }) => {
                         <img
                             src={item.large_image_url}
                             alt={
-                                animeBaseData.title_english ??
-                                animeBaseData.title
+                                mangaBaseData.title_english ??
+                                mangaBaseData.title
                             }
                             className="w-full shadow-md bg-gray-500 hover:scale-110 transition-[transform] duration-300 cursor-pointer"
                         />

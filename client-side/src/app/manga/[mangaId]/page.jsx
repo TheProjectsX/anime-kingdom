@@ -1,20 +1,20 @@
 "use client";
 
-import AnimeDataContext from "@/context/AnimeDataContext";
+import MangaDataContext from "@/context/MangaDataContext";
 import { redirect } from "next/navigation";
 import { useContext } from "react";
 
 const page = ({ params }) => {
-    const context = useContext(AnimeDataContext);
-    const { animeBaseData } = context;
+    const context = useContext(MangaDataContext);
+    const { mangaBaseData } = context;
 
-    const { animeId } = params;
+    const { mangaId } = params;
     return redirect(
-        `/anime/${animeId}/${
-            animeBaseData.title_english
+        `/manga/${mangaId}/${
+            mangaBaseData.title_english
                 ?.replace(/[^a-zA-Z\s]/g, "")
                 .replace(/\s+/g, "-") ??
-            animeBaseData.title
+            mangaBaseData.title
                 ?.replace(/[^a-zA-Z\s]/g, "")
                 .replace(/\s+/g, "-")
         }`

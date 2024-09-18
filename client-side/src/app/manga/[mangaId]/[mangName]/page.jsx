@@ -1,12 +1,12 @@
 "use client";
 
-import AnimeDataContext from "@/context/AnimeDataContext";
+import MangaDataContext from "@/context/MangaDataContext";
 import Link from "next/link";
 import { useContext } from "react";
 
 const page = ({ params }) => {
-    const context = useContext(AnimeDataContext);
-    const { animeBaseData } = context;
+    const context = useContext(MangaDataContext);
+    const { mangaBaseData } = context;
 
     function capitalizeWord(word) {
         if (!word) return ""; // Handle empty strings
@@ -24,7 +24,7 @@ const page = ({ params }) => {
                     className="text-xl font-medium text-gray-500"
                     title={
                         infoTitle &&
-                        `Scored By: ${animeBaseData.scored_by} members`
+                        `Scored By: ${mangaBaseData.scored_by} members`
                     }
                 >
                     {info}
@@ -35,12 +35,25 @@ const page = ({ params }) => {
     return (
         <div className="space-y-8">
             <section>
+                <p className="font-semibold text-xl text-gray-600 mb-3">
+                    Background
+                </p>
+                <p className="text-gray-600">
+                    {mangaBaseData.background ?? (
+                        <span className="italic font-semibold text-gray-600">
+                            No Info Available
+                        </span>
+                    )}
+                </p>
+            </section>
+
+            <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Relations
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {animeBaseData.related?.map((item, idx) =>
+                    {mangaBaseData.related?.map((item, idx) =>
                         item.entry?.map((ent) => (
                             <Link
                                 key={ent.mal_id}
@@ -66,37 +79,33 @@ const page = ({ params }) => {
 
             <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
-                    Anime Rating Info
+                    Manga Rating Info
                 </p>
                 <div className="flex justify-evenly flex-wrap gap-4">
                     {" "}
                     <HeaderCard
                         header={"Score"}
-                        info={`#${animeBaseData.score}`}
-                        infoTitle={`Scored By: ${animeBaseData.scored_by} members`}
+                        info={`#${mangaBaseData.score}`}
+                        infoTitle={`Scored By: ${mangaBaseData.scored_by} members`}
                     />
                     <HeaderCard
                         header={"Rank"}
-                        info={`#${animeBaseData.mal_rank}`}
+                        info={`#${mangaBaseData.mal_rank}`}
                     />
                     <HeaderCard
                         header={"Popularity"}
-                        info={`#${animeBaseData.popularity}`}
+                        info={`#${mangaBaseData.popularity}`}
                     />
                     <HeaderCard
                         header={"Favorites"}
-                        info={`#${animeBaseData.favorites}`}
+                        info={`#${mangaBaseData.favorites}`}
                     />
-                    {/* <HeaderCard
-                        header={"Members"}
-                        info={`#${animeBaseData.members}`}
-                    /> */}
                 </div>
             </section>
 
             <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
-                    Anime Statistics
+                    Manga Statistics
                 </p>
                 <div className="p-5 rounded-lg bg-white">
                     <div className="flex gap-2 items-center text-center *:flex-grow">
@@ -105,7 +114,7 @@ const page = ({ params }) => {
                                 Watching
                             </h4>
                             <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.watching}
+                                {mangaBaseData.statistics.watching}
                             </p>
                         </div>
                         <div>
@@ -113,7 +122,7 @@ const page = ({ params }) => {
                                 Completed
                             </h4>
                             <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.completed}
+                                {mangaBaseData.statistics.completed}
                             </p>
                         </div>
                         <div>
@@ -121,7 +130,7 @@ const page = ({ params }) => {
                                 On Hold
                             </h4>
                             <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.on_hold}
+                                {mangaBaseData.statistics.on_hold}
                             </p>
                         </div>
                         <div>
@@ -129,7 +138,7 @@ const page = ({ params }) => {
                                 Dropped
                             </h4>
                             <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.dropped}
+                                {mangaBaseData.statistics.dropped}
                             </p>
                         </div>
                         <div>
@@ -137,26 +146,11 @@ const page = ({ params }) => {
                                 Watch list
                             </h4>
                             <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.plan_to_watch}
+                                {mangaBaseData.statistics.plan_to_watch}
                             </p>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section>
-                <p className="font-semibold text-xl text-gray-600 mb-4">
-                    Trailer
-                </p>
-                <p align="center">
-                    <iframe
-                        width="560"
-                        height="315"
-                        src={animeBaseData.trailer?.embed}
-                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
-                </p>
             </section>
         </div>
     );
