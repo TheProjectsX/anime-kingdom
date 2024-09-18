@@ -321,10 +321,10 @@ def studioDetails(id):
 def studioAnime(id):
     page = request.args.get("page", 1)
     limit = request.args.get("limit", 20)
-    orderBy = request.args.get("orderBy", 20)
+    orderBy = request.args.get("orderBy", "start_date")
 
     result, statusCode = fns.getFilteredAnime(
-        producers=id, order_by=orderBy, page=page, limit=limit
+        producers=id, order_by=orderBy, sort="desc", page=page, limit=limit
     )
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

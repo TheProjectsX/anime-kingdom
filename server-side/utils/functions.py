@@ -104,6 +104,7 @@ def getFilteredAnime(
     page=1,
     limit=20,
     producers="",
+    sort="asc",
     order_by="",
     start_date="",
     end_date="",
@@ -114,7 +115,7 @@ def getFilteredAnime(
     filters.update(
         {"order_by": order_by, "start_date": start_date, "end_date": end_date}
     )
-    path = f"?q={query}&page={page}&limit={limit}&producers={producers}&sfw={sfw}&min_score={min_score}&max_score={max_score}"
+    path = f"?q={query}&page={page}&limit={limit}&sort={sort}&producers={producers}&sfw={sfw}&min_score={min_score}&max_score={max_score}"
 
     for key, value in filters.items():
         if value == "":
@@ -1048,7 +1049,7 @@ def getStudioDetails(id):
     mangaData = {
         "id": serverData.get("mal_id"),
         "title": (serverData.get("titles")[0 : 0 + 1] or [{}])[0].get("title"),
-        "titles": serverData.get("titles", []),
+        "titles": [x.get("title") for x in serverData.get("titles", [])],
         "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
         "about": serverData.get("about"),
         "favorites": serverData.get("favorites"),
