@@ -34,6 +34,14 @@ def mangaBase(path=""):
     return response
 
 
+# Anime Info Base Path
+def studioBase(path=""):
+    path = f"producers{path}"
+    response = basePath(path)
+
+    return response
+
+
 # Anime Characters Info Base
 def charactersBase(path=""):
     path = f"characters{path}"

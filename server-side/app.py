@@ -302,6 +302,19 @@ def mangaRecommendations(id):
 
 
 """
+STUDIO ROUTES
+"""
+
+
+# Get an Studio common Data
+@app.route("/studio/<int:id>")
+def studioDetails(id):
+    result, statusCode = fns.getStudioDetails(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+"""
 CHARACTERS ROUTE
 """
 

@@ -864,9 +864,15 @@ def getMangaDetails(id):
         "authors": replaceProperty(
             removeProperty(serverData.get("authors", {}), "url"), "mal_id", "id"
         ),
-        "genres": replaceProperty(removeProperty(serverData.get("genres", {}), "url"), "mal_id", "id"),
-        "themes": replaceProperty(removeProperty(serverData.get("themes", {}), "url"), "mal_id", "id"),
-        "related": replaceProperty(removeProperty(serverData.get("relations", {}), "url"), "mal_id", "id"),
+        "genres": replaceProperty(
+            removeProperty(serverData.get("genres", {}), "url"), "mal_id", "id"
+        ),
+        "themes": replaceProperty(
+            removeProperty(serverData.get("themes", {}), "url"), "mal_id", "id"
+        ),
+        "related": replaceProperty(
+            removeProperty(serverData.get("relations", {}), "url"), "mal_id", "id"
+        ),
         "external": serverData.get("external", []),
     }
 
@@ -1013,6 +1019,40 @@ def getMangaGenres():
         "success": True,
         "data": replaceProperty(removeProperty(serverData, "url"), "mal_id", "id"),
     }
+
+    return returnResponse, 200
+
+
+##### STUDIOS FUNCTIONS #####
+
+
+# Get Manga Details
+def getStudioDetails(id):
+    path = f"/{id}/full"
+
+    serverResponse = studioBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    mangaData = {
+        "id": serverData.get("mal_id"),
+        "title": (serverData.get("titles")[0 : 0 + 1] or [{}])[0].get("title"),
+        "titles": serverData.get("titles", []),
+        "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
+        "about": serverData.get("about"),
+        "favorites": serverData.get("favorites"),
+        "count": serverData.get("count"),
+        "external": serverData.get("external", []),
+    }
+
+    returnResponse = {"success": True, "data": mangaData}
 
     return returnResponse, 200
 
