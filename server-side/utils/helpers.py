@@ -24,23 +24,20 @@ def removeProperty(obj, properties):
     return new_obj
 
 
-# Replace Property name from Object
+# Replace Property name from Object (recursive for all nested objects and arrays)
 def replaceProperty(obj, oldKey, newKey):
-    new_obj = obj.copy()
-
-    if isinstance(new_obj, list):
-        new_obj = [
-            (
-                {newKey if k == oldKey else k: v for k, v in item.items()}
-                if isinstance(item, dict)
-                else item
-            )
-            for item in new_obj
-        ]
-    elif isinstance(new_obj, dict):
-        new_obj = {newKey if k == oldKey else k: v for k, v in new_obj.items()}
-
-    return new_obj
+    if isinstance(obj, dict):
+        new_obj = {}
+        for k, v in obj.items():
+            # Replace the key if it matches oldKey, and recurse on the value
+            new_obj[newKey if k == oldKey else k] = replaceProperty(v, oldKey, newKey)
+        return new_obj
+    elif isinstance(obj, list):
+        # Recursively apply the function to all list elements
+        return [replaceProperty(item, oldKey, newKey) for item in obj]
+    else:
+        # If the current element is neither dict nor list, return it as is
+        return obj
 
 
 # Get Image from Images

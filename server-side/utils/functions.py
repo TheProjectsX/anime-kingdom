@@ -270,11 +270,21 @@ def getAnimeDetails(id):
         "season": serverData.get("season"),
         "year": serverData.get("year"),
         "statistics": statistics.get("data", {}),
-        "producers": removeProperty(serverData.get("producers", {}), "url"),
-        "studios": removeProperty(serverData.get("studios", {}), "url"),
-        "genres": removeProperty(serverData.get("genres", {}), "url"),
-        "themes": removeProperty(serverData.get("themes", {}), "url"),
-        "related": removeProperty(serverData.get("relations", {}), "url"),
+        "producers": replaceProperty(
+            removeProperty(serverData.get("producers", {}), "url"), "mal_id", "id"
+        ),
+        "studios": replaceProperty(
+            removeProperty(serverData.get("studios", {}), "url"), "mal_id", "id"
+        ),
+        "genres": replaceProperty(
+            removeProperty(serverData.get("genres", {}), "url"), "mal_id", "id"
+        ),
+        "themes": replaceProperty(
+            removeProperty(serverData.get("themes", {}), "url"), "mal_id", "id"
+        ),
+        "related": replaceProperty(
+            removeProperty(serverData.get("relations", {}), "url"), "mal_id", "id"
+        ),
         "streaming": serverData.get("streaming", []),
         "external": serverData.get("external", []),
     }
@@ -854,9 +864,9 @@ def getMangaDetails(id):
         "authors": replaceProperty(
             removeProperty(serverData.get("authors", {}), "url"), "mal_id", "id"
         ),
-        "genres": removeProperty(serverData.get("genres", {}), "url"),
-        "themes": removeProperty(serverData.get("themes", {}), "url"),
-        "related": removeProperty(serverData.get("relations", {}), "url"),
+        "genres": replaceProperty(removeProperty(serverData.get("genres", {}), "url"), "mal_id", "id"),
+        "themes": replaceProperty(removeProperty(serverData.get("themes", {}), "url"), "mal_id", "id"),
+        "related": replaceProperty(removeProperty(serverData.get("relations", {}), "url"), "mal_id", "id"),
         "external": serverData.get("external", []),
     }
 
