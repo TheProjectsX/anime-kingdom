@@ -2,7 +2,7 @@
 
 import FilterOptions from "@/components/FilterOptions";
 import ItemCardSimple from "@/components/ItemCardSimple";
-import { useDebugValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { loadAnimeData } from "@/utils/DataLoader";
 import ItemCardList from "@/components/ItemCardList";
 import ItemCardGrid from "@/components/ItemCardGrid";

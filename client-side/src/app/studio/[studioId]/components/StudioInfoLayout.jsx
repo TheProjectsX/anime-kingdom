@@ -99,7 +99,7 @@ const StudioInfoLayout = ({ studioId, studioBaseData, children }) => {
                                 </p>
                             </article>
 
-                            <div className="grid grid-cols-1 overflow-x-auto scrollbar scrollbar-thin">
+                            <div className="grid grid-cols-1 overflow-x-auto scrollbar-thin">
                                 <div className="px-4 w-full flex justify-evenly text-sm text-gray-500">
                                     {studioBaseData.external.map(
                                         (item, idx) => (
