@@ -50,17 +50,26 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
     return (
         <MangaDataContext.Provider value={{ mangaBaseData: mangaBaseData }}>
             <main className="max-width !px-0 mb-10">
-                <div className="">
-                    <img
-                        src={mangaBaseData.banner}
-                        alt={mangaBaseData.title_english ?? mangaBaseData.title}
-                        className="w-full"
-                    />
-                </div>
+                {mangaBaseData.banner && (
+                    <div className="">
+                        <img
+                            src={mangaBaseData.banner}
+                            alt={
+                                mangaBaseData.title_english ??
+                                mangaBaseData.title
+                            }
+                            className="w-full"
+                        />
+                    </div>
+                )}
 
                 <div className="space-y-8">
                     <header className="flex gap-4 bg-white p-5 pb-3">
-                        <div className="flex-shrink-0 w-52 -mt-20">
+                        <div
+                            className={`flex-shrink-0 w-52 ${
+                                mangaBaseData.banner ? "-mt-20" : ""
+                            }`}
+                        >
                             <img
                                 src={mangaBaseData.image_large}
                                 alt={
@@ -185,17 +194,19 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Authors"}
-                                info={mangaBaseData.authors?.map((item) => (
-                                    <Fragment key={item.mal_id}>
-                                        {item.name}
-                                        <br />
-                                    </Fragment>
-                                ))}
+                                info={mangaBaseData.authors?.map(
+                                    (item, idx) => (
+                                        <Fragment key={idx}>
+                                            {item.name}
+                                            <br />
+                                        </Fragment>
+                                    )
+                                )}
                             />
                             <InfoItems
                                 heading={"Genres"}
-                                info={mangaBaseData.genres?.map((item) => (
-                                    <Fragment key={item.mal_id}>
+                                info={mangaBaseData.genres?.map((item, idx) => (
+                                    <Fragment key={idx}>
                                         {item.name}
                                         <br />
                                     </Fragment>
@@ -203,8 +214,8 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Themes"}
-                                info={mangaBaseData.themes?.map((item) => (
-                                    <Fragment key={item.mal_id}>
+                                info={mangaBaseData.themes?.map((item, idx) => (
+                                    <Fragment key={idx}>
                                         {item.name}
                                         <br />
                                     </Fragment>

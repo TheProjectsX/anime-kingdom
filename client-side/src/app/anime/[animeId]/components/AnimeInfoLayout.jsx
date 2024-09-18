@@ -50,17 +50,26 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
     return (
         <AnimeDataContext.Provider value={{ animeBaseData }}>
             <main className="max-width !px-0 mb-10">
-                <div className="">
-                    <img
-                        src={animeBaseData.banner}
-                        alt={animeBaseData.title_english ?? animeBaseData.title}
-                        className="w-full"
-                    />
-                </div>
+                {animeBaseData.banner && (
+                    <div className="">
+                        <img
+                            src={animeBaseData.banner}
+                            alt={
+                                animeBaseData.title_english ??
+                                animeBaseData.title
+                            }
+                            className="w-full"
+                        />
+                    </div>
+                )}
 
                 <div className="space-y-8">
                     <header className="flex gap-4 bg-white p-5 pb-3">
-                        <div className="flex-shrink-0 w-52 -mt-20">
+                        <div
+                            className={`flex-shrink-0 w-52 ${
+                                animeBaseData.banner ? "-mt-20" : ""
+                            }`}
+                        >
                             <img
                                 src={animeBaseData.image_large}
                                 alt={
@@ -212,7 +221,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <InfoItems
                                 heading={"Genres"}
                                 info={animeBaseData.genres.map((item) => (
-                                    <Fragment key={item.mal_id}>
+                                    <Fragment key={item.id}>
                                         {item.name}
                                         <br />
                                     </Fragment>
@@ -221,7 +230,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <InfoItems
                                 heading={"Themes"}
                                 info={animeBaseData.themes.map((item) => (
-                                    <Fragment key={item.mal_id}>
+                                    <Fragment key={item.id}>
                                         {item.name}
                                         <br />
                                     </Fragment>
@@ -230,7 +239,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <InfoItems
                                 heading={"Studios"}
                                 info={animeBaseData.studios.map((item) => (
-                                    <Fragment key={item.mal_id}>
+                                    <Fragment key={item.id}>
                                         {item.name}
                                         <br />
                                     </Fragment>
@@ -239,7 +248,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <InfoItems
                                 heading={"Producers"}
                                 info={animeBaseData.producers.map((item) => (
-                                    <Fragment key={item.mal_id}>
+                                    <Fragment key={item.id}>
                                         {item.name}
                                         <br />
                                     </Fragment>

@@ -43,9 +43,9 @@ const page = ({ params }) => {
                     {animeBaseData.related?.map((item, idx) =>
                         item.entry?.map((ent) => (
                             <Link
-                                key={ent.mal_id}
+                                key={ent.id}
                                 href={`/${ent.type.replace(" ", "-")}/${
-                                    ent.mal_id
+                                    ent.id
                                 }`}
                                 className="bg-white p-4 rounded-lg shadow-md group"
                             >

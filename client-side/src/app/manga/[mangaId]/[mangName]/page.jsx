@@ -56,9 +56,9 @@ const page = ({ params }) => {
                     {mangaBaseData.related?.map((item, idx) =>
                         item.entry?.map((ent) => (
                             <Link
-                                key={ent.mal_id}
+                                key={idx}
                                 href={`/${ent.type.replace(" ", "-")}/${
-                                    ent.mal_id
+                                    ent.id
                                 }`}
                                 className="bg-white p-4 rounded-lg shadow-md group"
                             >
@@ -111,10 +111,10 @@ const page = ({ params }) => {
                     <div className="flex gap-2 items-center text-center *:flex-grow">
                         <div>
                             <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Watching
+                                Reading
                             </h4>
                             <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.watching}
+                                {mangaBaseData.statistics.reading}
                             </p>
                         </div>
                         <div>
@@ -143,10 +143,10 @@ const page = ({ params }) => {
                         </div>
                         <div>
                             <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Watch list
+                                Plan to Read
                             </h4>
                             <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.plan_to_watch}
+                                {mangaBaseData.statistics.plan_to_read}
                             </p>
                         </div>
                     </div>
