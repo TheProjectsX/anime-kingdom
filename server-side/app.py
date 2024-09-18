@@ -203,6 +203,14 @@ def mangaDetails(id):
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get an Manga Characters with VA
+@app.route("/manga/<int:id>/characters")
+def mangaCharacters(id):
+    result, statusCode = fns.getMangaCharacters(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 """
 CHARACTERS ROUTE
 """

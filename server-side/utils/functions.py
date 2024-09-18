@@ -667,7 +667,7 @@ def getMangaStatistics(id):
     return returnResponse, 200
 
 
-# Get Anime Details
+# Get Manga Details
 def getMangaDetails(id):
     path = f"/{id}/full"
 
@@ -719,6 +719,38 @@ def getMangaDetails(id):
     }
 
     returnResponse = {"success": True, "data": mangaData}
+
+    return returnResponse, 200
+
+
+# Get Manga Characters
+def getMangaCharacters(id):
+    path = f"/{id}/characters"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": []}
+
+    for item in serverResponse["data"]:
+        character = item["character"]
+
+        data = {
+            "id": character.get("mal_id", ""),
+            "name": character.get("name"),
+            "image": getImageFromImages(character.get("images", {})).get("image_url"),
+            "role": item.get("role"),
+        }
+
+        returnResponse["data"].append(data)
 
     return returnResponse, 200
 
