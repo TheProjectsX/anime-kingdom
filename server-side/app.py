@@ -219,6 +219,20 @@ def mangaImages(id):
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get an Manga Reviews
+@app.route("/manga/<int:id>/reviews")
+def mangaReviews(id):
+    page = request.args.get("page", 1)
+    spoilers = request.args.get("spoilers", "false")
+    preliminary = request.args.get("preliminary", "true")
+
+    result, statusCode = fns.getMangaReviews(
+        id, page=page, spoilers=spoilers, preliminary=preliminary
+    )
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 """
 CHARACTERS ROUTE
 """

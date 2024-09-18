@@ -778,6 +778,45 @@ def getMangaPictures(id):
     return returnResponse, 200
 
 
+# Get Manga Reviews
+def getMangaReviews(id, page=1, spoilers="false", preliminary="true"):
+    path = f"/{id}/reviews?page={page}&spoilers={spoilers}&preliminary={preliminary}"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    pagination = {
+        "has_next_page": True if not len(serverData) < 20 else False,
+    }
+
+    returnResponse = {
+        "success": True,
+        "pagination": pagination,
+        "data": [],
+    }
+
+    for item in serverData:
+        data = replaceProperty(removeProperty(item, ["url"]), "mal_id", "id")
+        user = data.get("user", {})
+        image = getImageFromImages(user.get("images", {})).get("image_url")
+        user = removeProperty(user, ["url", "images"])
+        user["image"] = image
+
+        data["user"] = user
+
+        returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
 ##### CHARACTERS FUNCTIONS #####
 
 
