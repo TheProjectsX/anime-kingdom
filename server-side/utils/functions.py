@@ -103,6 +103,7 @@ def getFilteredAnime(
     max_score="",
     page=1,
     limit=20,
+    producers="",
     order_by="",
     start_date="",
     end_date="",
@@ -113,7 +114,7 @@ def getFilteredAnime(
     filters.update(
         {"order_by": order_by, "start_date": start_date, "end_date": end_date}
     )
-    path = f"?q={query}&page={page}&limit={limit}&sfw={sfw}&min_score={min_score}&max_score={max_score}"
+    path = f"?q={query}&page={page}&limit={limit}&producers={producers}&sfw={sfw}&min_score={min_score}&max_score={max_score}"
 
     for key, value in filters.items():
         if value == "":
@@ -177,6 +178,9 @@ def getFilteredAnime(
             "scored_by": item.get("scored_by"),
             "studios": replaceProperty(
                 removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
+            ),
+            "producers": replaceProperty(
+                removeProperty(item.get("producers", []), ["url"]), "mal_id", "id"
             ),
             "genres": replaceProperty(
                 removeProperty(item.get("genres", []), ["url"]), "mal_id", "id"

@@ -68,6 +68,7 @@ def animeByFilter():
 
     page = request.args.get("page", 1)
     limit = request.args.get("limit", 20)
+    producers = request.args.get("producers", "")
     order_by = request.args.get("order_by", "")
     start_date = request.args.get("start_date", "")
     end_date = request.args.get("end_date", "")
@@ -87,6 +88,7 @@ def animeByFilter():
         max_score=max_score,
         page=page,
         limit=limit,
+        producers=producers,
         order_by=order_by,
         start_date=start_date,
         end_date=end_date,
@@ -306,11 +308,24 @@ STUDIO ROUTES
 """
 
 
-# Get an Studio common Data
+# Get a Studio common Data
 @app.route("/studio/<int:id>")
 def studioDetails(id):
     result, statusCode = fns.getStudioDetails(id)
 
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get studio's anime
+@app.route("/studio/<int:id>/anime")
+def studioAnime(id):
+    page = request.args.get("page", 1)
+    limit = request.args.get("limit", 20)
+    orderBy = request.args.get("orderBy", 20)
+
+    result, statusCode = fns.getFilteredAnime(
+        producers=id, order_by=orderBy, page=page, limit=limit
+    )
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
