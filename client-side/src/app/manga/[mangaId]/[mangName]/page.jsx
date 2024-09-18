@@ -32,6 +32,7 @@ const page = ({ params }) => {
             </div>
         );
     };
+
     return (
         <div className="space-y-8">
             <section>
