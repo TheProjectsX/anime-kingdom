@@ -5,10 +5,28 @@ import requests
 import time
 
 
+##### ANIME FUNCTIONS #####
+
+
 # Get Banner Image from AniList: Inner Function
 def getAnilistAnimeBanner(query):
     json = {
         "query": "query ($query: String, $page: Int, $perpage: Int) {Page (page: $page, perPage: $perpage) { media (search: $query, type: ANIME) {id bannerImage }}}",
+        "variables": {"query": query, "page": 1, "perpage": 3},
+    }
+
+    serverResponse = anilistBase(json)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    data = serverResponse.get("data", {}).get("Page", {}).get("media", [{}])
+
+    return data[0].get("bannerImage")
+
+
+# Get Banner Image from AniList: Inner Function
+def getAnilistMangaBanner(query):
+    json = {
+        "query": "query ($query: String, $page: Int, $perpage: Int) {Page (page: $page, perPage: $perpage) { media (search: $query, type: MANGA) {id bannerImage }}}",
         "variables": {"query": query, "page": 1, "perpage": 3},
     }
 
@@ -622,6 +640,85 @@ def getAnimeGenres():
         "success": True,
         "data": replaceProperty(removeProperty(serverData, "url"), "mal_id", "id"),
     }
+
+    return returnResponse, 200
+
+
+##### MANGA FUNCTIONS #####
+
+
+# Get Manga Statistics
+def getMangaStatistics(id):
+    path = f"/{id}/statistics"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    returnResponse = {"success": True, "data": serverData}
+
+    return returnResponse, 200
+
+
+# Get Anime Details
+def getMangaDetails(id):
+    path = f"/{id}/full"
+
+    serverResponse = mangaBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+    serverData = serverResponse.get("data")
+
+    if not serverData:
+        return {
+            "success": False,
+            "message": serverResponse.get("error", "Item not Found"),
+        }, serverResponse.get("status", 404)
+
+    statistics, _ = getMangaStatistics(id)
+
+    mangaData = {
+        "id": serverData.get("mal_id"),
+        "title": serverData.get("title"),
+        "title_english": serverData.get("title_english"),
+        "title_japanese": serverData.get("title_japanese"),
+        "titles": serverData.get("titles", []),
+        "image": getImageFromImages(serverData.get("images", {})).get("image_url"),
+        "image_large": getImageFromImages(serverData.get("images", {})).get(
+            "large_image_url"
+        ),
+        "banner": getAnilistMangaBanner(serverData.get("title")),
+        "chapters": serverData.get("chapters"),
+        "volumes": serverData.get("volumes"),
+        "type": serverData.get("type"),
+        "status": serverData.get("status"),
+        "synopsis": serverData.get("synopsis"),
+        "background": serverData.get("background"),
+        "published": serverData.get("published"),
+        "score": serverData.get("score"),
+        "scored_by": serverData.get("scored_by"),
+        "mal_rank": serverData.get("rank"),
+        "popularity": serverData.get("popularity"),
+        "members": serverData.get("members"),
+        "favorites": serverData.get("favorites"),
+        "statistics": statistics.get("data", {}),
+        "authors": replaceProperty(
+            removeProperty(serverData.get("authors", {}), "url"), "mal_id", "id"
+        ),
+        "genres": removeProperty(serverData.get("genres", {}), "url"),
+        "themes": removeProperty(serverData.get("themes", {}), "url"),
+        "related": removeProperty(serverData.get("relations", {}), "url"),
+        "external": serverData.get("external", []),
+    }
+
+    returnResponse = {"success": True, "data": mangaData}
 
     return returnResponse, 200
 

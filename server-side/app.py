@@ -28,6 +28,13 @@ def homepageAnime():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+##### REGULAR API ROUTES #####
+
+"""
+ANIME ROUTES
+"""
+
+
 # Get Filter Options
 @app.route("/anime/filters")
 def animeFilterOptions():
@@ -179,6 +186,19 @@ def animeImages(id):
 @app.route("/anime/<int:id>/videos")
 def animeVideos(id):
     result, statusCode = fns.getAnimeVideos(id)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+"""
+MANGA ROUTES
+"""
+
+
+# Get an Manga common Data
+@app.route("/manga/<int:id>")
+def mangaDetails(id):
+    result, statusCode = fns.getMangaDetails(id)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

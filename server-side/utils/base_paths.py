@@ -26,6 +26,14 @@ def animeBase(path=""):
     return response
 
 
+# Anime Info Base Path
+def mangaBase(path=""):
+    path = f"manga{path}"
+    response = basePath(path)
+
+    return response
+
+
 # Anime Characters Info Base
 def charactersBase(path=""):
     path = f"characters{path}"
