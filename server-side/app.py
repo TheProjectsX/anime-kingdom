@@ -5,7 +5,12 @@ import json
 import anime_quotes
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
+CORS(
+    app,
+    resources={
+        r"/*": {"origins": ["http://localhost:3000", "https://anidom.vercel.app"]}
+    },
+)
 
 
 @app.route("/")
@@ -556,4 +561,4 @@ def animeCharacterQuotes(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0")
