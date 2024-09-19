@@ -136,7 +136,7 @@ export default function Home() {
                                     Explore More
                                 </Link>
                             </div>
-                            <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap lg:[&_article:last-child]:hidden">
+                            <div className="lg:pl-3 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center flex-wrap md:[&_article:last-child]:hidden lg:[&_article:last-child]:block">
                                 {item.data.map((item, idx) => (
                                     <ItemCardSimple
                                         animeData={item}
@@ -158,7 +158,7 @@ export default function Home() {
                                 Explore Further
                             </Link>
                         </div>
-                        <div className="flex lg:grid lg:grid-cols-5 gap-4 justify-evenly flex-wrap">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 justify-evenly flex-wrap">
                             {topAnimeData.map((item, idx) => (
                                 <ItemCardSimple
                                     animeData={item}

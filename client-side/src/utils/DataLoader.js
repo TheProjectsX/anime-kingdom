@@ -1,4 +1,7 @@
 const loadAnimeData = async (tread, paramsPayload, extraPath = "") => {
+    console.log("🚀 ~ loadAnimeData ~ extraPath:", extraPath);
+    console.log("🚀 ~ loadAnimeData ~ tread:", tread);
+    console.log("🚀 ~ loadAnimeData ~ paramsPayload:", paramsPayload);
     const treadPaths = {
         "filter-anime": "/anime/filter",
         "top-anime": "/top/anime",

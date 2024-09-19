@@ -239,19 +239,27 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <InfoItems
                                 heading={"Studios"}
                                 info={animeBaseData.studios.map((item) => (
-                                    <Fragment key={item.id}>
+                                    <Link
+                                        key={item.id}
+                                        href={`/studio/${item.mal_id}`}
+                                        className="hover:underline underline-offset-2"
+                                    >
                                         {item.name}
                                         <br />
-                                    </Fragment>
+                                    </Link>
                                 ))}
                             />
                             <InfoItems
                                 heading={"Producers"}
                                 info={animeBaseData.producers.map((item) => (
-                                    <Fragment key={item.id}>
+                                    <Link
+                                        key={item.mal_id}
+                                        href={`/studio/${item.mal_id}`}
+                                        className="hover:underline underline-offset-2"
+                                    >
                                         {item.name}
                                         <br />
-                                    </Fragment>
+                                    </Link>
                                 ))}
                             />
 
@@ -262,10 +270,14 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 heading={"Streaming"}
                                 info={animeBaseData.streaming.map(
                                     (item, idx) => (
-                                        <Fragment key={idx}>
+                                        <a
+                                            key={idx}
+                                            href={item.url}
+                                            className="hover:underline underline-offset-2"
+                                        >
                                             {item.name}
                                             <br />
-                                        </Fragment>
+                                        </a>
                                     )
                                 )}
                             />
@@ -274,10 +286,14 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 heading={"External"}
                                 info={animeBaseData.external.map(
                                     (item, idx) => (
-                                        <Fragment key={idx}>
+                                        <a
+                                            key={idx}
+                                            href={item.url}
+                                            className="hover:underline underline-offset-2"
+                                        >
                                             {item.name}
                                             <br />
-                                        </Fragment>
+                                        </a>
                                     )
                                 )}
                             />

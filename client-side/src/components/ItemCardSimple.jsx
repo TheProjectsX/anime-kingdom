@@ -17,16 +17,15 @@ const ItemCardSimple = ({ animeData, rank }) => {
     if (animeData === null) {
         return (
             <article>
-                <div className="skeleton bg-slate-300 w-52 sm:w-44 lg:w-48 h-[290px] sm:h-[250px] lg:h-[272px] mb-3"></div>
+                <div className="skeleton bg-slate-300 w-full pb-[141.5%] mb-3"></div>
                 <p className="skeleton bg-slate-300 h-5 w-40"></p>
             </article>
         );
     }
 
     return (
-        <article className="dark">
+        <article className="dark [&_>div:first-of-type]:w-full">
             <Tooltip
-                className="hidden md:block"
                 style="auto"
                 content={
                     <div className="p-3 max-w-80">
@@ -106,19 +105,21 @@ const ItemCardSimple = ({ animeData, rank }) => {
             >
                 <Link
                     href={`/anime/${animeData.id}`}
-                    className="block w-52 sm:w-44 lg:w-48 relative group"
+                    className="block relative group"
                 >
                     {rank && (
-                        <p className="bg-amber-500 py-1 px-2 rounded-full absolute -right-1.5 -top-1.5 sm:-right-3 sm:-top-3">
+                        <p className="bg-amber-500 py-1 px-2 rounded-full absolute -right-1.5 -top-1.5 sm:-right-3 sm:-top-3 z-10">
                             <span className="text-sm font-suse">#</span>
                             <span className="text-lg font-medium">{rank}</span>
                         </p>
                     )}
-                    <img
-                        src={animeData.image}
-                        alt={animeData.title_english ?? animeData.title}
-                        className="w-full h-[290px] sm:h-[250px] lg:h-[272px] mb-2 rounded-lg hover:scale-110 transition-[transform] duration-300 bg-pink-400"
-                    />
+                    <div className="relative w-full pb-[141.5%] overflow-hidden mb-2 ">
+                        <img
+                            src={animeData.image}
+                            alt={animeData.title_english ?? animeData.title}
+                            className="absolute top-0 left-0 w-full h-full rounded-lg bg-pink-400"
+                        />
+                    </div>
                     <h3
                         // href={`/anime/${item.id}`}
                         className="text-sm md:text-base font-semibold text-gray-500 font-suse group-hover:underline underline-offset-4 truncate-text"

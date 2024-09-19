@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-let animePicturesPrimaryData = Array(5).fill(null);
-
 export const Pictures = ({ staffId, staffName }) => {
-    const [animePicturesData, setAnimePicturesData] = useState(
-        animePicturesPrimaryData
+    const [staffPicturesData, setStaffPicturesData] = useState(
+        Array(5).fill(null)
     );
 
     useEffect(() => {
@@ -22,21 +20,20 @@ export const Pictures = ({ staffId, staffName }) => {
                 // Do Something
             }
 
-            animePicturesPrimaryData = serverResponse.data ?? [];
-            setAnimePicturesData(serverResponse.data ?? []);
+            setStaffPicturesData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (animePicturesPrimaryData.every((item) => !item)) {
+        if (staffPicturesData.every((item) => !item)) {
             loadData();
         }
     }, []);
 
     // If every animePicturesData is null, return skeleton
-    if (animePicturesData.every((item) => !item)) {
+    if (staffPicturesData.every((item) => !item)) {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-                {animePicturesData.map((item, idx) => (
+                {staffPicturesData.map((item, idx) => (
                     <div
                         key={idx}
                         className="w-[90%] sm:w-[80%] pb-[114%] skeleton rounded-none"
@@ -48,7 +45,7 @@ export const Pictures = ({ staffId, staffName }) => {
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-            {animePicturesData.map((item, idx) => (
+            {staffPicturesData.map((item, idx) => (
                 <div key={idx} className="w-[90%] sm:w-[80%]">
                     <a
                         href={item.url}

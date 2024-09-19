@@ -27,7 +27,7 @@ let apiSearchParams = {
 const AnimePage = ({ path, slug, filters }) => {
     const [layout, setLayout] = useState("card");
     const [hasMoreData, setHasMoreData] = useState(true);
-    const [animeData, setAnimeData] = useState(Array(limit).fill(null));
+    const [animeData, setAnimeData] = useState(Array(6).fill(null));
     const [currentPage, setCurrentPage] = useState(1);
 
     function capitalizeWord(word) {
@@ -134,7 +134,10 @@ const AnimePage = ({ path, slug, filters }) => {
         const response = await loadAnimeData(
             individualPathData[path]["tread"],
             path.startsWith("anime/seasons")
-                ? { filter: apiSearchParams["type"] ?? "" }
+                ? {
+                      filter: apiSearchParams["type"] ?? "",
+                      page: apiSearchParams["page"],
+                  }
                 : apiSearchParams,
             individualPathData[path]["extraPath"] ?? ""
         );
@@ -234,7 +237,7 @@ const AnimePage = ({ path, slug, filters }) => {
                     loadMore={loadMoreData}
                     threshold={0}
                 >
-                    <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap">
+                    <div className="lg:pl-3 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center flex-wrap">
                         {animeData.map((item, idx) => (
                             <ItemCardSimple
                                 animeData={item}
