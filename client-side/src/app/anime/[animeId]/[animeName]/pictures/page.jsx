@@ -3,14 +3,12 @@
 import AnimeDataContext from "@/context/AnimeDataContext";
 import { useContext, useEffect, useState } from "react";
 
-let animePicturesPrimaryData = Array(5).fill(null);
-
 const page = ({ params }) => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
 
     const [animePicturesData, setAnimePicturesData] = useState(
-        animePicturesPrimaryData
+        Array(5).fill(null)
     );
 
     const { animeId } = params;
@@ -28,12 +26,11 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            animePicturesPrimaryData = serverResponse.data ?? [];
             setAnimePicturesData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (animePicturesPrimaryData.every((item) => !item)) {
+        if (animePicturesData.every((item) => !item)) {
             loadData();
         }
     }, []);

@@ -220,8 +220,8 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Genres"}
-                                info={animeBaseData.genres.map((item) => (
-                                    <Fragment key={item.id}>
+                                info={animeBaseData.genres.map((item, idx) => (
+                                    <Fragment key={idx}>
                                         {item.name}
                                         <br />
                                     </Fragment>
@@ -229,8 +229,8 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Themes"}
-                                info={animeBaseData.themes.map((item) => (
-                                    <Fragment key={item.id}>
+                                info={animeBaseData.themes.map((item, idx) => (
+                                    <Fragment key={idx}>
                                         {item.name}
                                         <br />
                                     </Fragment>
@@ -238,9 +238,9 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Studios"}
-                                info={animeBaseData.studios.map((item) => (
+                                info={animeBaseData.studios.map((item, idx) => (
                                     <Link
-                                        key={item.id}
+                                        key={idx}
                                         href={`/studio/${item.mal_id}`}
                                         className="hover:underline underline-offset-2"
                                     >
@@ -251,16 +251,18 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             />
                             <InfoItems
                                 heading={"Producers"}
-                                info={animeBaseData.producers.map((item) => (
-                                    <Link
-                                        key={item.mal_id}
-                                        href={`/studio/${item.mal_id}`}
-                                        className="hover:underline underline-offset-2"
-                                    >
-                                        {item.name}
-                                        <br />
-                                    </Link>
-                                ))}
+                                info={animeBaseData.producers.map(
+                                    (item, idx) => (
+                                        <Link
+                                            key={idx}
+                                            href={`/studio/${item.mal_id}`}
+                                            className="hover:underline underline-offset-2"
+                                        >
+                                            {item.name}
+                                            <br />
+                                        </Link>
+                                    )
+                                )}
                             />
 
                             <div className="divider !mt-0"></div>

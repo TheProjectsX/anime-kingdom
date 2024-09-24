@@ -2,12 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-let animeStaffsPrimaryData = Array(5).fill(null);
-
 const page = ({ params }) => {
-    const [animeStaffsData, setAnimeStaffsData] = useState(
-        animeStaffsPrimaryData
-    );
+    const [animeStaffsData, setAnimeStaffsData] = useState(Array(5).fill(null));
     const { animeId } = params;
 
     useEffect(() => {
@@ -23,12 +19,11 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            animeStaffsPrimaryData = serverResponse.data ?? [];
             setAnimeStaffsData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (animeStaffsPrimaryData.every((item) => !item)) {
+        if (animeStaffsData.every((item) => !item)) {
             loadData();
         }
     }, []);

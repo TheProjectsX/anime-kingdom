@@ -2,12 +2,39 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Select from "react-select";
 
-let animeCharactersPrimaryData = Array(5).fill(null);
 const page = ({ params }) => {
     const [animeCharactersData, setAnimeCharactersData] = useState(
-        animeCharactersPrimaryData
+        Array(5).fill(null)
     );
+    const [voiceLanguages, setVoiceLanguages] = useState([
+        "Japanese",
+        "English",
+        "French",
+        "German",
+        "Hebrew",
+        "Hungarian",
+        "Italian",
+        "Korean",
+        "Mandarin",
+        "Portuguese (BR)",
+        "Spanish",
+    ]);
+
+    const languages = [
+        { label: "Japanese", value: "Japanese" },
+        { label: "English", value: "English" },
+        { label: "French", value: "French" },
+        { label: "German", value: "German" },
+        { label: "Hebrew", value: "Hebrew" },
+        { label: "Hungarian", value: "Hungarian" },
+        { label: "Italian", value: "Italian" },
+        { label: "Korean", value: "Korean" },
+        { label: "Mandarin", value: "Mandarin" },
+        { label: "Portuguese (BR)", value: "Portuguese (BR)" },
+        { label: "Spanish", value: "Spanish" },
+    ];
 
     const { animeId } = params;
 
@@ -24,12 +51,11 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            animeCharactersPrimaryData = serverResponse.data ?? [];
             setAnimeCharactersData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (animeCharactersPrimaryData.every((item) => !item)) {
+        if (animeCharactersData.every((item) => !item)) {
             loadData();
         }
     }, []);
@@ -68,6 +94,26 @@ const page = ({ params }) => {
 
     return (
         <div className="space-y-3">
+            <div className="flex justify-end mb-8">
+                <label className="flex flex-col gap-1 w-full lg:w-auto">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Voice Languages:
+                    </span>
+                    <Select
+                        defaultValue={languages}
+                        isMulti
+                        name="voices"
+                        options={languages}
+                        className="basic-multi-select w-fit min-w-52"
+                        classNamePrefix="select"
+                        placeholder="Select voice languages"
+                        onChange={(value) =>
+                            setVoiceLanguages(value.map((item) => item.value))
+                        }
+                    />
+                </label>
+            </div>
+
             {animeCharactersData.map((item) => (
                 <div
                     key={item.id}
@@ -98,27 +144,31 @@ const page = ({ params }) => {
 
                     {/* Voice Actors */}
                     <div className="space-y-2 flex-grow">
-                        {item.voice_actors.map((va) => (
-                            <Link
-                                key={va.id}
-                                href={`/staffs/${va.id}`}
-                                className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
-                            >
-                                <img
-                                    src={va.image}
-                                    alt={va.name}
-                                    className="w-[58px] h-[90px] bg-slate-200"
-                                />
-                                <div className="py-2.5">
-                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                        {va.name}
-                                    </h3>
-                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                        {va.language}
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
+                        {item.voice_actors
+                            .filter((va) =>
+                                voiceLanguages.includes(va.language)
+                            )
+                            .map((va) => (
+                                <Link
+                                    key={va.id}
+                                    href={`/staffs/${va.id}`}
+                                    className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                >
+                                    <img
+                                        src={va.image}
+                                        alt={va.name}
+                                        className="w-[58px] h-[90px] bg-slate-200"
+                                    />
+                                    <div className="py-2.5">
+                                        <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                            {va.name}
+                                        </h3>
+                                        <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                            {va.language}
+                                        </p>
+                                    </div>
+                                </Link>
+                            ))}
                     </div>
                 </div>
             ))}
