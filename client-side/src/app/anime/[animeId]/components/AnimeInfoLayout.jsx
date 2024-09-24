@@ -82,7 +82,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 Here may be some items
                             </div>
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col flex-grow">
                             <article className="flex-grow mb-2.5">
                                 <h1 className="text-2xl font-semibold font-suse mb-4 text-gray-600">
                                     {animeBaseData.title_english ??
