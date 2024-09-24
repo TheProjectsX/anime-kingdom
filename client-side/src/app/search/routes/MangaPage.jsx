@@ -8,7 +8,7 @@ import ItemCardGrid from "@/components/ItemCardGrid";
 
 import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
-import AnimeFilterOptions from "@/components/AnimeFilterOptions";
+import MangaFilterOptions from "@/components/MangaFilterOptions";
 
 const limit = 20;
 
@@ -38,7 +38,7 @@ let apiSearchParams = {
     end_date: "",
 };
 
-const AnimePage = ({ path, slug, filters }) => {
+const MangaPage = ({ path, slug, filters }) => {
     const searchParams = useSearchParams();
 
     const [layout, setLayout] = useState("card");
@@ -110,10 +110,6 @@ const AnimePage = ({ path, slug, filters }) => {
         individualPathDataHandler
     );
 
-    if (path.startsWith("anime/seasons")) {
-        path = "anime/seasons";
-    }
-
     apiSearchParams = {
         ...apiSearchParams,
         ...(individualPathDataProxy[path]
@@ -129,7 +125,7 @@ const AnimePage = ({ path, slug, filters }) => {
     const fetchData = async () => {
         setHasMoreData(false);
         const response = await loadAnimeData(
-            individualPathDataProxy[path]["trade"],
+            "filter-manga",
             path.startsWith("anime/seasons")
                 ? { filter: apiSearchParams["type"] ?? "" }
                 : apiSearchParams,
@@ -219,7 +215,7 @@ const AnimePage = ({ path, slug, filters }) => {
                     ? individualPathDataProxy[path]["title"]
                     : "Anime"}
             </h4>
-            <AnimeFilterOptions
+            <MangaFilterOptions
                 onChange={updateDataOnChange}
                 options={filters}
                 seasonal={path.startsWith("anime/seasons")}
@@ -332,4 +328,4 @@ const AnimePage = ({ path, slug, filters }) => {
     );
 };
 
-export default AnimePage;
+export default MangaPage;

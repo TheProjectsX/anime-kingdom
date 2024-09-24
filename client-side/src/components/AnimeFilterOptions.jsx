@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import Select from "react-select";
 
-const FilterOptions = ({
+const AnimeFilterOptions = ({
     options,
     onChange = (data) => {},
     seasonal,
@@ -202,4 +202,4 @@ const FilterOptions = ({
     );
 };
 
-export default FilterOptions;
+export default AnimeFilterOptions;
