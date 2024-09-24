@@ -1,14 +1,14 @@
-const loadAnimeData = async (tread, paramsPayload, extraPath = "") => {
+const loadAnimeData = async (trade, paramsPayload, extraPath = "") => {
     console.log("🚀 ~ loadAnimeData ~ extraPath:", extraPath);
-    console.log("🚀 ~ loadAnimeData ~ tread:", tread);
     console.log("🚀 ~ loadAnimeData ~ paramsPayload:", paramsPayload);
-    const treadPaths = {
+    console.log("🚀 ~ loadAnimeData ~ tread:", trade);
+    const tradePaths = {
         "filter-anime": "/anime/filter",
         "top-anime": "/top/anime",
         "seasonal-anime": "/seasons",
     };
-    const path = `${treadPaths[tread]}${
-        extraPath !== "" ? `/${extraPath}` : ""
+    const path = `${tradePaths[trade] ?? "/anime/filter"}${
+        typeof extraPath === "string" && extraPath !== "" ? `/${extraPath}` : ""
     }`;
 
     const searchParams = new URLSearchParams(paramsPayload);

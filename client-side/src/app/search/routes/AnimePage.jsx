@@ -8,6 +8,7 @@ import ItemCardList from "@/components/ItemCardList";
 import ItemCardGrid from "@/components/ItemCardGrid";
 
 import InfiniteScroll from "react-infinite-scroller";
+import { useSearchParams } from "next/navigation";
 
 const limit = 20;
 
@@ -25,8 +26,10 @@ let apiSearchParams = {
 };
 
 const AnimePage = ({ path, slug, filters }) => {
+    const searchParams = useSearchParams();
+
     const [layout, setLayout] = useState("card");
-    const [hasMoreData, setHasMoreData] = useState(true);
+    const [hasMoreData, setHasMoreData] = useState(false);
     const [animeData, setAnimeData] = useState(Array(6).fill(null));
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -34,9 +37,23 @@ const AnimePage = ({ path, slug, filters }) => {
         if (!word) return ""; // Handle empty strings
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
+
+    const individualPathDataHandler = {
+        get: function (target, prop) {
+            if (
+                prop in target &&
+                target[prop] !== null &&
+                typeof target[prop] === "object"
+            ) {
+                return new Proxy(target[prop], individualPathDataHandler); // Recursively apply proxy for nested objects
+            }
+            return prop in target ? target[prop] : {}; // Return the property if it exists, otherwise return {}
+        },
+    };
+
     const individualPathData = {
         "anime/trending": {
-            tread: "filter-anime",
+            trade: "filter-anime",
             title: "Trending Anime",
             payload: {
                 order_by: "popularity",
@@ -45,17 +62,17 @@ const AnimePage = ({ path, slug, filters }) => {
             },
         },
         "anime/tv-series/popular": {
-            tread: "filter-anime",
+            trade: "filter-anime",
             title: "Popular TV Series",
             payload: { order_by: "popularity", type: "tv" },
         },
         "anime/movies/popular": {
-            tread: "filter-anime",
+            trade: "filter-anime",
             title: "Popular Movies",
             payload: { order_by: "popularity", type: "movie" },
         },
         "anime/seasons": {
-            tread: "seasonal-anime",
+            trade: "seasonal-anime",
             title: `${
                 slug.slice(2)[0] !== "now"
                     ? `${slug
@@ -69,11 +86,16 @@ const AnimePage = ({ path, slug, filters }) => {
             extraPath: slug.slice(2).join("/"),
         },
         "anime/top": {
-            tread: "top-anime",
+            trade: "top-anime",
             title: "Top Anime",
             payload: {},
         },
     };
+
+    const individualPathDataProxy = new Proxy(
+        individualPathData,
+        individualPathDataHandler
+    );
 
     if (path.startsWith("anime/seasons")) {
         path = "anime/seasons";
@@ -81,44 +103,52 @@ const AnimePage = ({ path, slug, filters }) => {
 
     apiSearchParams = {
         ...apiSearchParams,
-        ...individualPathData[path]["payload"],
+        ...(individualPathDataProxy[path]
+            ? individualPathDataProxy[path]["payload"]
+            : {}),
     };
+
+    const query = searchParams.get("query") ?? "";
+    apiSearchParams["query"] = query;
+    filters["query"] = query;
 
     // Function to Fetch data from server and save in state
     const fetchData = async () => {
+        setHasMoreData(false);
         const response = await loadAnimeData(
-            individualPathData[path]["tread"],
+            individualPathDataProxy[path]["trade"],
             path.startsWith("anime/seasons")
                 ? { filter: apiSearchParams["type"] ?? "" }
                 : apiSearchParams,
-            individualPathData[path]["extraPath"] ?? ""
+            individualPathDataProxy[path]["extraPath"] ?? ""
         );
+        // console.log(response);
         if (response.success) {
             setAnimeData(response.data ?? []);
         }
-        if (!response.pagination?.has_next_page) {
-            setHasMoreData(false);
+        if (response.pagination?.has_next_page) {
+            setHasMoreData(true);
         }
     };
 
-    const updateDataOnChange = (updatedQuery) => {
-        console.log(updatedQuery);
+    const updateDataOnChange = (primaryUpdatedQuery) => {
         setCurrentPage(1);
+        let updatedQuery = primaryUpdatedQuery;
         if (Object.values(updatedQuery).every((value) => value === "")) {
-            updatedQuery = individualPathData[path]["payload"];
+            updatedQuery = individualPathDataProxy[path]["payload"];
         } else if (updatedQuery.query !== "") {
             updatedQuery["order_by"] = "";
         }
         apiSearchParams = {
             ...apiSearchParams,
             ...updatedQuery,
+            query: primaryUpdatedQuery["query"] ?? "",
             page: 1,
         };
-        console.log(updatedQuery);
 
         if (path.startsWith("anime/seasons")) {
             const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
-            individualPathData["anime/seasons"]["extraPath"] = seasonPath;
+            individualPathDataProxy["anime/seasons"]["extraPath"] = seasonPath;
             fetchData();
         } else {
             fetchData();
@@ -127,19 +157,20 @@ const AnimePage = ({ path, slug, filters }) => {
 
     const loadMoreData = async () => {
         setHasMoreData(false);
+
         apiSearchParams["page"] = currentPage + 1;
         console.log(apiSearchParams);
         setAnimeData([...animeData, ...Array(6).fill(null)]);
 
         const response = await loadAnimeData(
-            individualPathData[path]["tread"],
+            individualPathDataProxy[path]["trade"],
             path.startsWith("anime/seasons")
                 ? {
                       filter: apiSearchParams["type"] ?? "",
                       page: apiSearchParams["page"],
                   }
                 : apiSearchParams,
-            individualPathData[path]["extraPath"] ?? ""
+            individualPathDataProxy[path]["extraPath"] ?? ""
         );
 
         if (response.success) {
@@ -163,7 +194,9 @@ const AnimePage = ({ path, slug, filters }) => {
     return (
         <section className="my-10">
             <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
-                {individualPathData[path]["title"]}
+                {individualPathDataProxy[path]
+                    ? individualPathDataProxy[path]["title"]
+                    : "Anime"}
             </h4>
             <FilterOptions
                 onChange={updateDataOnChange}

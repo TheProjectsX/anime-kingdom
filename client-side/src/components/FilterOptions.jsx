@@ -1,4 +1,5 @@
 import { TextInput } from "flowbite-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import Select from "react-select";
@@ -9,7 +10,11 @@ const FilterOptions = ({
     seasonal,
     slug,
 }) => {
+    const router = useRouter();
+    const pathname = usePathname();
+
     const formRef = useRef(null);
+
     const [filterOptions, setFilterOptions] = useState({
         query: "",
         genres: "",
@@ -64,10 +69,15 @@ const FilterOptions = ({
                         name="query"
                         icon={IoSearch}
                         placeholder="Type name and press Enter..."
+                        defaultValue={options?.query ?? ""}
                         title="Search anime by name"
                         className="w-full"
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
+                                const params = new URLSearchParams();
+                                params.set("query", e.target.value);
+                                router.push(`${pathname}?${params.toString()}`);
+
                                 onStatusChange();
                             }
                         }}

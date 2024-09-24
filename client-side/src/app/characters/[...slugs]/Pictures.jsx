@@ -32,7 +32,7 @@ export const Pictures = ({ characterId, characterName }) => {
     // If every animePicturesData is null, return skeleton
     if (characterPicturesData.every((item) => !item)) {
         return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-items-center">
                 {characterPicturesData.map((item, idx) => (
                     <div
                         key={idx}
@@ -44,7 +44,7 @@ export const Pictures = ({ characterId, characterName }) => {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-items-center">
             {characterPicturesData.map((item, idx) => (
                 <div key={idx} className="w-[90%] sm:w-[80%]">
                     <a

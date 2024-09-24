@@ -120,7 +120,7 @@ const StudioInfoLayout = ({ studioId, studioBaseData, children }) => {
 
                     {/* The main Information */}
 
-                    <section className="flex-grow">{children}</section>
+                    <section className="flex-grow px-5">{children}</section>
                 </div>
             </main>
         </StudioDataContext.Provider>

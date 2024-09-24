@@ -68,7 +68,7 @@ const page = ({ params }) => {
                 loadMore={loadMoreData}
                 threshold={0}
             >
-                <div className="lg:pl-3 flex lg:grid lg:grid-cols-5 gap-5 justify-center flex-wrap">
+                <div className="lg:pl-3  grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center">
                     {studioAnimeData.map((item, idx) => (
                         <ItemCardSimple animeData={item} key={idx} />
                     ))}

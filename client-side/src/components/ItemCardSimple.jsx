@@ -18,7 +18,7 @@ const ItemCardSimple = ({ animeData, rank }) => {
         return (
             <article>
                 <div className="skeleton bg-slate-300 w-full pb-[141.5%] mb-3"></div>
-                <p className="skeleton bg-slate-300 h-5 w-40"></p>
+                <p className="skeleton bg-slate-300 h-5 w-[90%]"></p>
             </article>
         );
     }
@@ -26,6 +26,7 @@ const ItemCardSimple = ({ animeData, rank }) => {
     return (
         <article className="dark [&_>div:first-of-type]:w-full">
             <Tooltip
+                className="hidden sm:block"
                 style="auto"
                 content={
                     <div className="p-3 max-w-80">
@@ -46,7 +47,7 @@ const ItemCardSimple = ({ animeData, rank }) => {
                             <p className="flex flex-wrap gap-2">
                                 {animeData.studios?.map((item) => (
                                     <Link
-                                        href={"#"}
+                                        href={`/studio/${item.id}`}
                                         className="text-amber-700 dark:text-amber-500 inline-block hover:underline underline-offset-2"
                                         key={item.id}
                                     >
@@ -122,7 +123,7 @@ const ItemCardSimple = ({ animeData, rank }) => {
                     </div>
                     <h3
                         // href={`/anime/${item.id}`}
-                        className="text-sm md:text-base font-semibold text-gray-500 font-suse group-hover:underline underline-offset-4 truncate-text"
+                        className="text-sm md:text-base font-semibold text-gray-500 font-suse group-hover:text-sky-500 truncate-text"
                     >
                         {animeData.title_english ?? animeData.title}
                     </h3>
