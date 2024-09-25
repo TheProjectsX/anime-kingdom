@@ -396,7 +396,7 @@ SEASONAL ROUTE
 
 
 # Get Seasons List
-@app.route("/seasons")
+@app.route("/anime/seasons")
 def seasonsList():
     result, statusCode = fns.getSeasonList()
 
@@ -404,7 +404,7 @@ def seasonsList():
 
 
 # Get Seasonal Anime
-@app.route("/seasons/<int:year>/<string:season>")
+@app.route("/anime/seasons/<int:year>/<string:season>")
 def seasonalAnime(year, season):
     filter = request.args.get("filter", "")
     continuing = request.args.get("continuing", "false")
@@ -418,7 +418,7 @@ def seasonalAnime(year, season):
 
 
 # Get Upcoming Anime
-@app.route("/seasons/now")
+@app.route("/anime/seasons/now")
 def seasonalNowAnime():
     limit = request.args.get("limit", 20)
     page = request.args.get("page", 1)
@@ -429,7 +429,7 @@ def seasonalNowAnime():
 
 
 # Get Upcoming Anime
-@app.route("/seasons/upcoming")
+@app.route("/anime/seasons/upcoming")
 def seasonalUpcomingAnime():
     limit = request.args.get("limit", 20)
     page = request.args.get("page", 1)
@@ -575,4 +575,4 @@ def animeCharacterQuotes(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
