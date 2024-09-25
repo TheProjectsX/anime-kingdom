@@ -1,7 +1,7 @@
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
-const ItemCardList = ({ animeData, rank }) => {
+const ItemCardList = ({ mangaData, rank }) => {
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -13,7 +13,7 @@ const ItemCardList = ({ animeData, rank }) => {
         if (!word) return ""; // Handle empty strings
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
-    if (animeData === null) {
+    if (mangaData === null) {
         return (
             <article className="bg-white p-3 flex gap-5 rounded-sm">
                 <div className="w-16 h-20 skeleton bg-slate-300"></div>
@@ -31,23 +31,23 @@ const ItemCardList = ({ animeData, rank }) => {
                 </p>
             )}
             <div className="bg-white p-3 rounded-sm flex items-center gap-5 flex-grow">
-                <Link href={`/anime/${animeData.id}`} className="flex-shrink-0">
+                <Link href={`/anime/${mangaData.id}`} className="flex-shrink-0">
                     <img
-                        src={animeData.image}
-                        alt={animeData.title_english ?? animeData.title}
+                        src={mangaData.image}
+                        alt={mangaData.title_english ?? mangaData.title}
                         className="w-14 h-20 hover:scale-[3.5] transition-[transform] duration-500"
                     />
                 </Link>
-                <div className="flex flex-grow flex-col gap-3 md:gap-0 md:flex-row">
+                <div className="flex flex-grow flex-col items-center gap-3 md:gap-0 md:flex-row">
                     <div className="flex-grow">
                         <Link
-                            href={`/anime/${animeData.id}`}
+                            href={`/anime/${mangaData.id}`}
                             className="text-gray-600 font-semibold font-suse mb-2.5 inline-block hover:text-green-500 transition-colors"
                         >
-                            {animeData.title_english ?? animeData.title}
+                            {mangaData.title_english ?? mangaData.title}
                         </Link>
                         <p className="flex gap-2 flex-wrap">
-                            {animeData.genres?.map((item) => (
+                            {mangaData.genres?.slice(0, 3).map((item) => (
                                 <Link
                                     href={"#"}
                                     key={item.id}
@@ -61,48 +61,31 @@ const ItemCardList = ({ animeData, rank }) => {
                     <div className="flex flex-wrap md:flex-nowrap *:mr-3">
                         <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
                             <p className="font-semibold font-suse text-gray-500">
-                                {animeData.score}
+                                {mangaData.score}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {animeData.scored_by} users
+                                {mangaData.scored_by} users
                             </p>
                         </div>
                         <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
                             <p className="font-semibold font-suse text-gray-500">
-                                {animeType[animeData.type?.toLowerCase()] ??
-                                    animeData.type}
+                                {animeType[mangaData.type?.toLowerCase()] ??
+                                    mangaData.type}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {animeData.type?.toLowerCase() === "movie"
-                                    ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
-                                    : animeData.episodes
-                                    ? `${animeData.episodes} episodes`
-                                    : `${animeData.duration ?? 0} mins`}
+                                {mangaData.volumes && `${mangaData.volumes} V`}
+                                {mangaData.chapters &&
+                                    ` - ${mangaData.chapters} C`}{" "}
                             </p>
                         </div>
-                        <Tooltip
-                            content={
-                                <p>
-                                    {animeData.aired?.string?.includes("to") &&
-                                        "from "}
-                                    {animeData.aired?.string}
-                                </p>
-                            }
-                            placement="right"
-                            className={`${
-                                animeData.aired?.string ? "" : "hidden"
-                            }`}
-                        >
-                            <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
-                                <p className="font-semibold font-suse text-gray-500">
-                                    {capitalizeWord(animeData.season)}{" "}
-                                    {animeData.year}
-                                </p>
-                                <p className="text-sm font-semibold text-gray-400">
-                                    {animeData.status}
-                                </p>
-                            </div>
-                        </Tooltip>
+                        <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
+                            <p className="font-semibold font-suse text-gray-500">
+                                {mangaData.status}
+                            </p>
+                            <p className="text-sm font-semibold text-gray-400">
+                                {mangaData.published?.string ?? "Unknown"}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

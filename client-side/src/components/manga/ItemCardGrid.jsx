@@ -1,7 +1,7 @@
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
-const ItemCardGrid = ({ animeData, rank }) => {
+const ItemCardGrid = ({ mangaData, rank }) => {
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -14,7 +14,7 @@ const ItemCardGrid = ({ animeData, rank }) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
-    if (animeData === null) {
+    if (mangaData === null) {
         return (
             <article className="h-[290px] sm:h-[250px] lg:h-[272px] bg-white rounded-md overflow-hidden">
                 <div className="w-52 sm:w-44 lg:w-48 h-full skeleton bg-slate-300 rounded-none"></div>
@@ -31,22 +31,22 @@ const ItemCardGrid = ({ animeData, rank }) => {
                         <span className="text-lg font-medium">{rank}</span>
                     </p>
                 )}
-                <Link href={`/anime/${animeData.id}`}>
+                <Link href={`/anime/${mangaData.id}`}>
                     <img
-                        src={animeData.image}
-                        alt={animeData.title_english ?? animeData.title}
+                        src={mangaData.image}
+                        alt={mangaData.title_english ?? mangaData.title}
                         className="w-full h-full"
                     />
                 </Link>
                 <div className="w-full absolute bottom-0 bg-slate-700/80 p-2">
                     <Link
-                        href={`/anime/${animeData.id}`}
+                        href={`/anime/${mangaData.id}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
                     >
-                        {animeData.title_english ?? animeData.title}
+                        {mangaData.title_english ?? mangaData.title}
                     </Link>
-                    <p className="flex gap-2 flex-wrap">
-                        {animeData.studios?.map((item) => (
+                    <p className="flex flex-wrap">
+                        {mangaData.authors?.slice(0, 1).map((item) => (
                             <Link
                                 href={"#"}
                                 className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
@@ -67,54 +67,48 @@ const ItemCardGrid = ({ animeData, rank }) => {
                     <div className="flex gap-2 justify-between">
                         {/* Header Info Data */}
                         <div>
-                            <p className="text-xs font-semibold text-gray-400">
-                                {animeData.status} ({animeData.source})
-                            </p>
                             <Tooltip
                                 content={
                                     <p>
-                                        {animeData.aired?.string?.includes(
+                                        {mangaData.published?.string?.includes(
                                             "to"
                                         ) && "from "}
-                                        {animeData.aired?.string}
+                                        {mangaData.published?.string}
                                     </p>
                                 }
                                 placement="right"
                                 className={`${
-                                    animeData.aired?.string ? "" : "hidden"
+                                    mangaData.published?.string ? "" : "hidden"
                                 }`}
                             >
-                                <p className="text-gray-500 font-semibold">
-                                    {capitalizeWord(animeData.season)}{" "}
-                                    {animeData.year}
+                                <p className="text-xs font-semibold text-gray-400">
+                                    {mangaData.status}
                                 </p>
                             </Tooltip>
                             <p className="text-xs mb-2 font-semibold">
-                                {animeType[animeData.type?.toLowerCase()] ??
-                                    animeData.type}{" "}
-                                {animeData.type?.toLowerCase() === "movie"
-                                    ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
-                                    : animeData.episodes
-                                    ? `${animeData.episodes} episodes`
-                                    : `${animeData.duration ?? 0} mins`}{" "}
+                                {mangaData.type}{" "}
+                                {mangaData.volumes &&
+                                    ` - ${mangaData.volumes} Volumes`}
+                                {mangaData.chapters &&
+                                    ` - ${mangaData.chapters} Chapters`}{" "}
                             </p>
                         </div>
                         {/* Header Info Score */}
                         <p className="font-semibold font-suse">
-                            {animeData.score ?? ""}
+                            {mangaData.score ?? ""}
                         </p>
                     </div>
                     <p className="text-[13px] text-zinc-500">
-                        {animeData.synopsis}
+                        {mangaData.synopsis}
                     </p>
                 </div>
                 {/* Genres */}
-                <div className="flex gap-2 justify-center w-full flex-wrap absolute bottom-0 p-2.5 bg-slate-100">
-                    {animeData.genres.slice(0, 2).map((item) => (
+                <div className="flex gap-2 justify-center w-full flex-wrap absolute bottom-0 p-2.5 bg-slate-200">
+                    {mangaData.genres.slice(0, 2).map((item) => (
                         <Link
                             href={"#"}
                             key={item.id}
-                            className="badge badge-info text-gray-100"
+                            className="badge badge-info badge-sm text-gray-100"
                         >
                             {item.name}
                         </Link>
