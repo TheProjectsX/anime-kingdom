@@ -1,6 +1,6 @@
 "use client";
 
-import ItemCardSimple from "@/components/ItemCardSimple";
+import ItemCardSimple from "@/components/anime/ItemCardSimple";
 import { loadAnimeData } from "@/utils/DataLoader";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";

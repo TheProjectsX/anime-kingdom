@@ -1,10 +1,10 @@
 "use client";
 
-import ItemCardSimple from "@/components/ItemCardSimple";
+import ItemCardSimple from "@/components/anime/ItemCardSimple";
 import { useEffect, useState } from "react";
 import { loadAnimeData } from "@/utils/DataLoader";
-import ItemCardList from "@/components/ItemCardList";
-import ItemCardGrid from "@/components/ItemCardGrid";
+import ItemCardList from "@/components/anime/ItemCardList";
+import ItemCardGrid from "@/components/anime/ItemCardGrid";
 
 import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
@@ -141,10 +141,6 @@ const MangaPage = ({ path, slug, filters }) => {
     };
 
     const updateDataOnChange = (primaryUpdatedQuery) => {
-        console.log(
-            "🚀 ~ updateDataOnChange ~ primaryUpdatedQuery:",
-            primaryUpdatedQuery
-        );
         setCurrentPage(1);
         let updatedQuery = primaryUpdatedQuery;
 

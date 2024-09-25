@@ -1,8 +1,8 @@
 "use client";
 
-import ItemCardGrid from "@/components/ItemCardGrid";
-import ItemCardList from "@/components/ItemCardList";
-import ItemCardSimple from "@/components/ItemCardSimple";
+import ItemCardGrid from "@/components/anime/ItemCardGrid";
+import ItemCardList from "@/components/anime/ItemCardList";
+import ItemCardSimple from "@/components/anime/ItemCardSimple";
 import { TextInput } from "flowbite-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

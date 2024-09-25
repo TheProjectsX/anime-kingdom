@@ -2,8 +2,8 @@
 import "./globals.css";
 
 // Components
-import PageNavbar from "@/components/PageNavbar";
-import PageFooter from "@/components/PageFooter";
+import PageNavbar from "@/components/common/PageNavbar";
+import PageFooter from "@/components/common/PageFooter";
 import NextTopLoader from "nextjs-toploader";
 
 export default function RootLayout({ children }) {

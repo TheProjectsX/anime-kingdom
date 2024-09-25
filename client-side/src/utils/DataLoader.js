@@ -15,7 +15,7 @@ const loadAnimeData = async (trade, paramsPayload, extraPath = "") => {
         await fetch(
             `${
                 process.env.NEXT_PUBLIC_SERVER_URL
-            }/${path}?${searchParams.toString()}`
+            }${path}?${searchParams.toString()}`
         )
     ).json();
 

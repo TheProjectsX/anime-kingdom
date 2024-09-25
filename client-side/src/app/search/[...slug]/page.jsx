@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import AnimePage from "../routes/AnimePage";
 import MangaPage from "../routes/MangaPage";
+import MangaPageBeta from "../routes/MangaPageBeta";
 
 const page = async ({ params }) => {
     const { slug } = params;
@@ -8,7 +9,6 @@ const page = async ({ params }) => {
 
     const routes = [
         "anime",
-        "manga",
         "anime/trending",
         "anime/seasons",
         "anime/seasons",
@@ -18,6 +18,11 @@ const page = async ({ params }) => {
         "anime/movies/popular",
         "anime/top",
         "anime/seasons",
+        "manga",
+        "manga/trending",
+        "manga/trending/manhwa",
+        "manga/trending/light-novel",
+        "manga/top",
     ];
 
     const path = slug.join("/");
@@ -45,7 +50,7 @@ const page = async ({ params }) => {
                 <AnimePage path={path} slug={slug} filters={filters} />
             )}
             {path.startsWith("manga") && (
-                <MangaPage path={path} slug={slug} filters={filters} />
+                <MangaPageBeta path={path} slug={slug} filters={filters} />
             )}
         </main>
     );
