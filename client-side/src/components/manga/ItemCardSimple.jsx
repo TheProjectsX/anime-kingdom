@@ -2,18 +2,6 @@ import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
 const ItemCardSimple = ({ mangaData, rank }) => {
-    const animeType = {
-        tv: "TV Series",
-        movie: "Movie",
-        ova: "OVA",
-        ona: "ONA",
-    };
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
-
     if (mangaData === null) {
         return (
             <article>
@@ -63,7 +51,7 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                             <p className="flex flex-wrap gap-2">
                                 {mangaData.authors?.map((item) => (
                                     <Link
-                                        href={`/studio/${item.id}`}
+                                        href={`/staffs/${item.id}`}
                                         className="text-amber-700 dark:text-amber-500 inline-block hover:underline underline-offset-2"
                                         key={item.id}
                                     >
@@ -95,7 +83,7 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                 placement="right"
             >
                 <Link
-                    href={`/anime/${mangaData.id}`}
+                    href={`/manga/${mangaData.id}`}
                     className="block relative group"
                 >
                     {rank && (

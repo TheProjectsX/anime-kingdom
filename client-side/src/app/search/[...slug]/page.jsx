@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import AnimePage from "../routes/AnimePage";
 import MangaPage from "../routes/MangaPage";
-import MangaPageBeta from "../routes/MangaPageBeta";
+import AnimeHomePageItems from "@/components/anime/AnimeHomePageItems";
+import MangaHomePageItems from "@/components/manga/MangaHomePageItems";
 
-const page = async ({ params }) => {
+const page = async ({ params, searchParams }) => {
     const { slug } = params;
     let filters;
 
@@ -46,12 +47,22 @@ const page = async ({ params }) => {
 
     return (
         <main className="max-width space-y-8 mb-10">
-            {path.startsWith("anime") && (
-                <AnimePage path={path} slug={slug} filters={filters} />
-            )}
-            {path.startsWith("manga") && (
-                <MangaPageBeta path={path} slug={slug} filters={filters} />
-            )}
+            {/* Open the Anime Home Page if the route is /search/anime and no searchParams exists */}
+            {path === "anime" && !searchParams.query && <AnimeHomePageItems />}
+
+            {/* Vice versa of the above logic */}
+            {path.startsWith("anime") &&
+                (path !== "anime" || searchParams.query) && (
+                    <AnimePage path={path} slug={slug} filters={filters} />
+                )}
+
+            {/* Copy version of Anime logic */}
+            {path === "manga" && !searchParams.query && <MangaHomePageItems />}
+
+            {path.startsWith("manga") &&
+                (path !== "manga" || searchParams.query) && (
+                    <MangaPage path={path} slug={slug} filters={filters} />
+                )}
         </main>
     );
 };
