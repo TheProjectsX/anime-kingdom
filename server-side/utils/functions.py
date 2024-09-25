@@ -1796,6 +1796,46 @@ def getAnimeFilters():
     return returnResponse, 200
 
 
+# Get homepage Manga
+def getHomepageManga(limit=6):
+    # Trending Manga, Manhwa, Light Novels
+    trendingManga, _ = getFilteredManga(
+        filters={"status": "publishing", "type": "manga"},
+        order_by="popularity",
+        limit=limit,
+    )
+    trendingManhwa, _ = getFilteredManga(
+        filters={"status": "publishing", "type": "manhwa"},
+        order_by="popularity",
+        limit=limit,
+    )
+    trendingLightNovels, _ = getFilteredManga(
+        filters={"status": "publishing", "type": "lightnovel"},
+        order_by="popularity",
+        limit=limit,
+    )
+
+    returnData = [
+        {
+            "heading": "Manga Trending Now",
+            "path": "/search/manga/trending",
+            "data": trendingManga.get("data", []),
+        },
+        {
+            "heading": "Manhwa Trending Now",
+            "path": "/search/manga/trending/manhwa",
+            "data": trendingManhwa.get("data", []),
+        },
+        {
+            "heading": "Light Novels Trending Now",
+            "path": "/search/manga/trending/light-novel",
+            "data": trendingLightNovels.get("data", []),
+        },
+    ]
+
+    return {"success": True, "data": returnData}, 200
+
+
 # Get Manga Filters
 def getMangaFilters():
     genres, _ = getMangaGenres()

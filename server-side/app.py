@@ -8,7 +8,12 @@ app = Flask(__name__)
 CORS(
     app,
     resources={
-        r"/*": {"origins": ["http://localhost:3000", "https://anidom.vercel.app"]}
+        r"/*": {
+            "origins": [
+                "http://localhost:3000",
+                "https://anidom.vercel.app",
+            ]
+        }
     },
 )
 
@@ -29,6 +34,15 @@ ANIME ROUTES
 def homepageAnime():
     limit = request.args.get("limit", 6)
     result, statusCode = fns.getHomepageAnime(limit)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Manga list for Homepage
+@app.route("/manga/home")
+def homepageManga():
+    limit = request.args.get("limit", 6)
+    result, statusCode = fns.getHomepageManga(limit)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
