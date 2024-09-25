@@ -1525,8 +1525,9 @@ def getTopManga(page=1, limit=25):
             "title_english": item.get("title_english", ""),
             "title_japanese": item.get("title_japanese", ""),
             "synopsis": item.get("synopsis"),
+            "chapters": item.get("chapters"),
             "volumes": item.get("volumes"),
-            "image": getImageFromImages(item.get("images", {})).get("large_image_url"),
+            "image": getImageFromImages(item.get("images", {})).get("image_url"),
             "type": item.get("type"),
             "source": item.get("source"),
             "status": item.get("status"),
@@ -1536,16 +1537,23 @@ def getTopManga(page=1, limit=25):
                 "string": item.get("published", {}).get("string"),
             },
             "mal_rank": item.get("rank"),
-            "year": (
-                item.get("year")
-                if not item.get("year") == None
-                else item.get("aired", {})
-                .get("prop", {})
-                .get("from", {})
-                .get("year", "")
-            ),
             "score": item.get("score"),
             "scored_by": item.get("scored_by"),
+            "authors": replaceProperty(
+                removeProperty(item.get("authors", []), ["url"]), "mal_id", "id"
+            ),
+            "studios": replaceProperty(
+                removeProperty(item.get("studios", []), ["url"]), "mal_id", "id"
+            ),
+            "genres": replaceProperty(
+                removeProperty(item.get("genres", []), ["url"]), "mal_id", "id"
+            ),
+            "themes": replaceProperty(
+                removeProperty(item.get("themes", []), ["url"]), "mal_id", "id"
+            ),
+            "demographics": replaceProperty(
+                removeProperty(item.get("demographics", []), ["url"]), "mal_id", "id"
+            ),
         }
 
         returnResponse["data"].append(data)
@@ -1817,17 +1825,17 @@ def getHomepageManga(limit=6):
 
     returnData = [
         {
-            "heading": "Manga Trending Now",
+            "heading": "Trending Manga",
             "path": "/search/manga/trending",
             "data": trendingManga.get("data", []),
         },
         {
-            "heading": "Manhwa Trending Now",
+            "heading": "Trending Manhwa",
             "path": "/search/manga/trending/manhwa",
             "data": trendingManhwa.get("data", []),
         },
         {
-            "heading": "Light Novels Trending Now",
+            "heading": "Trending Light Novels",
             "path": "/search/manga/trending/light-novel",
             "data": trendingLightNovels.get("data", []),
         },
