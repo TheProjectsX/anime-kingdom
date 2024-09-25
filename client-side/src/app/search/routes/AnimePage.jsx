@@ -2,13 +2,11 @@
 
 import ItemCardSimple from "@/components/anime/ItemCardSimple";
 import { useEffect, useState } from "react";
-import { loadAnimeData } from "@/utils/DataLoader";
 import ItemCardList from "@/components/anime/ItemCardList";
 import ItemCardGrid from "@/components/anime/ItemCardGrid";
 
 import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
-import AnimeFilterOptions from "@/components/AnimeFilterOptions";
 import FilterOptions from "@/components/common/FilterOptions";
 import { loadServerData } from "@/utils/DataLoaderBeta";
 
@@ -27,35 +25,20 @@ const apiSearchParamsPrimary = {
     end_date: "",
 };
 
-let apiSearchParams = { ...apiSearchParamsPrimary };
+// let apiSearchParams = { ...apiSearchParamsPrimary };
 
 const AnimePage = ({ path, slug, filters }) => {
+    const [apiSearchParams, setApiSearchParams] = useState({
+        ...apiSearchParamsPrimary,
+    });
+
     const searchParams = useSearchParams();
 
     const [layout, setLayout] = useState("card");
     const [hasMoreData, setHasMoreData] = useState(false);
     const [animeData, setAnimeData] = useState(Array(6).fill(null));
     const [currentPage, setCurrentPage] = useState(1);
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
-
-    const individualPathDataHandler = {
-        get: function (target, prop) {
-            if (
-                prop in target &&
-                target[prop] !== null &&
-                typeof target[prop] === "object"
-            ) {
-                return new Proxy(target[prop], individualPathDataHandler); // Recursively apply proxy for nested objects
-            }
-            return prop in target ? target[prop] : {}; // Return the property if it exists, otherwise return {}
-        },
-    };
-
-    const individualPathData = {
+    const [individualPathData, setIndividualPathData] = useState({
         "anime/trending": {
             path: "/anime/filter",
             title: "Trending Anime",
@@ -93,22 +76,22 @@ const AnimePage = ({ path, slug, filters }) => {
             title: "Top Anime",
             payload: {},
         },
-    };
+    });
 
-    const individualPathDataProxy = new Proxy(
-        individualPathData,
-        individualPathDataHandler
-    );
+    function capitalizeWord(word) {
+        if (!word) return ""; // Handle empty strings
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
 
     if (path.startsWith("anime/seasons")) {
         path = "anime/seasons";
     }
 
     // Function to Fetch data from server and save in state
-    const fetchData = async (params) => {
+    const fetchData = async (params, customPath) => {
         setHasMoreData(false);
         const response = await loadServerData(
-            individualPathData[path]?.path ?? "/anime/filter",
+            customPath ?? individualPathData[path]?.path ?? "/anime/filter",
             params ?? apiSearchParams
         );
         // console.log(response);
@@ -120,75 +103,65 @@ const AnimePage = ({ path, slug, filters }) => {
         }
     };
 
-    // Modify the API search Params according to page
-    apiSearchParams = {
-        ...apiSearchParams,
-        ...(individualPathData[path]?.payload ?? {}),
-        query: searchParams.get("query") ?? "",
-    };
-
     filters["query"] = searchParams.get("query") ?? "";
 
     // Update the Items when filter changes
     const updateFilteredItems = (filters = {}) => {
-        // console.log("🚀 ~ updateFilteredItems ~ filters:", filters);
-        console.log("before", apiSearchParams);
-        apiSearchParams = { ...apiSearchParams, ...filters, page: 1 };
-        console.log("after", apiSearchParams);
-        // console.log(
-        //     "🚀 ~ updateFilteredItems ~ apiSearchParams:",
-        //     apiSearchParams
-        // );
-        fetchData(apiSearchParams);
+        console.log("🚀 ~ updateFilteredItems ~ filters:", filters);
+        let params;
+
+        if (path.startsWith("anime/seasons")) {
+            let customPath;
+            if (
+                filters.hasOwnProperty("season") ||
+                filters.hasOwnProperty("year")
+            ) {
+                customPath = `/anime/seasons/${
+                    filters.year ??
+                    individualPathData["anime/seasons"].path.split("/").at(3)
+                }/${
+                    filters.season ??
+                    individualPathData["anime/seasons"].path.split("/").at(4)
+                }`;
+
+                setIndividualPathData((prev) => ({
+                    ...prev,
+                    "anime/seasons": {
+                        ...prev["anime/seasons"],
+                        path: customPath,
+                    },
+                }));
+            }
+            params = { filter: filters.type ?? "" };
+            fetchData(params, customPath);
+        } else {
+            params = { ...apiSearchParams, ...filters, page: 1 };
+
+            setApiSearchParams(params);
+            fetchData(params);
+        }
     };
-
-    // const updateDataOnChange = (primaryUpdatedQuery) => {
-    //     console.log(
-    //         "🚀 ~ updateDataOnChange ~ primaryUpdatedQuery:",
-    //         primaryUpdatedQuery
-    //     );
-    //     setCurrentPage(1);
-    //     let updatedQuery = primaryUpdatedQuery;
-
-    //     if (Object.values(updatedQuery).every((value) => value === "")) {
-    //         updatedQuery =
-    //             individualPathDataProxy[path]["payload"] ??
-    //             apiSearchParamsConst;
-    //     } else if (updatedQuery.query !== "") {
-    //         updatedQuery["order_by"] = "";
-    //     }
-
-    //     apiSearchParams = {
-    //         ...apiSearchParams,
-    //         ...updatedQuery,
-    //         query: primaryUpdatedQuery["query"] ?? "",
-    //         page: 1,
-    //     };
-
-    //     if (path.startsWith("anime/seasons")) {
-    //         const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
-    //         individualPathDataProxy["anime/seasons"]["extraPath"] = seasonPath;
-    //         fetchData();
-    //     } else {
-    //         fetchData();
-    //     }
-    // };
 
     const loadMoreData = async () => {
         setHasMoreData(false);
 
         apiSearchParams["page"] = currentPage + 1;
-        setMangaData([...mangaData, ...Array(6).fill(null)]);
+        setAnimeData([...animeData, ...Array(6).fill(null)]);
 
         setHasMoreData(false);
         const response = await loadServerData(
             individualPathData[path]?.path ?? "/anime/filter",
-            apiSearchParams
+            path.startsWith("anime/seasons")
+                ? {
+                      filter: apiSearchParams["type"] ?? "",
+                      page: apiSearchParams["page"],
+                  }
+                : apiSearchParams
         );
         // console.log(response);
         if (response.success) {
-            setMangaData((prevMangaData) => [
-                ...prevMangaData.slice(0, -6),
+            setAnimeData((prevAnimeData) => [
+                ...prevAnimeData.slice(0, -6),
                 ...(response.data ?? []),
             ]);
             setCurrentPage((prev) => prev + 1);
@@ -199,61 +172,44 @@ const AnimePage = ({ path, slug, filters }) => {
         }
     };
 
-    // const loadMoreData = async () => {
-    //     setHasMoreData(false);
-
-    //     apiSearchParams["page"] = currentPage + 1;
-    //     console.log(apiSearchParams);
-    //     setAnimeData([...animeData, ...Array(6).fill(null)]);
-
-    //     const response = await loadAnimeData(
-    //         individualPathDataProxy[path]["trade"],
-    //         path.startsWith("anime/seasons")
-    //             ? {
-    //                   filter: apiSearchParams["type"] ?? "",
-    //                   page: apiSearchParams["page"],
-    //               }
-    //             : apiSearchParams,
-    //         individualPathDataProxy[path]["extraPath"] ?? ""
-    //     );
-
-    //     if (response.success) {
-    //         setAnimeData((prevAnimeData) => [
-    //             ...prevAnimeData.slice(0, -6),
-    //             ...(response.data ?? []),
-    //         ]);
-    //         setCurrentPage((prev) => prev + 1);
-
-    //         if (response.pagination?.has_next_page) {
-    //             setHasMoreData(true);
-    //         }
-    //     }
-    // };
-
     // Load Data in first time
     useEffect(() => {
-        fetchData();
+        const params = {
+            ...apiSearchParams,
+            ...(individualPathData[path]?.payload ?? {}),
+            query: searchParams.get("query") ?? "",
+        };
+
+        // Modify the API search Params according to page
+        setApiSearchParams(params);
+
+        fetchData(params);
     }, []);
     // console.log(animeData);
     return (
         <section className="my-10">
             <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
-                {individualPathDataProxy[path]
-                    ? individualPathDataProxy[path]["title"]
-                    : "Anime"}
+                {individualPathData[path]?.title ?? "Anime"}
             </h4>
 
             <FilterOptions
                 onChange={updateFilteredItems}
-                filters={filters}
+                filters={
+                    path.startsWith("anime/seasons")
+                        ? {
+                              years: filters.years ?? [],
+                              seasons: filters.seasons ?? [],
+                              type: filters.type ?? [],
+                          }
+                        : {
+                              genres: filters.genres ?? [],
+                              type: filters.type ?? [],
+                              type: filters.type ?? [],
+                          }
+                }
+                preset={{ year: slug.at(2), season: slug.at(3) }}
                 className="mb-5"
             />
-            {/* <AnimeFilterOptions
-                onChange={updateDataOnChange}
-                options={filters}
-                seasonal={path.startsWith("anime/seasons")}
-                slug={slug}
-            /> */}
 
             {/* Layout Options */}
             <div className="flex justify-end gap-2 pr-5 mb-6">

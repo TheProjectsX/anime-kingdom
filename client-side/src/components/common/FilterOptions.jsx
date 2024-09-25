@@ -6,10 +6,26 @@ import ReactSelect from "react-select";
 const FilterOptions = ({
     filters = {},
     onChange = () => {},
+    preset = {},
     className = "",
 }) => {
     const router = useRouter();
     const pathname = usePathname();
+
+    function capitalizeWord(word) {
+        if (!word) return ""; // Handle empty strings
+        return (
+            String(word).charAt(0).toUpperCase() +
+            String(word).slice(1).toLowerCase()
+        );
+    }
+
+    const findItemAndConvert = (arr, item) => {
+        const found = arr.find(
+            (i) => String(i).toLowerCase() === String(item).toLowerCase()
+        );
+        return found ? { value: found, label: capitalizeWord(found) } : {};
+    };
 
     return (
         <form
@@ -42,6 +58,62 @@ const FilterOptions = ({
                     }}
                 />
             </label>
+
+            {filters.years && (
+                <label className="flex flex-col gap-1 w-48">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Year:
+                    </span>
+                    <ReactSelect
+                        isMulti={false}
+                        name="year"
+                        defaultValue={findItemAndConvert(
+                            filters?.years,
+                            preset?.year
+                        )}
+                        options={(filters?.years ?? []).map((item) => ({
+                            label: item,
+                            value: item,
+                        }))}
+                        className="basic-multi-select w-full"
+                        classNamePrefix="select"
+                        placeholder="Any"
+                        isClearable={true}
+                        isSearchable={false}
+                        onChange={(item) =>
+                            onChange({ year: item?.value ?? "" })
+                        }
+                    />
+                </label>
+            )}
+
+            {filters.seasons && (
+                <label className="flex flex-col gap-1 w-48">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Season:
+                    </span>
+                    <ReactSelect
+                        isMulti={false}
+                        name="season"
+                        defaultValue={findItemAndConvert(
+                            filters?.seasons,
+                            preset?.season
+                        )}
+                        options={(filters?.seasons ?? []).map((item) => ({
+                            label: capitalizeWord(item),
+                            value: item,
+                        }))}
+                        className="basic-multi-select w-full"
+                        classNamePrefix="select"
+                        placeholder="Any"
+                        isClearable={true}
+                        isSearchable={false}
+                        onChange={(item) =>
+                            onChange({ season: item?.value ?? "" })
+                        }
+                    />
+                </label>
+            )}
 
             {filters.genres && (
                 <label className="flex flex-col gap-1 w-48">
