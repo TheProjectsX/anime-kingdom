@@ -9,10 +9,12 @@ import ItemCardGrid from "@/components/anime/ItemCardGrid";
 import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
 import AnimeFilterOptions from "@/components/AnimeFilterOptions";
+import FilterOptions from "@/components/common/FilterOptions";
+import { loadServerData } from "@/utils/DataLoaderBeta";
 
 const limit = 20;
 
-const apiSearchParamsConst = {
+const apiSearchParamsPrimary = {
     query: "",
     genres: "",
     type: "",
@@ -25,18 +27,7 @@ const apiSearchParamsConst = {
     end_date: "",
 };
 
-let apiSearchParams = {
-    query: "",
-    genres: "",
-    type: "",
-    status: "",
-    rating: "",
-    page: 1,
-    limit: limit,
-    order_by: "",
-    start_date: "",
-    end_date: "",
-};
+let apiSearchParams = { ...apiSearchParamsPrimary };
 
 const AnimePage = ({ path, slug, filters }) => {
     const searchParams = useSearchParams();
@@ -66,7 +57,7 @@ const AnimePage = ({ path, slug, filters }) => {
 
     const individualPathData = {
         "anime/trending": {
-            trade: "filter-anime",
+            path: "/anime/filter",
             title: "Trending Anime",
             payload: {
                 order_by: "popularity",
@@ -75,17 +66,17 @@ const AnimePage = ({ path, slug, filters }) => {
             },
         },
         "anime/tv-series/popular": {
-            trade: "filter-anime",
+            path: "/anime/filter",
             title: "Popular TV Series",
             payload: { order_by: "popularity", type: "tv" },
         },
         "anime/movies/popular": {
-            trade: "filter-anime",
+            path: "/anime/filter",
             title: "Popular Movies",
             payload: { order_by: "popularity", type: "movie" },
         },
         "anime/seasons": {
-            trade: "seasonal-anime",
+            path: `/anime/seasons/${slug.slice(2).join("/")}`,
             title: `${
                 slug.slice(2)[0] !== "now"
                     ? `${slug
@@ -96,10 +87,9 @@ const AnimePage = ({ path, slug, filters }) => {
                     : "Anime this Season"
             }`,
             payload: {},
-            extraPath: slug.slice(2).join("/"),
         },
         "anime/top": {
-            trade: "top-anime",
+            path: "/top/anime",
             title: "Top Anime",
             payload: {},
         },
@@ -114,89 +104,91 @@ const AnimePage = ({ path, slug, filters }) => {
         path = "anime/seasons";
     }
 
-    apiSearchParams = {
-        ...apiSearchParams,
-        ...(individualPathDataProxy[path]
-            ? individualPathDataProxy[path]["payload"]
-            : {}),
-    };
-
-    const query = searchParams.get("query") ?? "";
-    apiSearchParams["query"] = query;
-    filters["query"] = query;
-
     // Function to Fetch data from server and save in state
-    const fetchData = async () => {
+    const fetchData = async (params) => {
         setHasMoreData(false);
-        const response = await loadAnimeData(
-            individualPathDataProxy[path]["trade"],
-            path.startsWith("anime/seasons")
-                ? { filter: apiSearchParams["type"] ?? "" }
-                : apiSearchParams,
-            individualPathDataProxy[path]["extraPath"] ?? ""
+        const response = await loadServerData(
+            individualPathData[path]?.path ?? "/anime/filter",
+            params ?? apiSearchParams
         );
         // console.log(response);
         if (response.success) {
             setAnimeData(response.data ?? []);
-        }
-        if (response.pagination?.has_next_page) {
-            setHasMoreData(true);
-        }
-    };
-
-    const updateDataOnChange = (primaryUpdatedQuery) => {
-        console.log(
-            "🚀 ~ updateDataOnChange ~ primaryUpdatedQuery:",
-            primaryUpdatedQuery
-        );
-        setCurrentPage(1);
-        let updatedQuery = primaryUpdatedQuery;
-
-        if (Object.values(updatedQuery).every((value) => value === "")) {
-            updatedQuery =
-                individualPathDataProxy[path]["payload"] ??
-                apiSearchParamsConst;
-        } else if (updatedQuery.query !== "") {
-            updatedQuery["order_by"] = "";
-        }
-
-        apiSearchParams = {
-            ...apiSearchParams,
-            ...updatedQuery,
-            query: primaryUpdatedQuery["query"] ?? "",
-            page: 1,
-        };
-
-        if (path.startsWith("anime/seasons")) {
-            const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
-            individualPathDataProxy["anime/seasons"]["extraPath"] = seasonPath;
-            fetchData();
-        } else {
-            fetchData();
+            if (response.pagination?.has_next_page) {
+                setHasMoreData(true);
+            }
         }
     };
+
+    // Modify the API search Params according to page
+    apiSearchParams = {
+        ...apiSearchParams,
+        ...(individualPathData[path]?.payload ?? {}),
+        query: searchParams.get("query") ?? "",
+    };
+
+    filters["query"] = searchParams.get("query") ?? "";
+
+    // Update the Items when filter changes
+    const updateFilteredItems = (filters = {}) => {
+        // console.log("🚀 ~ updateFilteredItems ~ filters:", filters);
+        console.log("before", apiSearchParams);
+        apiSearchParams = { ...apiSearchParams, ...filters, page: 1 };
+        console.log("after", apiSearchParams);
+        // console.log(
+        //     "🚀 ~ updateFilteredItems ~ apiSearchParams:",
+        //     apiSearchParams
+        // );
+        fetchData(apiSearchParams);
+    };
+
+    // const updateDataOnChange = (primaryUpdatedQuery) => {
+    //     console.log(
+    //         "🚀 ~ updateDataOnChange ~ primaryUpdatedQuery:",
+    //         primaryUpdatedQuery
+    //     );
+    //     setCurrentPage(1);
+    //     let updatedQuery = primaryUpdatedQuery;
+
+    //     if (Object.values(updatedQuery).every((value) => value === "")) {
+    //         updatedQuery =
+    //             individualPathDataProxy[path]["payload"] ??
+    //             apiSearchParamsConst;
+    //     } else if (updatedQuery.query !== "") {
+    //         updatedQuery["order_by"] = "";
+    //     }
+
+    //     apiSearchParams = {
+    //         ...apiSearchParams,
+    //         ...updatedQuery,
+    //         query: primaryUpdatedQuery["query"] ?? "",
+    //         page: 1,
+    //     };
+
+    //     if (path.startsWith("anime/seasons")) {
+    //         const seasonPath = `${updatedQuery.year}/${updatedQuery.season}`;
+    //         individualPathDataProxy["anime/seasons"]["extraPath"] = seasonPath;
+    //         fetchData();
+    //     } else {
+    //         fetchData();
+    //     }
+    // };
 
     const loadMoreData = async () => {
         setHasMoreData(false);
 
         apiSearchParams["page"] = currentPage + 1;
-        console.log(apiSearchParams);
-        setAnimeData([...animeData, ...Array(6).fill(null)]);
+        setMangaData([...mangaData, ...Array(6).fill(null)]);
 
-        const response = await loadAnimeData(
-            individualPathDataProxy[path]["trade"],
-            path.startsWith("anime/seasons")
-                ? {
-                      filter: apiSearchParams["type"] ?? "",
-                      page: apiSearchParams["page"],
-                  }
-                : apiSearchParams,
-            individualPathDataProxy[path]["extraPath"] ?? ""
+        setHasMoreData(false);
+        const response = await loadServerData(
+            individualPathData[path]?.path ?? "/anime/filter",
+            apiSearchParams
         );
-
+        // console.log(response);
         if (response.success) {
-            setAnimeData((prevAnimeData) => [
-                ...prevAnimeData.slice(0, -6),
+            setMangaData((prevMangaData) => [
+                ...prevMangaData.slice(0, -6),
                 ...(response.data ?? []),
             ]);
             setCurrentPage((prev) => prev + 1);
@@ -207,10 +199,41 @@ const AnimePage = ({ path, slug, filters }) => {
         }
     };
 
+    // const loadMoreData = async () => {
+    //     setHasMoreData(false);
+
+    //     apiSearchParams["page"] = currentPage + 1;
+    //     console.log(apiSearchParams);
+    //     setAnimeData([...animeData, ...Array(6).fill(null)]);
+
+    //     const response = await loadAnimeData(
+    //         individualPathDataProxy[path]["trade"],
+    //         path.startsWith("anime/seasons")
+    //             ? {
+    //                   filter: apiSearchParams["type"] ?? "",
+    //                   page: apiSearchParams["page"],
+    //               }
+    //             : apiSearchParams,
+    //         individualPathDataProxy[path]["extraPath"] ?? ""
+    //     );
+
+    //     if (response.success) {
+    //         setAnimeData((prevAnimeData) => [
+    //             ...prevAnimeData.slice(0, -6),
+    //             ...(response.data ?? []),
+    //         ]);
+    //         setCurrentPage((prev) => prev + 1);
+
+    //         if (response.pagination?.has_next_page) {
+    //             setHasMoreData(true);
+    //         }
+    //     }
+    // };
+
+    // Load Data in first time
     useEffect(() => {
         fetchData();
     }, []);
-
     // console.log(animeData);
     return (
         <section className="my-10">
@@ -219,12 +242,19 @@ const AnimePage = ({ path, slug, filters }) => {
                     ? individualPathDataProxy[path]["title"]
                     : "Anime"}
             </h4>
-            <AnimeFilterOptions
+
+            <FilterOptions
+                onChange={updateFilteredItems}
+                filters={filters}
+                className="mb-5"
+            />
+            {/* <AnimeFilterOptions
                 onChange={updateDataOnChange}
                 options={filters}
                 seasonal={path.startsWith("anime/seasons")}
                 slug={slug}
-            />
+            /> */}
+
             {/* Layout Options */}
             <div className="flex justify-end gap-2 pr-5 mb-6">
                 <button

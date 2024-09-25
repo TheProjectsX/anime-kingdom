@@ -15,12 +15,12 @@ const PageNavbar = () => {
             label: "Home",
         },
         {
-            href: "/about",
-            label: "About",
+            href: "/search/anime",
+            label: "Anime",
         },
         {
-            href: "/about",
-            label: "About",
+            href: "/search/manga",
+            label: "Manga",
         },
         {
             href: "/about",

@@ -65,7 +65,7 @@ const MangaHomePageItems = () => {
         <>
             {/* Layout Options */}
             <div className="flex justify-between items-end gap-2 pt-5 pr-5">
-                <label className="flex flex-col gap-1 w-full lg:w-auto">
+                <label className="flex flex-col gap-1 w-auto">
                     <span className="text-sm font-semibold text-gray-600 ml-2">
                         Search:
                     </span>
@@ -75,7 +75,6 @@ const MangaHomePageItems = () => {
                         icon={IoSearch}
                         placeholder="Type name and press Enter..."
                         title="Search manga by name"
-                        className="w-full"
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && e.target.value !== "") {
                                 router.push(
