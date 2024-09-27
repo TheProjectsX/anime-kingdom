@@ -119,6 +119,12 @@ const page = ({ params }) => {
 
             setImages(divideArrayIntoFour(response.data) ?? []);
             setLoading(false);
+
+            loadServerData(`/tools/waifu/categories`).then((response) => {
+                if (response.success) {
+                    setFilters(response.data);
+                }
+            });
         };
         loadData();
     }, []);
@@ -183,8 +189,7 @@ const page = ({ params }) => {
 
             {images.every((item) => item !== null) && (
                 <>
-                    {" "}
-                    <section className="grid items-start grid-cols-2 md:grid-cols-4">
+                    <section className="grid items-start grid-cols-2 md:grid-cols-4 min-h-96">
                         {images.map((group, idx) => (
                             <div
                                 className="grid border-r border-black last:border-r-0"
