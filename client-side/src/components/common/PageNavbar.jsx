@@ -23,8 +23,8 @@ const PageNavbar = () => {
             label: "Manga",
         },
         {
-            href: "/about",
-            label: "About",
+            href: "/tools",
+            label: "Tools",
         },
     ];
 
