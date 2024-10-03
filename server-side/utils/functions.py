@@ -1601,7 +1601,11 @@ def getReverseImageInfo(url=None, image=None):
 
     serverResponse = response.get("result")
 
-    returnResponse = {"success": True, "data": []}
+    returnResponse = {
+        "success": True,
+        "frameCount": response.get("frameCount"),
+        "data": [],
+    }
 
     for item in serverResponse:
         anilist = item.get("anilist", {})
@@ -1670,8 +1674,6 @@ def getWaifuPictures(type="sfw", category="waifu", limit=20):
 def getVoiceArtistsCompared(anime_01_id, anime_02_id, language="Japanese"):
     anime_01_characters, status_01 = getAnimeCharacters(anime_01_id)
     anime_02_characters, status_02 = getAnimeCharacters(anime_02_id)
-    anime_01_simple_data, _ = getAnimeSimpleData(anime_01_id)
-    anime_02_simple_data, _ = getAnimeSimpleData(anime_02_id)
 
     if not status_01 == 200:
         return anime_01_characters, status_01
@@ -1683,8 +1685,8 @@ def getVoiceArtistsCompared(anime_01_id, anime_02_id, language="Japanese"):
         commonVoiceArtists, unCommonVoiceArtists = compareVoiceArtists(
             anime_01_characters.get("data"),
             anime_02_characters.get("data"),
-            dataset_01_anime=anime_01_simple_data.get("data", {}),
-            dataset_02_anime=anime_02_simple_data.get("data", {}),
+            dataset_01_anime_id=anime_01_id,
+            dataset_02_anime_id=anime_02_id,
             language=language,
         )
     except Exception as e:

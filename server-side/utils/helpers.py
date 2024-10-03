@@ -83,22 +83,17 @@ def getDuration(text):
 
 # Function to find common voice actors
 def compareVoiceArtists(
-    dataset_01, dataset_02, dataset_01_anime={}, dataset_02_anime={}, language=None
+    dataset_01,
+    dataset_02,
+    dataset_01_anime_id=None,
+    dataset_02_anime_id=None,
+    language=None,
 ):
     voice_actors_01 = {}
     voice_actors_02 = {}
 
     # Create a map of voice actors to characters for dataset_01
     for character in dataset_01:
-        anime = {
-            "id": dataset_01_anime.get("id"),
-            "title": (
-                dataset_01_anime.get("title_english")
-                if dataset_01_anime.get("title_english")
-                else dataset_01_anime.get("title")
-            ),
-        }
-
         for va in character.get("voice_actors", []):
             if language and va.get("language", "").lower() != language.lower():
                 continue  # Skip if the language does not match
@@ -112,21 +107,12 @@ def compareVoiceArtists(
                     "image": character.get("image"),
                     "role": character.get("role"),
                     "favorites": character.get("favorites"),
-                    "anime": anime,
+                    "animeId": dataset_01_anime_id,
                 }
             )
 
     # Create a map of voice actors to characters for dataset_02
     for character in dataset_02:
-        anime = {
-            "id": dataset_02_anime.get("id"),
-            "title": (
-                dataset_02_anime.get("title_english")
-                if dataset_02_anime.get("title_english")
-                else dataset_02_anime.get("title")
-            ),
-        }
-
         for va in character.get("voice_actors", []):
             if language and va.get("language", "").lower() != language.lower():
                 continue  # Skip if the language does not match
@@ -140,7 +126,7 @@ def compareVoiceArtists(
                     "image": character.get("image"),
                     "role": character.get("role"),
                     "favorites": character.get("favorites"),
-                    "anime": anime,
+                    "anime": dataset_02_anime_id,
                 }
             )
 
