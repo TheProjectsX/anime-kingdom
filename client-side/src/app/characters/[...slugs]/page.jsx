@@ -120,11 +120,13 @@ const page = async ({ params }) => {
                                     >
                                         <img
                                             src={item.large_image}
-                                            alt={item.title}
+                                            alt={
+                                                item.title_english ?? item.title
+                                            }
                                             className="w-full mb-2 rounded-md shadow-lg"
                                         />
                                         <h3 className="font-semibold text-gray-500 group-hover:text-green-400">
-                                            {item.title}
+                                            {item.title_english ?? item.title}
                                         </h3>
                                     </Link>
                                 </Tooltip>
@@ -150,11 +152,13 @@ const page = async ({ params }) => {
                                     >
                                         <img
                                             src={item.large_image}
-                                            alt={item.title}
+                                            alt={
+                                                item.title_english ?? item.title
+                                            }
                                             className="w-full mb-2 rounded-md shadow-lg"
                                         />
                                         <h3 className="font-semibold text-gray-500 group-hover:text-green-400">
-                                            {item.title}
+                                            {item.title_english ?? item.title}
                                         </h3>
                                     </Link>
                                 </Tooltip>

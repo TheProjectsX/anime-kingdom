@@ -44,6 +44,7 @@ const page = () => {
     };
 
     const handleCompareArtists = async () => {
+        setLoading(true);
         const serverResult = await loadServerData("/tools/compare-va", {
             anime: `${targetAnime.target_01?.id},${targetAnime.target_02?.id}`,
             language: "japanese",
@@ -56,6 +57,7 @@ const page = () => {
         }
 
         setCompareResult(serverResult.data);
+        setLoading(false);
     };
 
     return (
@@ -101,7 +103,7 @@ const page = () => {
                     {/* Search Result */}
                     {searchResult?.target_01 &&
                         (typeof searchResult?.target_01 === "string" ? (
-                            <div className="absolute top-[4.2rem] left-0 right-0 p-2 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3">
+                            <div className="absolute top-[4.2rem] left-0 right-0 p-4 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3">
                                 Searching for {searchResult?.target_01}{" "}
                                 <span className="loading loading-sm"></span>
                             </div>
@@ -176,13 +178,16 @@ const page = () => {
                                 />
                             </div>
                             <div>
-                                <h4 className="font-semibold mb-1">
+                                <Link
+                                    href={`/anime/${targetAnime.target_01.id}`}
+                                    className="font-semibold mb-1 hover:underline underline-offset-2"
+                                >
                                     {targetAnime.target_01.title_english ??
                                         targetAnime.target_01.title}{" "}
                                     <span className="font-normal text-sm">
                                         ({targetAnime.target_01.type})
                                     </span>
-                                </h4>
+                                </Link>
                                 <p className="text-sm text-gray-700">
                                     Aired: {targetAnime.target_01.aired.string}
                                 </p>
@@ -230,7 +235,7 @@ const page = () => {
                     {/* Search Result */}
                     {searchResult?.target_02 &&
                         (typeof searchResult?.target_02 === "string" ? (
-                            <div className="absolute top-[4.2rem] left-0 right-0 p-2 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3">
+                            <div className="absolute top-[4.2rem] left-0 right-0 p-4 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3">
                                 Searching for {searchResult?.target_02}{" "}
                                 <span className="loading loading-sm"></span>
                             </div>
@@ -305,13 +310,16 @@ const page = () => {
                                 />
                             </div>
                             <div>
-                                <h4 className="font-semibold mb-1">
+                                <Link
+                                    href={`/anime/${targetAnime.target_02.id}`}
+                                    className="font-semibold mb-1 hover:underline underline-offset-2"
+                                >
                                     {targetAnime.target_02.title_english ??
                                         targetAnime.target_02.title}{" "}
                                     <span className="font-normal text-sm">
                                         ({targetAnime.target_02.type})
                                     </span>
-                                </h4>
+                                </Link>
                                 <p className="text-sm text-gray-700">
                                     Aired: {targetAnime.target_02.aired.string}
                                 </p>
@@ -358,7 +366,7 @@ const page = () => {
                                 <div className="bg-white flex justify-between items-start shadow-sm md:hidden">
                                     {/* Voice Actors */}
                                     <Link
-                                        href={`/characters/${va.id}`}
+                                        href={`/staffs/${va.id}`}
                                         className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                                     >
                                         <img
@@ -403,7 +411,7 @@ const page = () => {
                                                     }
                                                 >
                                                     <Link
-                                                        href={`/staffs/${character.id}`}
+                                                        href={`/characters/${character.id}`}
                                                         className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                                     >
                                                         <img
@@ -460,7 +468,7 @@ const page = () => {
                                                 }
                                             >
                                                 <Link
-                                                    href={`/staffs/${character.id}`}
+                                                    href={`/characters/${character.id}`}
                                                     className="flex gap-3 items-start w-full hover:cursor-pointer group"
                                                 >
                                                     <img
@@ -488,7 +496,7 @@ const page = () => {
                                     </div>
                                     {/* Voice Actors */}
                                     <Link
-                                        href={`/characters/${va.id}`}
+                                        href={`/staffs/${va.id}`}
                                         className="flex flex-col gap-1 items-center hover:cursor-pointer group flex-grow"
                                     >
                                         <img
@@ -534,7 +542,7 @@ const page = () => {
                                                 }
                                             >
                                                 <Link
-                                                    href={`/staffs/${character.id}`}
+                                                    href={`/characters/${character.id}`}
                                                     className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                                 >
                                                     <img
@@ -599,7 +607,7 @@ const page = () => {
                                     >
                                         {/* Voice Actors */}
                                         <Link
-                                            href={`/characters/${va.id}`}
+                                            href={`/staffs/${va.id}`}
                                             className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                                         >
                                             <img
@@ -622,7 +630,7 @@ const page = () => {
                                             {va.characters.map((character) => (
                                                 <Link
                                                     key={character.id}
-                                                    href={`/staffs/${character.id}`}
+                                                    href={`/characters/${character.id}`}
                                                     className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                                 >
                                                     <img
