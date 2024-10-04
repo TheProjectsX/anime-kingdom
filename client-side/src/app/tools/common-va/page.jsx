@@ -3,7 +3,7 @@
 import { TextInput, Tooltip } from "flowbite-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
 const page = () => {
@@ -192,7 +192,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/11/551875.jpg?s=a5bb55c445ffb195e667e2583b75606b",
                             role: "Supporting",
                             favorites: 5,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 ],
@@ -220,7 +220,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/8/551874.jpg?s=5fc57e5a917e40778aa7dd4526706e5f",
                             role: "Supporting",
                             favorites: 1,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 ],
@@ -255,7 +255,7 @@ const page = () => {
                             name: "Yoshikawa, Yuki",
                             image: "https://cdn.myanimelist.net/images/characters/9/424143.jpg?s=4bfe7c10353726bcb594b751dbe10152",
                             role: "Supporting",
-                            favorites: 1498,
+                            favorites: 1497,
                             animeId: "42897",
                         },
                     ],
@@ -271,7 +271,7 @@ const page = () => {
                             name: "Sengoku, Kakeru",
                             image: "https://cdn.myanimelist.net/images/characters/13/424149.jpg?s=528834590f54b827bd0fbc2ece81e8cb",
                             role: "Supporting",
-                            favorites: 162,
+                            favorites: 163,
                             animeId: "42897",
                         },
                     ],
@@ -431,7 +431,7 @@ const page = () => {
                             name: "Miyamura, Iori",
                             image: "https://cdn.myanimelist.net/images/characters/5/478151.jpg?s=b79e8cb915cccd8f4ea92a8ff052d71b",
                             role: "Supporting",
-                            favorites: 6,
+                            favorites: 5,
                             animeId: "42897",
                         },
                     ],
@@ -479,7 +479,7 @@ const page = () => {
                             name: "Miyamura, Izumi",
                             image: "https://cdn.myanimelist.net/images/characters/12/507110.jpg?s=9bc8d3bb3912880ee710a487e2b5a965",
                             role: "Main",
-                            favorites: 15958,
+                            favorites: 15955,
                             animeId: "42897",
                         },
                     ],
@@ -610,7 +610,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/3/540605.jpg?s=82a5ae4cce910a958c835a9b3e6c627f",
                             role: "Supporting",
                             favorites: 2,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -626,7 +626,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/7/555576.jpg?s=9a0e6f3fd4c680ebfda834c145cc2fcb",
                             role: "Main",
                             favorites: 32,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -642,7 +642,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/10/540606.jpg?s=5a3e65794954f0595e0ce3f6d09a656d",
                             role: "Supporting",
                             favorites: 0,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -658,7 +658,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/15/540607.jpg?s=eefa0575747fce87d1db6de24ef48f1f",
                             role: "Supporting",
                             favorites: 6,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -674,7 +674,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/11/524714.jpg?s=5c9404077a65161a415548f435bb9036",
                             role: "Supporting",
                             favorites: 1,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -690,7 +690,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/12/551872.jpg?s=ec638b135f8fd169b5899670fb17cecd",
                             role: "Supporting",
                             favorites: 0,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -706,7 +706,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/14/524713.jpg?s=718118e9465e8a90a88ec8a64e66b31f",
                             role: "Supporting",
                             favorites: 10,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -722,7 +722,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/2/540608.jpg?s=2c46cfd46999eaf99ca6b63d4ecdd3a0",
                             role: "Supporting",
                             favorites: 2,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -738,7 +738,7 @@ const page = () => {
                             image: "https://cdn.myanimelist.net/images/characters/6/549326.jpg?s=ef3a1bc676d8222ef4393d0625cc67ff",
                             role: "Supporting",
                             favorites: 1,
-                            anime: "54284",
+                            animeId: "54284",
                         },
                     ],
                 },
@@ -993,157 +993,283 @@ const page = () => {
             )}
 
             {/* Body! */}
+
+            {/* Common Voice Artists */}
             <section>
-                <h3 className="text-2xl font-semibold font-suse underline underline-offset-4 mb-2">
+                <h3 className="text-2xl font-semibold font-suse underline underline-offset-4 mb-3">
                     Common Voice Artists:
                 </h3>
 
-                <div className="space-y-2 mb-3">
+                <div className="space-y-2 mb-5">
                     {compareResult.commonVoiceArtists.map((va) => (
-                        <div
-                            key={va.id}
-                            className="bg-white flex justify-between items-start shadow-sm"
-                        >
-                            {/* Voice Actors */}
-                            <Link
-                                href={`/characters/${va.id}`}
-                                className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
-                            >
-                                <img
-                                    src={va.image}
-                                    alt={va.name}
-                                    className="w-[58px] h-[90px] bg-slate-200"
-                                />
-                                <div className="py-2.5">
-                                    <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                        {va.name}
-                                    </h4>
-                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                        {va.role}
-                                    </p>
-                                </div>
-                            </Link>
+                        <Fragment key={va.id}>
+                            {/* For Small Devices */}
+                            <div className="bg-white flex justify-between items-start shadow-sm md:hidden">
+                                {/* Voice Actors */}
+                                <Link
+                                    href={`/characters/${va.id}`}
+                                    className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
+                                >
+                                    <img
+                                        src={va.image}
+                                        alt={va.name}
+                                        className="w-[58px] h-[90px] bg-slate-200"
+                                    />
+                                    <div className="py-2.5">
+                                        <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                            {va.name}
+                                        </h4>
+                                        <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                            {va.language}
+                                        </p>
+                                    </div>
+                                </Link>
 
-                            {/* Characters */}
-                            <div className="space-y-4 flex-grow flex flex-col items-end">
-                                {va.characters.flat().map((character) => (
-                                    <Tooltip
-                                        key={character.id}
-                                        placement="right"
-                                        content={
-                                            targetAnime.target_01.id ==
-                                            character.animeId
-                                                ? targetAnime.target_01
-                                                      .title_english ??
-                                                  targetAnime.target_01.title
-                                                : targetAnime.target_02
-                                                      .title_english ??
-                                                  targetAnime.target_02.title
-                                        }
-                                    >
-                                        <Link
-                                            href={`/staffs/${character.id}`}
-                                            className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                {/* Characters */}
+                                <div className="space-y-4 flex-grow flex flex-col items-end">
+                                    {va.characters.flat().map((character) => (
+                                        <Tooltip
+                                            key={character.id}
+                                            placement="right"
+                                            content={
+                                                targetAnime.target_01.id ==
+                                                character.animeId
+                                                    ? targetAnime.target_01
+                                                          .title_english ??
+                                                      targetAnime.target_01
+                                                          .title
+                                                    : targetAnime.target_02
+                                                          .title_english ??
+                                                      targetAnime.target_02
+                                                          .title
+                                            }
                                         >
-                                            <img
-                                                src={character.image}
-                                                alt={character.name}
-                                                className="w-[58px] h-[90px] bg-slate-200"
-                                            />
-                                            <div className="py-2.5">
-                                                <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                                    {character.name}
-                                                </h3>
-                                                <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                                    {character.language}
-                                                </p>
-                                                <p className="text-slate-400 text-xs font-medium">
-                                                    {character.favorites}{" "}
-                                                    Favorites
-                                                </p>
-                                            </div>
-                                        </Link>
-                                    </Tooltip>
-                                ))}
+                                            <Link
+                                                href={`/staffs/${character.id}`}
+                                                className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                            >
+                                                <img
+                                                    src={character.image}
+                                                    alt={character.name}
+                                                    className="w-[58px] h-[90px] bg-slate-200"
+                                                />
+                                                <div className="py-2.5">
+                                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                        {character.name}
+                                                    </h3>
+                                                    <p className="text-slate-400 text-xs font-medium">
+                                                        {character.favorites}{" "}
+                                                        Favorites
+                                                    </p>
+                                                </div>
+                                            </Link>
+                                        </Tooltip>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+
+                            {/* For Medium to on-ward Devices */}
+                            <div className="bg-white justify-between items-end shadow-sm hidden md:flex">
+                                {/* Character group 01 */}
+                                <div className="space-y-4 flex-grow flex flex-col [&_>div:first-of-type]:w-full">
+                                    {va.characters[0].map((character) => (
+                                        <Tooltip
+                                            key={character.id}
+                                            placement="left"
+                                            content={
+                                                <p className="max-w-60">
+                                                    {" "}
+                                                    {targetAnime.target_01.id ==
+                                                    character.animeId
+                                                        ? targetAnime.target_01
+                                                              .title_english ??
+                                                          targetAnime.target_01
+                                                              .title
+                                                        : targetAnime.target_02
+                                                              .title_english ??
+                                                          targetAnime.target_02
+                                                              .title}
+                                                </p>
+                                            }
+                                        >
+                                            <Link
+                                                href={`/staffs/${character.id}`}
+                                                className="flex gap-3 items-start w-full hover:cursor-pointer group"
+                                            >
+                                                <img
+                                                    src={character.image}
+                                                    alt={character.name}
+                                                    className="w-[58px] h-[90px] bg-slate-200"
+                                                />
+                                                <div className="py-2.5">
+                                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                        {character.name}
+                                                    </h3>
+                                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                                        {character.language}
+                                                    </p>
+                                                    <p className="text-slate-400 text-xs font-medium">
+                                                        {character.favorites}{" "}
+                                                        Favorites
+                                                    </p>
+                                                </div>
+                                            </Link>
+                                        </Tooltip>
+                                    ))}
+                                </div>
+                                {/* Voice Actors */}
+                                <Link
+                                    href={`/characters/${va.id}`}
+                                    className="flex flex-col gap-1 items-center hover:cursor-pointer group flex-grow"
+                                >
+                                    <img
+                                        src={va.image}
+                                        alt={va.name}
+                                        className="w-[70px] ah-[90px] bg-slate-200"
+                                    />
+                                    <div className="py-2.5 text-center">
+                                        <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                            {va.name}
+                                        </h4>
+                                        <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                            {va.language}
+                                        </p>
+                                    </div>
+                                </Link>
+
+                                {/* Character group 02 */}
+                                <div className="space-y-4 flex-grow flex flex-col  [&_>div:first-of-type]:w-full">
+                                    {va.characters[1].map((character) => (
+                                        <Tooltip
+                                            key={character.id}
+                                            placement="right"
+                                            content={
+                                                <p className="max-w-60">
+                                                    {" "}
+                                                    {targetAnime.target_01.id ==
+                                                    character.animeId
+                                                        ? targetAnime.target_01
+                                                              .title_english ??
+                                                          targetAnime.target_01
+                                                              .title
+                                                        : targetAnime.target_02
+                                                              .title_english ??
+                                                          targetAnime.target_02
+                                                              .title}
+                                                </p>
+                                            }
+                                        >
+                                            <Link
+                                                href={`/staffs/${character.id}`}
+                                                className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                            >
+                                                <img
+                                                    src={character.image}
+                                                    alt={character.name}
+                                                    className="w-[58px] h-[90px] bg-slate-200"
+                                                />
+                                                <div className="py-2.5">
+                                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                        {character.name}
+                                                    </h3>
+                                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                                        {character.language}
+                                                    </p>
+                                                    <p className="text-slate-400 text-xs font-medium">
+                                                        {character.favorites}{" "}
+                                                        Favorites
+                                                    </p>
+                                                </div>
+                                            </Link>
+                                        </Tooltip>
+                                    ))}
+                                </div>
+                            </div>
+                        </Fragment>
                     ))}
                 </div>
+            </section>
 
-                <h3 className="text-2xl font-semibold font-suse underline underline-offset-4 mb-2">
+            {/* Uncommon Voice Artists */}
+            <section>
+                <h3 className="text-2xl font-semibold font-suse underline underline-offset-4 mb-3">
                     UnCommon Voice Artists:
                 </h3>
-                <div className="space-y-2 mb-5">
-                    {compareResult.unCommonVoiceArtists.flat().map((va) => (
-                        <div
-                            key={va.id}
-                            className="bg-white flex justify-between items-start shadow-sm"
-                        >
-                            {/* Voice Actors */}
+                {compareResult.unCommonVoiceArtists.map((group, idx) => (
+                    <section key={idx}>
+                        <h3 className="mb-2">
+                            <span className="text-xl text-black">Anime:</span>{" "}
                             <Link
-                                href={`/characters/${va.id}`}
-                                className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
+                                href={`/anime/${group[0].characters[0].animeId}`}
+                                className="text-base text-gray-600 hover:underline underline-offset-2"
                             >
-                                <img
-                                    src={va.image}
-                                    alt={va.name}
-                                    className="w-[58px] h-[90px] bg-slate-200"
-                                />
-                                <div className="py-2.5">
-                                    <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                        {va.name}
-                                    </h4>
-                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                        {va.role}
-                                    </p>
-                                </div>
+                                {targetAnime.target_01.id ==
+                                group[0].characters[0].animeId
+                                    ? targetAnime.target_01.title_english ??
+                                      targetAnime.target_01.title
+                                    : targetAnime.target_02.title_english ??
+                                      targetAnime.target_02.title}
                             </Link>
-
-                            {/* Characters */}
-                            <div className="space-y-4 flex-grow flex flex-col items-end">
-                                {va.characters.map((character) => (
-                                    <Tooltip
-                                        key={character.id}
-                                        placement="right"
-                                        content={
-                                            targetAnime.target_01.id ==
-                                            character.animeId
-                                                ? targetAnime.target_01
-                                                      .title_english ??
-                                                  targetAnime.target_01.title
-                                                : targetAnime.target_02
-                                                      .title_english ??
-                                                  targetAnime.target_02.title
-                                        }
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                            {group.map((va) => (
+                                <div
+                                    key={va.id}
+                                    className="bg-white flex justify-between items-start shadow-sm"
+                                >
+                                    {/* Voice Actors */}
+                                    <Link
+                                        href={`/characters/${va.id}`}
+                                        className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                                     >
-                                        <Link
-                                            href={`/staffs/${character.id}`}
-                                            className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
-                                        >
-                                            <img
-                                                src={character.image}
-                                                alt={character.name}
-                                                className="w-[58px] h-[90px] bg-slate-200"
-                                            />
-                                            <div className="py-2.5">
-                                                <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                                    {character.name}
-                                                </h3>
-                                                <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                                    {character.language}
-                                                </p>
-                                                <p className="text-slate-400 text-xs font-medium">
-                                                    {character.favorites}{" "}
-                                                    Favorites
-                                                </p>
-                                            </div>
-                                        </Link>
-                                    </Tooltip>
-                                ))}
-                            </div>
+                                        <img
+                                            src={va.image}
+                                            alt={va.name}
+                                            className="w-[58px] h-[90px] bg-slate-200"
+                                        />
+                                        <div className="py-2.5">
+                                            <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                {va.name}
+                                            </h4>
+                                            <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                                {va.language}
+                                            </p>
+                                        </div>
+                                    </Link>
+
+                                    {/* Characters */}
+                                    <div className="space-y-4 flex-grow flex flex-col items-end">
+                                        {va.characters.map((character) => (
+                                            <Link
+                                                key={character.id}
+                                                href={`/staffs/${character.id}`}
+                                                className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                            >
+                                                <img
+                                                    src={character.image}
+                                                    alt={character.name}
+                                                    className="w-[58px] h-[90px] bg-slate-200"
+                                                />
+                                                <div className="py-2.5">
+                                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                        {character.name}
+                                                    </h3>
+                                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                                        {character.language}
+                                                    </p>
+                                                    <p className="text-slate-400 text-xs font-medium">
+                                                        {character.favorites}{" "}
+                                                        Favorites
+                                                    </p>
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </section>
+                ))}
             </section>
         </main>
     );
