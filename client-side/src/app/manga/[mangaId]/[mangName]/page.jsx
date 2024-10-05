@@ -5,7 +5,7 @@ import { capitalizeWord } from "@/utils/HelperFunctions";
 import Link from "next/link";
 import { useContext } from "react";
 
-const page = ({ params }) => {
+const page = () => {
     const context = useContext(MangaDataContext);
     const { mangaBaseData } = context;
 

@@ -12,10 +12,10 @@ const page = ({ params }) => {
     return redirect(
         `/anime/${animeId}/${
             animeBaseData.title_english
-                ?.replace(/[^a-zA-Z\s]/g, "")
+                ?.replace(/[^a-zA-Z0-9\s]/g, "")
                 .replace(/\s+/g, "-") ??
             animeBaseData.title
-                ?.replace(/[^a-zA-Z\s]/g, "")
+                ?.replace(/[^a-zA-Z0-9\s]/g, "")
                 .replace(/\s+/g, "-")
         }`
     );

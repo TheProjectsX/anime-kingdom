@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import AnimeDataContext from "@/context/AnimeDataContext";
 import Link from "next/link";
 import { capitalizeWord, formatDate } from "@/utils/HelperFunctions";
+import { Helmet } from "react-helmet";
 
 const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
     const animeType = {
@@ -26,13 +27,19 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
 
     const baseUrl = `/anime/${animeId}/${
         animeBaseData.title_english
-            ?.replace(/[^a-zA-Z\s]/g, "")
+            ?.replace(/[^a-zA-Z0-9\s]/g, "")
             .replace(/\s+/g, "-") ??
-        animeBaseData.title?.replace(/[^a-zA-Z\s]/g, "").replace(/\s+/g, "-")
+        animeBaseData.title?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-")
     }`;
 
     return (
         <AnimeDataContext.Provider value={{ animeBaseData }}>
+            <Helmet>
+                <title>
+                    {animeBaseData.title_english ?? animeBaseData.title} -
+                    AniDom
+                </title>
+            </Helmet>
             <main className="max-width !px-0 mb-10">
                 {animeBaseData.banner && (
                     <div className="">

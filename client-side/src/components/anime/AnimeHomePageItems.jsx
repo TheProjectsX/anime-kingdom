@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
+import { Helmet } from "react-helmet";
 
 let cachedHomepageData = [
     [
@@ -71,6 +72,9 @@ const AnimeHomePageItems = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Search for Anime! - AniDom</title>
+            </Helmet>
             {/* Layout Options */}
             <div className="flex justify-between items-end gap-2 pt-5 pr-5">
                 <label className="flex flex-col gap-1 w-auto">

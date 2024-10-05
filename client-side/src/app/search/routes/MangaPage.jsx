@@ -8,6 +8,7 @@ import { loadServerData } from "@/utils/DataLoaderBeta";
 import { TextInput } from "flowbite-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { IoSearch } from "react-icons/io5";
 import InfiniteScroll from "react-infinite-scroller";
 import ReactSelect from "react-select";
@@ -145,217 +146,143 @@ const MangaPage = ({ path, slug, filters }) => {
     }, []);
 
     return (
-        <section className="my-10">
-            {/* <form
-                className="flex gap-2 items-center justify-evenly flex-wrap mb-10"
-                // ref={formRef}
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    onStatusChange();
-                }}
-            >
-                <label className="flex flex-col gap-1 w-full lg:w-auto">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Search:
-                    </span>
-                    <TextInput
-                        type="text"
-                        name="query"
-                        icon={IoSearch}
-                        placeholder="Type name and press Enter..."
-                        defaultValue={filters?.query ?? ""}
-                        title="Search anime by name"
-                        className="w-full"
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                const params = new URLSearchParams();
-                                params.set("query", e.target.value);
-                                router.push(`${pathname}?${params.toString()}`);
+        <>
+            <Helmet>
+                <title>
+                    {individualPathData[path]?.title ?? "Search for Manga"} -
+                    AniDom
+                </title>
+            </Helmet>
+            <section className="my-10">
+                <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
+                    {individualPathData[path]?.title ?? "Search for Manga"}
+                </h4>
+                <FilterOptions
+                    filters={filters}
+                    onChange={updateFilteredItems}
+                />
 
-                                updateFilteredItems({ query: e.target.value });
-                            }
-                        }}
-                    />
-                </label>
-
-                <label className="flex flex-col gap-1 w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Genres:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="genres"
-                        options={filters?.genres ?? []}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        onChange={(item) =>
-                            updateFilteredItems({ genres: item?.value ?? "" })
-                        }
-                    />
-                </label>
-
-                <label className="flex flex-col gap-1 min-w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Type:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="type"
-                        options={filters?.type ?? []}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        isSearchable={false}
-                        onChange={(item) =>
-                            updateFilteredItems({ type: item?.value ?? "" })
-                        }
-                    />
-                </label>
-
-                <label className="flex flex-col gap-1 min-w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Status:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="status"
-                        options={filters?.status ?? []}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        isSearchable={false}
-                        onChange={(item) =>
-                            updateFilteredItems({ status: item?.value ?? "" })
-                        }
-                    />
-                </label>
-            </form> */}
-            <FilterOptions filters={filters} onChange={updateFilteredItems} />
-
-            {/* Layout Options */}
-            <div className="flex justify-end gap-2 pr-5 mb-6">
-                <button
-                    className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
-                        layout === "card" ? "text-gray-600" : ""
-                    }`}
-                    onClick={() => setLayout("card")}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        version="1.1"
-                        viewBox="0 0 17 17"
-                        width="20px"
-                        height="20px"
-                        fill="currentColor"
+                {/* Layout Options */}
+                <div className="flex justify-end gap-2 pr-5 mb-6">
+                    <button
+                        className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
+                            layout === "card" ? "text-gray-600" : ""
+                        }`}
+                        onClick={() => setLayout("card")}
                     >
-                        <path d="M0 0h5v5h-5v-5zM6 5h5v-5h-5v5zM12 0v5h5v-5h-5zM0 11h5v-5h-5v5zM6 11h5v-5h-5v5zM12 11h5v-5h-5v5zM0 17h5v-5h-5v5zM6 17h5v-5h-5v5zM12 17h5v-5h-5v5z" />
-                    </svg>
-                </button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                            version="1.1"
+                            viewBox="0 0 17 17"
+                            width="20px"
+                            height="20px"
+                            fill="currentColor"
+                        >
+                            <path d="M0 0h5v5h-5v-5zM6 5h5v-5h-5v5zM12 0v5h5v-5h-5zM0 11h5v-5h-5v5zM6 11h5v-5h-5v5zM12 11h5v-5h-5v5zM0 17h5v-5h-5v5zM6 17h5v-5h-5v5zM12 17h5v-5h-5v5z" />
+                        </svg>
+                    </button>
 
-                <button
-                    className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
-                        layout === "grid" ? "text-gray-600" : ""
-                    }`}
-                    onClick={() => setLayout("grid")}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="3 3 18 18"
-                        width="20px"
-                        height="20px"
-                        fill="currentColor"
+                    <button
+                        className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
+                            layout === "grid" ? "text-gray-600" : ""
+                        }`}
+                        onClick={() => setLayout("grid")}
                     >
-                        <path d="M11,11H3V4A1,1,0,0,1,4,3h7ZM21,4a1,1,0,0,0-1-1H13v8h8ZM4,21h7V13H3v7A1,1,0,0,0,4,21Zm17-1V13H13v8h7A1,1,0,0,0,21,20Z" />
-                    </svg>
-                </button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="3 3 18 18"
+                            width="20px"
+                            height="20px"
+                            fill="currentColor"
+                        >
+                            <path d="M11,11H3V4A1,1,0,0,1,4,3h7ZM21,4a1,1,0,0,0-1-1H13v8h8ZM4,21h7V13H3v7A1,1,0,0,0,4,21Zm17-1V13H13v8h7A1,1,0,0,0,21,20Z" />
+                        </svg>
+                    </button>
 
-                <button
-                    className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
-                        layout === "list" ? "text-gray-600" : ""
-                    }`}
-                    onClick={() => setLayout("list")}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        version="1.1"
-                        viewBox="8 8 16 16"
-                        width="20px"
-                        height="20px"
-                        fill="currentColor"
+                    <button
+                        className={`bg-transparent border-none outline-none text-gray-500 hover:text-gray-600 transition-colors ${
+                            layout === "list" ? "text-gray-600" : ""
+                        }`}
+                        onClick={() => setLayout("list")}
                     >
-                        <path d="M8 12h4v-4h-4v4zM8 18h4v-4h-4v4zM8 24h4v-4h-4v4zM14 8v4h10v-4h-10zM14 18h10v-4h-10v4zM14 24h10v-4h-10v4z" />
-                    </svg>
-                </button>
-            </div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            version="1.1"
+                            viewBox="8 8 16 16"
+                            width="20px"
+                            height="20px"
+                            fill="currentColor"
+                        >
+                            <path d="M8 12h4v-4h-4v4zM8 18h4v-4h-4v4zM8 24h4v-4h-4v4zM14 8v4h10v-4h-10zM14 18h10v-4h-10v4zM14 24h10v-4h-10v4z" />
+                        </svg>
+                    </button>
+                </div>
 
-            {/* Card Layout */}
-            {layout === "card" && (
-                <InfiniteScroll
-                    initialLoad={false}
-                    pageStart={1}
-                    hasMore={hasMoreData}
-                    loadMore={loadMoreData}
-                    threshold={0}
-                >
-                    <div className="lg:pl-3 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center flex-wrap">
-                        {mangaData.map((item, idx) => (
-                            <ItemCardSimple
-                                mangaData={item}
-                                key={idx}
-                                rank={path === "manga/top" ? idx + 1 : null}
-                            />
-                        ))}
-                    </div>
-                </InfiniteScroll>
-            )}
+                {/* Card Layout */}
+                {layout === "card" && (
+                    <InfiniteScroll
+                        initialLoad={false}
+                        pageStart={1}
+                        hasMore={hasMoreData}
+                        loadMore={loadMoreData}
+                        threshold={0}
+                    >
+                        <div className="lg:pl-3 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center flex-wrap">
+                            {mangaData.map((item, idx) => (
+                                <ItemCardSimple
+                                    mangaData={item}
+                                    key={idx}
+                                    rank={path === "manga/top" ? idx + 1 : null}
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+                )}
 
-            {/* Grid Layout */}
-            {layout === "grid" && (
-                <InfiniteScroll
-                    initialLoad={false}
-                    pageStart={1}
-                    hasMore={hasMoreData}
-                    loadMore={loadMoreData}
-                    threshold={0}
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {mangaData.map((item, idx) => (
-                            <ItemCardGrid
-                                mangaData={item}
-                                key={idx}
-                                rank={path === "manga/top" ? idx + 1 : null}
-                            />
-                        ))}
-                    </div>
-                </InfiniteScroll>
-            )}
+                {/* Grid Layout */}
+                {layout === "grid" && (
+                    <InfiniteScroll
+                        initialLoad={false}
+                        pageStart={1}
+                        hasMore={hasMoreData}
+                        loadMore={loadMoreData}
+                        threshold={0}
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            {mangaData.map((item, idx) => (
+                                <ItemCardGrid
+                                    mangaData={item}
+                                    key={idx}
+                                    rank={path === "manga/top" ? idx + 1 : null}
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+                )}
 
-            {/* List Layout */}
-            {layout === "list" && (
-                <InfiniteScroll
-                    initialLoad={false}
-                    pageStart={1}
-                    hasMore={hasMoreData}
-                    loadMore={loadMoreData}
-                    threshold={0}
-                >
-                    <div className="space-y-5">
-                        {mangaData.map((item, idx) => (
-                            <ItemCardList
-                                mangaData={item}
-                                key={idx}
-                                rank={path === "manga/top" ? idx + 1 : null}
-                            />
-                        ))}
-                    </div>
-                </InfiniteScroll>
-            )}
-        </section>
+                {/* List Layout */}
+                {layout === "list" && (
+                    <InfiniteScroll
+                        initialLoad={false}
+                        pageStart={1}
+                        hasMore={hasMoreData}
+                        loadMore={loadMoreData}
+                        threshold={0}
+                    >
+                        <div className="space-y-5">
+                            {mangaData.map((item, idx) => (
+                                <ItemCardList
+                                    mangaData={item}
+                                    key={idx}
+                                    rank={path === "manga/top" ? idx + 1 : null}
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+                )}
+            </section>
+        </>
     );
 };
 

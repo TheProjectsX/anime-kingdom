@@ -1,9 +1,16 @@
 "use client";
 
 import StudioDataContext from "@/context/StudioDataContext";
-const StudioInfoLayout = ({ studioId, studioBaseData, children }) => {
+import { Helmet } from "react-helmet";
+const StudioInfoLayout = ({ studioBaseData, children }) => {
     return (
         <StudioDataContext.Provider value={{ studioBaseData: studioBaseData }}>
+            <Helmet>
+                <title>
+                    {studioBaseData.title_english ?? studioBaseData.title} -
+                    AniDom
+                </title>
+            </Helmet>
             <main className="max-width !px-0 mb-10">
                 <div className="space-y-8">
                     <header className="flex gap-4 bg-white p-5 pb-3">

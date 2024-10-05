@@ -11,7 +11,7 @@ const page = ({ params }) => {
     const { studioId } = params;
     return redirect(
         `/studio/${studioId}/${studioBaseData.title
-            ?.replace(/[^a-zA-Z\s]/g, "")
+            ?.replace(/[^a-zA-Z0-9\s]/g, "")
             .replace(/\s+/g, "-")}`
     );
 };

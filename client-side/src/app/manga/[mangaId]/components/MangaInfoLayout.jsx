@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import MangaDataContext from "@/context/MangaDataContext";
 import Link from "next/link";
 import { capitalizeWord, formatDate } from "@/utils/HelperFunctions";
+import { Helmet } from "react-helmet";
 
 const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
     const animeType = {
@@ -26,13 +27,19 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
 
     const baseUrl = `/manga/${mangaId}/${
         mangaBaseData.title_english
-            ?.replace(/[^a-zA-Z\s]/g, "")
+            ?.replace(/[^a-zA-Z0-9\s]/g, "")
             .replace(/\s+/g, "-") ??
-        mangaBaseData.title?.replace(/[^a-zA-Z\s]/g, "").replace(/\s+/g, "-")
+        mangaBaseData.title?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-")
     }`;
 
     return (
         <MangaDataContext.Provider value={{ mangaBaseData: mangaBaseData }}>
+            <Helmet>
+                <title>
+                    {mangaBaseData.title_english ?? mangaBaseData.title} -
+                    AniDom
+                </title>
+            </Helmet>
             <main className="max-width !px-0 mb-10">
                 {mangaBaseData.banner && (
                     <div className="">

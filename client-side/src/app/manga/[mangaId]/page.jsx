@@ -12,10 +12,10 @@ const page = ({ params }) => {
     return redirect(
         `/manga/${mangaId}/${
             mangaBaseData.title_english
-                ?.replace(/[^a-zA-Z\s]/g, "")
+                ?.replace(/[^a-zA-Z0-9\s]/g, "")
                 .replace(/\s+/g, "-") ??
             mangaBaseData.title
-                ?.replace(/[^a-zA-Z\s]/g, "")
+                ?.replace(/[^a-zA-Z0-9\s]/g, "")
                 .replace(/\s+/g, "-")
         }`
     );
