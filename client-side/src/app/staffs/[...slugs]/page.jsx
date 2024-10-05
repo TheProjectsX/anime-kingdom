@@ -4,7 +4,7 @@ import React from "react";
 import { Pictures } from "./Pictures";
 import { redirect } from "next/navigation";
 import { formatDate } from "@/utils/HelperFunctions";
-import { Helmet } from "react-helmet";
+import PageTitle from "@/components/common/PageTitle";
 
 const page = async ({ params }) => {
     const { slugs } = params;
@@ -432,9 +432,7 @@ const page = async ({ params }) => {
 
     return (
         <>
-            <Helmet>
-                <title>{animeStaffData.name} - AniDom</title>
-            </Helmet>
+            <PageTitle>{animeStaffData.name} - AniDom</PageTitle>
             <main className="max-width mb-10">
                 <header className="flex gap-4 pt-5 pb-3">
                     <div className="flex-shrink-0 w-52">

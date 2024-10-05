@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Pictures } from "./Pictures";
 import { redirect } from "next/navigation";
-import { Helmet } from "react-helmet";
+import PageTitle from "@/components/common/PageTitle";
 
 const page = async ({ params }) => {
     const { slugs } = params;
@@ -43,9 +43,7 @@ const page = async ({ params }) => {
         .replace(/\s+/g, "-")}`;
     return (
         <>
-            <Helmet>
-                <title>{animeCharacterData.name} - AniDom</title>
-            </Helmet>
+            <PageTitle>{animeCharacterData.name} - AniDom</PageTitle>
             <main className="max-width mb-10">
                 <header className="flex gap-4 pt-5 pb-3">
                     <div className="flex-shrink-0 w-52">
