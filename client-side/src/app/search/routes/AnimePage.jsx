@@ -9,6 +9,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
 import FilterOptions from "@/components/common/FilterOptions";
 import { loadServerData } from "@/utils/DataLoaderBeta";
+import { capitalizeWord } from "@/utils/HelperFunctions";
 
 const limit = 20;
 
@@ -77,11 +78,6 @@ const AnimePage = ({ path, slug, filters }) => {
             payload: {},
         },
     });
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
 
     if (path.startsWith("anime/seasons")) {
         path = "anime/seasons";

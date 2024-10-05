@@ -1,7 +1,11 @@
 "use client";
 
 import { loadServerData } from "@/utils/DataLoaderBeta";
-import { Label, TextInput } from "flowbite-react";
+import {
+    convertSecondsToTime,
+    convertToPercentage,
+} from "@/utils/HelperFunctions";
+import { TextInput } from "flowbite-react";
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
@@ -11,24 +15,6 @@ const page = () => {
     const [searchResults, setSearchResults] = useState(null);
 
     const [currentVideo, setCurrentVideo] = useState(null);
-
-    function convertSecondsToTime(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secs = Math.floor(seconds % 60);
-
-        // Pad with leading zeros if necessary
-        const formattedHours = hours.toString().padStart(2, "0");
-        const formattedMinutes = minutes.toString().padStart(2, "0");
-        const formattedSeconds = secs.toString().padStart(2, "0");
-
-        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-    }
-
-    function convertToPercentage(decimal) {
-        const percentage = (decimal * 100).toFixed(0); // Multiplies by 100 and rounds to nearest whole number
-        return `${percentage}%`; // Appends '%' symbol
-    }
 
     const searchAndLoad = async (url, file) => {
         if (url) {

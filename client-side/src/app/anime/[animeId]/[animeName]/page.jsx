@@ -1,18 +1,13 @@
 "use client";
 
 import AnimeDataContext from "@/context/AnimeDataContext";
+import { capitalizeWord } from "@/utils/HelperFunctions";
 import Link from "next/link";
 import { useContext } from "react";
 
-const page = ({ params }) => {
+const page = () => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
 
     const HeaderCard = ({ header, info, infoTitle }) => {
         return (

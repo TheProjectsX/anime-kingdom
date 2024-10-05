@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Pictures } from "./Pictures";
 import { redirect } from "next/navigation";
+import { formatDate } from "@/utils/HelperFunctions";
 
 const page = async ({ params }) => {
     const { slugs } = params;
@@ -428,16 +429,6 @@ const page = async ({ params }) => {
         ?.replace(/[^a-zA-Z\s]/g, "")
         .replace(/\s+/g, "-")}`;
 
-    const formatDate = (dateString) => {
-        if (!dateString) return "Unknown";
-
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.toLocaleString("en-US", { month: "short" });
-        const year = date.getFullYear();
-
-        return `${day} ${month}, ${year}`;
-    };
     return (
         <main className="max-width mb-10">
             <header className="flex gap-4 pt-5 pb-3">

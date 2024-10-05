@@ -1,5 +1,6 @@
 "use client";
 
+import { formatDate } from "@/utils/HelperFunctions";
 import { Avatar, Tooltip } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 
@@ -35,16 +36,6 @@ const page = ({ params }) => {
         }
     }, []);
 
-    const formatDate = (dateString) => {
-        if (!dateString) return "Unknown";
-
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.toLocaleString("en-US", { month: "short" });
-        const year = date.getFullYear();
-
-        return `${day} ${month}, ${year}`;
-    };
     // If every animeReviewData is null, return skeleton
     if (animeReviewData.every((item) => !item)) {
         return (

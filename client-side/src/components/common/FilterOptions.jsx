@@ -1,3 +1,4 @@
+import { capitalizeWord } from "@/utils/HelperFunctions";
 import { TextInput } from "flowbite-react";
 import { usePathname, useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
@@ -11,14 +12,6 @@ const FilterOptions = ({
 }) => {
     const router = useRouter();
     const pathname = usePathname();
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-        return (
-            String(word).charAt(0).toUpperCase() +
-            String(word).slice(1).toLowerCase()
-        );
-    }
 
     const findItemAndConvert = (arr, item) => {
         const found = arr.find(

@@ -1,3 +1,4 @@
+import { capitalizeWord } from "@/utils/HelperFunctions";
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
@@ -9,10 +10,6 @@ const ItemCardList = ({ animeData, rank }) => {
         ona: "ONA",
     };
 
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
     if (animeData === null) {
         return (
             <article className="bg-white p-3 flex gap-5 rounded-sm">

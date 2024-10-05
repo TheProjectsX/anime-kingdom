@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import AnimeDataContext from "@/context/AnimeDataContext";
 import Link from "next/link";
+import { capitalizeWord, formatDate } from "@/utils/HelperFunctions";
 
 const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
     const animeType = {
@@ -11,23 +12,6 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
         ova: "OVA",
         ona: "ONA",
     };
-
-    const formatDate = (dateString) => {
-        if (!dateString) return "Unknown";
-
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.toLocaleString("en-US", { month: "short" });
-        const year = date.getFullYear();
-
-        return `${day} ${month}, ${year}`;
-    };
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
 
     const InfoItems = ({ heading, info, className = "" }) => {
         return (

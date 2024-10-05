@@ -1,6 +1,7 @@
 "use client";
 
 import { loadServerData } from "@/utils/DataLoaderBeta";
+import { capitalizeWord } from "@/utils/HelperFunctions";
 import { notFound, useRouter } from "next/navigation";
 import { useState } from "react";
 import ReactSelect from "react-select";
@@ -64,12 +65,6 @@ const page = ({ params }) => {
             result[index % 4].push(item); // Distribute items into the 4 sub-arrays
         });
         return result;
-    }
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
     function addToExistingSubArrays(arr, newItems) {

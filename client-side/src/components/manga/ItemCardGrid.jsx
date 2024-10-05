@@ -2,18 +2,6 @@ import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
 const ItemCardGrid = ({ mangaData, rank }) => {
-    const animeType = {
-        tv: "TV Series",
-        movie: "Movie",
-        ova: "OVA",
-        ona: "ONA",
-    };
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
-
     if (mangaData === null) {
         return (
             <article className="h-[290px] sm:h-[250px] lg:h-[272px] bg-white rounded-md overflow-hidden">

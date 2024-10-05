@@ -1,13 +1,7 @@
 "use client";
 
 import { Footer } from "flowbite-react";
-import {
-    BsDribbble,
-    BsFacebook,
-    BsGithub,
-    BsInstagram,
-    BsTwitter,
-} from "react-icons/bs";
+import { BsFacebook, BsGithub } from "react-icons/bs";
 
 const PageFooter = () => {
     return (
@@ -23,31 +17,12 @@ const PageFooter = () => {
                                 name="AniDom"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
-                            <div>
-                                <Footer.Title title="about" />
-                                <Footer.LinkGroup col>
-                                    <Footer.Link href="#">Flowbite</Footer.Link>
-                                    <Footer.Link href="#">
-                                        Tailwind CSS
-                                    </Footer.Link>
-                                </Footer.LinkGroup>
-                            </div>
+                        <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:gap-6">
                             <div>
                                 <Footer.Title title="Follow us" />
                                 <Footer.LinkGroup col>
-                                    <Footer.Link href="#">Github</Footer.Link>
-                                    <Footer.Link href="#">Discord</Footer.Link>
-                                </Footer.LinkGroup>
-                            </div>
-                            <div>
-                                <Footer.Title title="Legal" />
-                                <Footer.LinkGroup col>
-                                    <Footer.Link href="#">
-                                        Privacy Policy
-                                    </Footer.Link>
-                                    <Footer.Link href="#">
-                                        Terms &amp; Conditions
+                                    <Footer.Link href="https://github.com/TheProjextsX">
+                                        Github
                                     </Footer.Link>
                                 </Footer.LinkGroup>
                             </div>
@@ -57,11 +32,14 @@ const PageFooter = () => {
                     <div className="w-full sm:flex sm:items-center sm:justify-between">
                         <Footer.Copyright href="#" by="AniDom" year={2024} />
                         <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
-                            <Footer.Icon href="#" icon={BsFacebook} />
-                            <Footer.Icon href="#" icon={BsInstagram} />
-                            <Footer.Icon href="#" icon={BsTwitter} />
-                            <Footer.Icon href="#" icon={BsGithub} />
-                            <Footer.Icon href="#" icon={BsDribbble} />
+                            <Footer.Icon
+                                href="https://www.facebook.com/projectsx.author/"
+                                icon={BsFacebook}
+                            />
+                            <Footer.Icon
+                                href="https://github.com/TheProjectsX"
+                                icon={BsGithub}
+                            />
                         </div>
                     </div>
                 </div>

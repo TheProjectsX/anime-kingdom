@@ -1,18 +1,13 @@
 "use client";
 
 import MangaDataContext from "@/context/MangaDataContext";
+import { capitalizeWord } from "@/utils/HelperFunctions";
 import Link from "next/link";
 import { useContext } from "react";
 
 const page = ({ params }) => {
     const context = useContext(MangaDataContext);
     const { mangaBaseData } = context;
-
-    function capitalizeWord(word) {
-        if (!word) return ""; // Handle empty strings
-
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
 
     const HeaderCard = ({ header, info, infoTitle }) => {
         return (

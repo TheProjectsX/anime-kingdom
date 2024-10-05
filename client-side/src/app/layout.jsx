@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
             <body className="font-ubuntu bg-slate-100">
                 <NextTopLoader />
                 <PageNavbar />
-                {children}
+                <div className="min-h-[700px]"> {children}</div>
                 <PageFooter />
             </body>
         </html>
