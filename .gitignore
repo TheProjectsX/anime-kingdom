@@ -3,3 +3,7 @@ todo.md
 __pycache__
 test.py
 temp
+vercel.json
+
+.env
+.vscode
