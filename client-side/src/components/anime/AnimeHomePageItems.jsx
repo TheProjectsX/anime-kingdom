@@ -40,7 +40,7 @@ let cachedHomepageData = [
     Array(6).fill(null),
 ];
 
-const AnimeHomePageItems = () => {
+const AnimeHomePageItems = ({ home = false }) => {
     const router = useRouter();
     const [layout, setLayout] = useState("card");
     const [homepageData, setHomepageData] = useState(cachedHomepageData.at(0));
@@ -73,7 +73,11 @@ const AnimeHomePageItems = () => {
     return (
         <>
             <Helmet>
-                <title>Search for Anime! - AniDom</title>
+                <title>
+                    {home
+                        ? "Get Anime, Manga insights! - AniDom"
+                        : "Search for Anime! - AniDom"}
+                </title>
             </Helmet>
             {/* Layout Options */}
             <div className="flex justify-between items-end gap-2 pt-5 pr-5">

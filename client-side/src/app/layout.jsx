@@ -9,7 +9,9 @@ import NextTopLoader from "nextjs-toploader";
 export default function RootLayout({ children }) {
     return (
         <html lang="en" data-theme="light">
-            <head></head>
+            <head>
+                <title>Get Anime, Manga insights! - AniDom</title>
+            </head>
             <body className="font-ubuntu bg-slate-100">
                 <NextTopLoader />
                 <PageNavbar />

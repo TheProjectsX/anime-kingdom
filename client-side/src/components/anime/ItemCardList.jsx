@@ -70,7 +70,9 @@ const ItemCardList = ({ animeData, rank }) => {
                                     animeData.type}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {animeData.type?.toLowerCase() === "movie"
+                                {!animeData.duration
+                                    ? "Unknown"
+                                    : animeData.type?.toLowerCase() === "movie"
                                     ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
                                     : animeData.episodes
                                     ? `${animeData.episodes} episodes`

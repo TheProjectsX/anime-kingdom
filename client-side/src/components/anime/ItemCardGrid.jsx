@@ -88,7 +88,9 @@ const ItemCardGrid = ({ animeData, rank }) => {
                             <p className="text-xs mb-2 font-semibold">
                                 {animeType[animeData.type?.toLowerCase()] ??
                                     animeData.type}{" "}
-                                {animeData.type?.toLowerCase() === "movie"
+                                {!animeData.duration
+                                    ? "Unknown"
+                                    : animeData.type?.toLowerCase() === "movie"
                                     ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
                                     : animeData.episodes
                                     ? `${animeData.episodes} episodes`

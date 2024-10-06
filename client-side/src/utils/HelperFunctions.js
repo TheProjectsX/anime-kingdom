@@ -2,7 +2,10 @@
 const capitalizeWord = (word) => {
     if (!word) return ""; // Handle empty strings
 
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    return (
+        String(word).charAt(0).toUpperCase() +
+        String(word).slice(1).toLowerCase()
+    );
 };
 
 // Format a date string to : DD MM, YYYY

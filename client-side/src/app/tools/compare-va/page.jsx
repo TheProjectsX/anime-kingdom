@@ -458,74 +458,78 @@ const page = () => {
                                     {/* For Medium to on-ward Devices */}
                                     <div className="bg-white justify-between items-end shadow-sm hidden md:flex">
                                         {/* Character group 01 */}
-                                        <div className="space-y-4 flex-grow flex flex-col [&_>div:first-of-type]:w-full">
+                                        <div className="space-y-4 flex-grow flex flex-col">
                                             {va.characters[0].map(
                                                 (character) => (
-                                                    <Tooltip
+                                                    <div
                                                         key={character.id}
-                                                        placement="left"
-                                                        content={
-                                                            <p className="max-w-60">
-                                                                {" "}
-                                                                {targetAnime
-                                                                    .target_01
-                                                                    .id ==
-                                                                character.animeId
-                                                                    ? targetAnime
-                                                                          .target_01
-                                                                          .title_english ??
-                                                                      targetAnime
-                                                                          .target_01
-                                                                          .title
-                                                                    : targetAnime
-                                                                          .target_02
-                                                                          .title_english ??
-                                                                      targetAnime
-                                                                          .target_02
-                                                                          .title}
-                                                            </p>
-                                                        }
+                                                        className="[&_>div:first-of-type]:w-full"
                                                     >
-                                                        <Link
-                                                            href={`/characters/${character.id}`}
-                                                            className="flex gap-3 items-start w-full hover:cursor-pointer group"
+                                                        <Tooltip
+                                                            placement="left"
+                                                            content={
+                                                                <p className="max-w-60">
+                                                                    {" "}
+                                                                    {targetAnime
+                                                                        .target_01
+                                                                        .id ==
+                                                                    character.animeId
+                                                                        ? targetAnime
+                                                                              .target_01
+                                                                              .title_english ??
+                                                                          targetAnime
+                                                                              .target_01
+                                                                              .title
+                                                                        : targetAnime
+                                                                              .target_02
+                                                                              .title_english ??
+                                                                          targetAnime
+                                                                              .target_02
+                                                                              .title}
+                                                                </p>
+                                                            }
                                                         >
-                                                            <img
-                                                                src={
-                                                                    character.image
-                                                                }
-                                                                alt={
-                                                                    character.name
-                                                                }
-                                                                className="w-[58px] h-[90px] bg-slate-200"
-                                                            />
-                                                            <div className="py-2.5">
-                                                                <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                                                    {
+                                                            <Link
+                                                                href={`/characters/${character.id}`}
+                                                                className="flex gap-3 items-start w-full hover:cursor-pointer group"
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        character.image
+                                                                    }
+                                                                    alt={
                                                                         character.name
                                                                     }
-                                                                </h3>
-                                                                <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                                                    {
-                                                                        character.language
-                                                                    }
-                                                                </p>
-                                                                <p className="text-slate-400 text-xs font-medium">
-                                                                    {
-                                                                        character.favorites
-                                                                    }{" "}
-                                                                    Favorites
-                                                                </p>
-                                                            </div>
-                                                        </Link>
-                                                    </Tooltip>
+                                                                    className="w-[58px] h-[90px] bg-slate-200"
+                                                                />
+                                                                <div className="py-2.5">
+                                                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                                        {
+                                                                            character.name
+                                                                        }
+                                                                    </h3>
+                                                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                                                        {
+                                                                            character.language
+                                                                        }
+                                                                    </p>
+                                                                    <p className="text-slate-400 text-xs font-medium">
+                                                                        {
+                                                                            character.favorites
+                                                                        }{" "}
+                                                                        Favorites
+                                                                    </p>
+                                                                </div>
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </div>
                                                 )
                                             )}
                                         </div>
-                                        {/* Voice Actors */}
+                                        {/* Voice Actor */}
                                         <Link
                                             href={`/staffs/${va.id}`}
-                                            className="flex flex-col gap-1 items-center hover:cursor-pointer group flex-grow"
+                                            className="flex flex-col gap-1 items-center hover:cursor-pointer group flex-grow self-start"
                                         >
                                             <img
                                                 src={va.image}
@@ -543,67 +547,72 @@ const page = () => {
                                         </Link>
 
                                         {/* Character group 02 */}
-                                        <div className="space-y-4 flex-grow flex flex-col  [&_>div:first-of-type]:w-full">
+                                        <div className="space-y-4 flex-grow flex flex-col">
                                             {va.characters[1].map(
                                                 (character) => (
-                                                    <Tooltip
+                                                    <div
                                                         key={character.id}
-                                                        placement="right"
-                                                        content={
-                                                            <p className="max-w-60">
-                                                                {" "}
-                                                                {targetAnime
-                                                                    .target_01
-                                                                    .id ==
-                                                                character.animeId
-                                                                    ? targetAnime
-                                                                          .target_01
-                                                                          .title_english ??
-                                                                      targetAnime
-                                                                          .target_01
-                                                                          .title
-                                                                    : targetAnime
-                                                                          .target_02
-                                                                          .title_english ??
-                                                                      targetAnime
-                                                                          .target_02
-                                                                          .title}
-                                                            </p>
-                                                        }
+                                                        className="[&_>div:first-of-type]:w-full"
                                                     >
-                                                        <Link
-                                                            href={`/characters/${character.id}`}
-                                                            className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                                        {" "}
+                                                        <Tooltip
+                                                            placement="right"
+                                                            content={
+                                                                <p className="max-w-60">
+                                                                    {" "}
+                                                                    {targetAnime
+                                                                        .target_01
+                                                                        .id ==
+                                                                    character.animeId
+                                                                        ? targetAnime
+                                                                              .target_01
+                                                                              .title_english ??
+                                                                          targetAnime
+                                                                              .target_01
+                                                                              .title
+                                                                        : targetAnime
+                                                                              .target_02
+                                                                              .title_english ??
+                                                                          targetAnime
+                                                                              .target_02
+                                                                              .title}
+                                                                </p>
+                                                            }
                                                         >
-                                                            <img
-                                                                src={
-                                                                    character.image
-                                                                }
-                                                                alt={
-                                                                    character.name
-                                                                }
-                                                                className="w-[58px] h-[90px] bg-slate-200"
-                                                            />
-                                                            <div className="py-2.5">
-                                                                <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
-                                                                    {
+                                                            <Link
+                                                                href={`/characters/${character.id}`}
+                                                                className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        character.image
+                                                                    }
+                                                                    alt={
                                                                         character.name
                                                                     }
-                                                                </h3>
-                                                                <p className="text-gray-600 text-sm mb-0.5 font-medium">
-                                                                    {
-                                                                        character.language
-                                                                    }
-                                                                </p>
-                                                                <p className="text-slate-400 text-xs font-medium">
-                                                                    {
-                                                                        character.favorites
-                                                                    }{" "}
-                                                                    Favorites
-                                                                </p>
-                                                            </div>
-                                                        </Link>
-                                                    </Tooltip>
+                                                                    className="w-[58px] h-[90px] bg-slate-200"
+                                                                />
+                                                                <div className="py-2.5">
+                                                                    <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                                                        {
+                                                                            character.name
+                                                                        }
+                                                                    </h3>
+                                                                    <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                                                        {
+                                                                            character.language
+                                                                        }
+                                                                    </p>
+                                                                    <p className="text-slate-400 text-xs font-medium">
+                                                                        {
+                                                                            character.favorites
+                                                                        }{" "}
+                                                                        Favorites
+                                                                    </p>
+                                                                </div>
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </div>
                                                 )
                                             )}
                                         </div>

@@ -148,12 +148,7 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                                 heading={"Status"}
                                 info={mangaBaseData.status}
                             />
-                            <InfoItems
-                                heading={"Season"}
-                                info={`${capitalizeWord(
-                                    mangaBaseData.season
-                                )} ${mangaBaseData.year}`}
-                            />
+
                             <InfoItems
                                 heading={"Start Date"}
                                 info={formatDate(mangaBaseData.published?.from)}
