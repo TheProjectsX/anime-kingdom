@@ -126,7 +126,7 @@ def compareVoiceArtists(
                     "image": character.get("image"),
                     "role": character.get("role"),
                     "favorites": character.get("favorites"),
-                    "anime": dataset_02_anime_id,
+                    "animeId": dataset_02_anime_id,
                 }
             )
 
