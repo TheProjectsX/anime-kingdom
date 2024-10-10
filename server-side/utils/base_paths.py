@@ -1,13 +1,16 @@
 import requests
+from requests_html import HTMLSession
+
 
 # GLOBAL Variables
 JIKAN_BASE = "https://api.jikan.moe/v4"
 WAIFU_BASE = "https://api.waifu.pics/"
 ANILIST_BASE = "https://graphql.anilist.co"
+LIVECHART_BASE = "https://www.livechart.me/"
 
 
 # Base Path
-def basePath(path):
+def jikanBasePath(path):
     url = f"{JIKAN_BASE}/{path}"
     try:
         response = requests.get(url).json()
@@ -21,7 +24,7 @@ def basePath(path):
 # Anime Info Base Path
 def animeBase(path=""):
     path = f"anime{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -29,7 +32,7 @@ def animeBase(path=""):
 # Anime Info Base Path
 def mangaBase(path=""):
     path = f"manga{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -37,7 +40,7 @@ def mangaBase(path=""):
 # Anime Info Base Path
 def studioBase(path=""):
     path = f"producers{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -45,7 +48,7 @@ def studioBase(path=""):
 # Anime Characters Info Base
 def charactersBase(path=""):
     path = f"characters{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -53,7 +56,7 @@ def charactersBase(path=""):
 # Anime Staff Info Base
 def staffBase(path=""):
     path = f"people{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -61,7 +64,7 @@ def staffBase(path=""):
 # Anime Characters Info Base
 def genresBase(path=""):
     path = f"genres{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -69,7 +72,7 @@ def genresBase(path=""):
 # Anime Seasons Info Base
 def seasonsBase(path=""):
     path = f"seasons{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -77,7 +80,7 @@ def seasonsBase(path=""):
 # Anime Top Info Base
 def topBase(path="anime"):
     path = f"top{path}"
-    response = basePath(path)
+    response = jikanBasePath(path)
 
     return response
 
@@ -90,4 +93,18 @@ def anilistBase(json):
         return {"success": False, "error": str(e)}
 
     response["success"] = True
+    return response
+
+
+# Live Chart (HTML Scrapper)
+def livechartBase(path=""):
+    path = f"{LIVECHART_BASE}{path}"
+
+    try:
+        response = HTMLSession().get(path)
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+    response = {"success": True, "obj": response}
+
     return response

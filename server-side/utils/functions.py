@@ -3,6 +3,8 @@ from .helpers import *
 import urllib.parse
 import requests
 import time
+import re
+from datetime import datetime
 
 # TODO: change from (if not serverData to equivalent)
 
@@ -1877,5 +1879,110 @@ def getMangaFilters():
             "status": status,
         },
     }
+
+    return returnResponse, 200
+
+
+# Get HTML data of Schedule and convert!
+def getAnimeSchedule(season, year, type="tv", sortby="popularity"):
+    path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
+
+    serverResponse = livechartBase(path)
+    if not serverResponse["success"]:
+        return serverResponse, 500
+
+    response = serverResponse.get("obj")
+
+    animeCard = response.html.find("div.anime-card")
+    returnResponse = {
+        "success": True,
+        "data": [],
+    }
+
+    date_format = "%b %d, %Y at %I:%M%p %z"
+
+    for card in animeCard:
+        episodeCountdown = card.find("time.text-bold", first=True)
+        if episodeCountdown is None:
+            continue
+
+        try:
+            malId = re.search(
+                r"/anime/(\d+)",
+                card.find(".related-links", first=True)
+                .find("a.mal-icon", first=True)
+                .attrs.get("href"),
+                re.IGNORECASE,
+            )
+            malId = int(malId.group(1)) if malId else None
+        except Exception as e:
+            malId = None
+
+        try:
+            images = [
+                url.strip().split(" ")[0]
+                for url in card.find("img", first=True).attrs.get("srcset").split(",")
+            ]
+        except Exception as e:
+            images = []
+
+        try:
+            episode = re.search(
+                r"EP(\d+)",
+                card.find("div.release-schedule-info", first=True).text.strip(),
+                re.IGNORECASE,
+            )
+            episode = int(episode.group(1)) if episode else None
+        except Exception as e:
+            episode = None
+
+        try:
+            startDateTimestamp = datetime.strptime(
+                card.find(".anime-date", first=True)
+                .text.strip()
+                .replace(" +06", " +0600"),
+                date_format,
+            ).timestamp()
+        except Exception as e:
+            startDateTimestamp = None
+
+        try:
+            nextEpisode = int(episodeCountdown.attrs.get("data-timestamp"))
+        except Exception as e:
+            nextEpisode = None
+
+        try:
+            tags = [
+                li.text.strip()
+                for li in card.find("ol.anime-tags", first=True).find("li")
+            ]
+        except Exception as e:
+            tags = []
+
+        try:
+            studios = [
+                li.text.strip()
+                for li in card.find("ul.anime-studios", first=True).find("li")
+            ]
+        except Exception as e:
+            studios = []
+
+        data = {
+            "id": malId,
+            "title": card.find("h3.main-title", first=True).text.strip(),
+            "image": next((url for url in images if url.endswith("small.jpg")), None),
+            "image_large": next(
+                (url for url in images if url.endswith("large.jpg")), None
+            ),
+            "synopsis": card.find("div.anime-synopsis", first=True).text.strip(),
+            "startDate": startDateTimestamp,
+            "nextEpisode": nextEpisode,
+            "episode": episode,
+            "studios": studios,
+            "tags": tags,
+            "source": card.find(".anime-source", first=True).text.strip(),
+        }
+
+        returnResponse["data"].append(data)
 
     return returnResponse, 200

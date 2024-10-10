@@ -20,7 +20,8 @@ CORS(
 
 @app.route("/")
 def hello_world():
-    return {"success": True, "message": "Server is Running..."}
+    # return {"success": True, "message": "Server is Running..."}
+    return fns.getAnimeSchedule("fall", "2024")
 
 
 """
