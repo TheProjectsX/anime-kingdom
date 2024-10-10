@@ -20,8 +20,7 @@ CORS(
 
 @app.route("/")
 def hello_world():
-    # return {"success": True, "message": "Server is Running..."}
-    return fns.getAnimeSchedule("fall", "2024")
+    return {"success": True, "message": "Server is Running..."}
 
 
 """
@@ -113,6 +112,17 @@ def animeByFilter():
         start_date=start_date,
         end_date=end_date,
     )
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Anime with Schedule info
+@app.route("/anime/schedule/<int:year>/<string:season>")
+def animeSchedule(year, season):
+    type = request.args.get("type", "tv")
+    sortby = request.args.get("sortby", "popularity")
+
+    result, statusCode = fns.getAnimeSchedule(year, season, type=type, sortby=sortby)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

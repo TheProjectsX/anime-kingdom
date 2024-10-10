@@ -1884,7 +1884,7 @@ def getMangaFilters():
 
 
 # Get HTML data of Schedule and convert!
-def getAnimeSchedule(season, year, type="tv", sortby="popularity"):
+def getAnimeSchedule(year, season , type="tv", sortby="popularity"):
     path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
 
     serverResponse = livechartBase(path)
