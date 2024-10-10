@@ -127,6 +127,21 @@ def animeSchedule(year, season):
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
+# Get Anime Scheduled to release today
+@app.route("/anime/schedule/today")
+def animeToday():
+    result, statusCode = fns.getAnimeToday()
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+# Get Anime Scheduled to release Next 24 Hours
+@app.route("/anime/schedule/24h")
+def anime24Hours():
+    result, statusCode = fns.getAnimeToday(time="24h")
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
 # Get Anime Genres
 @app.route("/anime/genres")
 def animeGenres():

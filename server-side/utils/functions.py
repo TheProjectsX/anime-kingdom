@@ -4,7 +4,8 @@ import urllib.parse
 import requests
 import time
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil import parser as dateparser
 
 # TODO: change from (if not serverData to equivalent)
 
@@ -22,6 +23,8 @@ def getAnilistAnimeBanner(query):
     if not serverResponse["success"]:
         return serverResponse, 500
     data = serverResponse.get("data", {}).get("Page", {}).get("media", [{}])
+    if (len(data) == 0):
+        return None
 
     return data[0].get("bannerImage")
 
@@ -1884,12 +1887,24 @@ def getMangaFilters():
 
 
 # Get HTML data of Schedule and convert!
-def getAnimeSchedule(year, season , type="tv", sortby="popularity"):
+def getAnimeSchedule(
+    year="", season="", type="tv", sortby="popularity", internal=False
+):
     path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
+    if internal:
+        path = ""
 
     serverResponse = livechartBase(path)
     if not serverResponse["success"]:
         return serverResponse, 500
+
+    if internal:
+        url = serverResponse.get("obj").url
+        newPath = f"{urllib.parse.urlparse(url).path}?titles=english&sortby=countdown"
+        serverResponse = livechartBase(newPath)
+        if not serverResponse["success"]:
+            return serverResponse, 500
+        print(serverResponse.get("obj").url)
 
     response = serverResponse.get("obj")
 
@@ -1898,8 +1913,6 @@ def getAnimeSchedule(year, season , type="tv", sortby="popularity"):
         "success": True,
         "data": [],
     }
-
-    date_format = "%b %d, %Y at %I:%M%p %z"
 
     for card in animeCard:
         episodeCountdown = card.find("time.text-bold", first=True)
@@ -1937,13 +1950,10 @@ def getAnimeSchedule(year, season , type="tv", sortby="popularity"):
             episode = None
 
         try:
-            startDateTimestamp = datetime.strptime(
-                card.find(".anime-date", first=True)
-                .text.strip()
-                .replace(" +06", " +0600"),
-                date_format,
+            startDateTimestamp = dateparser.parse(
+                card.find(".anime-date", first=True).text.strip()
             ).timestamp()
-        except Exception as e:
+        except ValueError as e:
             startDateTimestamp = None
 
         try:
@@ -1984,5 +1994,40 @@ def getAnimeSchedule(year, season , type="tv", sortby="popularity"):
         }
 
         returnResponse["data"].append(data)
+
+    return returnResponse, 200
+
+
+# Get Anime data which will release today
+def getAnimeToday(time):
+    animeScheduleData, statusCode = getAnimeSchedule(internal=True)
+    if not animeScheduleData.get("success"):
+        return animeScheduleData, statusCode
+
+    returnResponse = {
+        "success": True,
+        "data": [],
+    }
+
+    if time == "today":
+        todayData = datetime.now().date()
+        for item in animeScheduleData.get("data", []):
+            if not item.get("nextEpisode"):
+                continue
+
+            episodeDate = datetime.fromtimestamp(item["nextEpisode"]).date()
+            if episodeDate == todayData:
+                returnResponse["data"].append(item)
+    elif time == "24h":
+        now = datetime.now()
+        next24Hours = now + timedelta(hours=24)
+
+        for item in animeScheduleData.get("data", []):
+            if not item.get("nextEpisode"):
+                continue
+
+            episodeDateTime = datetime.fromtimestamp(item["nextEpisode"])
+            if now <= episodeDateTime < next24Hours:
+                returnResponse["data"].append(item)
 
     return returnResponse, 200
