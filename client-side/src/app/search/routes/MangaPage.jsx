@@ -160,6 +160,7 @@ const MangaPage = ({ path, slug, filters }) => {
                 <FilterOptions
                     filters={filters}
                     onChange={updateFilteredItems}
+                    className="mb-5"
                 />
 
                 {/* Layout Options */}
