@@ -40,9 +40,16 @@ const convertToPercentage = (decimal) => {
     return `${percentage}%`; // Appends '%' symbol
 };
 
+// Format Number (1...9 -> 01...09)
+const formatNumber = (num) => {
+    const n = Number(num);
+    return n >= 0 && n <= 9 ? `0${n}` : String(n);
+};
+
 export {
     capitalizeWord,
     formatDate,
     convertSecondsToTime,
     convertToPercentage,
+    formatNumber,
 };
