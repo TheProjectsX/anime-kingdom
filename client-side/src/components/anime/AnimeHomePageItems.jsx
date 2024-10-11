@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
 import { Carousel, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
+import { MdArrowOutward } from "react-icons/md";
 import { Helmet } from "react-helmet";
-// import Countdown from "react-countdown";
+import { formatNumber } from "@/utils/HelperFunctions";
 
 import dynamic from "next/dynamic";
-import { formatNumber } from "@/utils/HelperFunctions";
 
 // Dynamically load Countdown without SSR
 const Countdown = dynamic(() => import("react-countdown"), { ssr: false });
@@ -171,7 +171,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                         href={`/anime/${item.id}`}
                                         className="btn btn-info btn-sm"
                                     >
-                                        Checkout
+                                        Checkout <MdArrowOutward />
                                     </Link>
                                 </div>
                                 <div className="max-w-60">
