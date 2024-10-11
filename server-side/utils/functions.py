@@ -23,7 +23,7 @@ def getAnilistAnimeBanner(query):
     if not serverResponse["success"]:
         return serverResponse, 500
     data = serverResponse.get("data", {}).get("Page", {}).get("media", [{}])
-    if (len(data) == 0):
+    if len(data) == 0:
         return None
 
     return data[0].get("bannerImage")
@@ -1999,7 +1999,7 @@ def getAnimeSchedule(
 
 
 # Get Anime data which will release today
-def getAnimeToday(time):
+def getAnimeToday(time="today"):
     animeScheduleData, statusCode = getAnimeSchedule(internal=True)
     if not animeScheduleData.get("success"):
         return animeScheduleData, statusCode
