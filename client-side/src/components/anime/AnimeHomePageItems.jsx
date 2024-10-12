@@ -105,7 +105,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                     <div className="flex items-center gap-2 mb-2">
                                         <Countdown
                                             date={new Date(
-                                                item.nextEpisode * 1000
+                                                item.next?.timestamp * 1000
                                             ).toString()}
                                             renderer={({
                                                 hours,
@@ -147,7 +147,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                         <p>
                                             (EP{" "}
                                             <span className="font-semibold">
-                                                {item.episode}
+                                                {item.next?.episode}
                                             </span>
                                             )
                                         </p>
@@ -162,7 +162,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                     </h3>
                                     <p className="text-gray-300 mb-4 text-sm">
                                         {item.source} -{" "}
-                                        {item.tags.slice(0, 3).join(", ")}
+                                        {item.genres.slice(0, 3).join(", ")}
                                     </p>
                                     <p className="mb-5 hidden sm:block">
                                         {item.synopsis.length > 125
