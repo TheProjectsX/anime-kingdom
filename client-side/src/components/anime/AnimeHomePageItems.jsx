@@ -90,7 +90,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
             {/* Homepage Banner Carousel */}
             {home && animeScheduleData.length > 0 && (
                 <Carousel
-                    className="h-96"
+                    className="h-[25rem] sm:h-96"
                     indicators={false}
                     slideInterval={4000}
                     pauseOnHover
@@ -100,7 +100,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                             key={item.id}
                             className="bg-slate-700 text-white h-full"
                         >
-                            <article className="max-w-2xl mx-auto flex justify-between items-center h-full">
+                            <article className="max-w-2xl mx-auto flex justify-between items-center flex-col-reverse sm:flex-row h-full">
                                 <div className="p-6 max-w-80 text-left">
                                     <div className="flex items-center gap-2 mb-2">
                                         <Countdown
@@ -152,14 +152,19 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                             )
                                         </p>
                                     </div>
-                                    <h3 className="text-xl font-semibold font-suse mb-1">
+                                    <h3 className="text-xl font-semibold font-suse mb-1 hidden sm:block">
                                         {item.title}
+                                    </h3>
+                                    <h3 className="text-base font-semibold font-suse mb-1 sm:hidden">
+                                        {item.title.length > 28
+                                            ? `${item.title.slice(0, 28)}...`
+                                            : item.title}
                                     </h3>
                                     <p className="text-gray-300 mb-4 text-sm">
                                         {item.source} -{" "}
                                         {item.tags.slice(0, 3).join(", ")}
                                     </p>
-                                    <p className="mb-5">
+                                    <p className="mb-5 hidden sm:block">
                                         {item.synopsis.length > 125
                                             ? `${item.synopsis.slice(
                                                   0,
@@ -174,7 +179,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                         Checkout <MdArrowOutward />
                                     </Link>
                                 </div>
-                                <div className="max-w-60">
+                                <div className="max-w-32 pt-2 sm:pt-0 sm:max-w-60">
                                     <img
                                         src={item.image_large ?? item.image}
                                         alt={item.title}
