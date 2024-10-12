@@ -1950,6 +1950,36 @@ def getAnimeSchedule(
             episode = None
 
         try:
+            match = re.search(
+                r"^(\d+|\?)\s+eps\s+×\s+(\d+|\?)m$",
+                card.find("div.anime-episodes", first=True).text.strip(),
+                re.IGNORECASE,
+            )
+            if match:
+                episodeCount = int(match.group(1)) if match.group(1) != "?" else None
+                duration = int(match.group(2)) if match.group(2) != "?" else None
+            else:
+                episodeCount, duration = None, None
+        except Exception as e:
+            episodeCount, duration = None, None
+
+        try:
+            match = re.search(
+                r"(\d+\.\d+)\s+out\s+of\s+10\s+based\s+on\s+(\d+)\s+user\s+ratings",
+                card.find("div.anime-avg-user-rating", first=True)
+                .attrs.get("title")
+                .strip(),
+                re.IGNORECASE,
+            )
+            if match:
+                rating = float(match.group(1)) if match.group(1) != "?" else None
+                members = int(match.group(2)) if match.group(2) != "?" else None
+            else:
+                rating, members = None, None
+        except Exception as e:
+            rating, members = None, None
+
+        try:
             startDateTimestamp = dateparser.parse(
                 card.find(".anime-date", first=True).text.strip()
             ).timestamp()
@@ -1985,11 +2015,21 @@ def getAnimeSchedule(
                 (url for url in images if url.endswith("large.jpg")), None
             ),
             "synopsis": card.find("div.anime-synopsis", first=True).text.strip(),
-            "startDate": startDateTimestamp,
-            "nextEpisode": nextEpisode,
-            "episode": episode,
+            "aired": {
+                "from": startDateTimestamp,
+                "to": None,
+                "string": f"{datetime.fromtimestamp(startDateTimestamp).strftime("%b %d, %Y") if startDateTimestamp else "?"} to ?",
+            },
+            "next": {
+                "timestamp": nextEpisode,
+                "episode": episode,
+            },
+            "score": rating,
+            "scored_by": members,
+            "episodes": episodeCount,
+            "duration": duration,
             "studios": studios,
-            "tags": tags,
+            "genres": tags,
             "source": card.find(".anime-source", first=True).text.strip(),
         }
 
@@ -2012,10 +2052,10 @@ def getAnimeToday(time="today"):
     if time == "today":
         todayData = datetime.now().date()
         for item in animeScheduleData.get("data", []):
-            if not item.get("nextEpisode"):
+            if not item.get("next", {}).get("timestamp"):
                 continue
 
-            episodeDate = datetime.fromtimestamp(item["nextEpisode"]).date()
+            episodeDate = datetime.fromtimestamp(item.get("next", {}).get("timestamp")).date()
             if episodeDate == todayData:
                 returnResponse["data"].append(item)
     elif time == "24h":
@@ -2023,10 +2063,10 @@ def getAnimeToday(time="today"):
         next24Hours = now + timedelta(hours=24)
 
         for item in animeScheduleData.get("data", []):
-            if not item.get("nextEpisode"):
+            if not item.get("next", {}).get("timestamp"):
                 continue
 
-            episodeDateTime = datetime.fromtimestamp(item["nextEpisode"])
+            episodeDateTime = datetime.fromtimestamp(item.get("next", {}).get("timestamp"))
             if now <= episodeDateTime < next24Hours:
                 returnResponse["data"].append(item)
 
