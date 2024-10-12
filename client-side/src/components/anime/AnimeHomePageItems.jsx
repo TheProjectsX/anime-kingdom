@@ -162,7 +162,10 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                     </h3>
                                     <p className="text-gray-300 mb-4 text-sm">
                                         {item.source} -{" "}
-                                        {item.genres.slice(0, 3).join(", ")}
+                                        {item.genres
+                                            .slice(0, 3)
+                                            .map((genre) => genre.name)
+                                            .join(", ")}
                                     </p>
                                     <p className="mb-5 hidden sm:block">
                                         {item.synopsis.length > 125

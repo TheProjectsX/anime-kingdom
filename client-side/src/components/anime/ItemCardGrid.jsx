@@ -1,8 +1,14 @@
-import { capitalizeWord } from "@/utils/HelperFunctions";
+"use client";
+
+import { capitalizeWord, formatNumber } from "@/utils/HelperFunctions";
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
-const ItemCardGrid = ({ animeData, rank }) => {
+// Dynamically load Countdown without SSR
+const Countdown = dynamic(() => import("react-countdown"), { ssr: false });
+
+const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -20,7 +26,7 @@ const ItemCardGrid = ({ animeData, rank }) => {
 
     return (
         <article className="flex h-[290px] sm:h-[250px] lg:h-[272px] rounded-md overflow-hidden">
-            <div className="w-52 sm:w-44 lg:w-48 flex-shrink-0 relative">
+            <div className="w-52 sm:w-44 lg:w-48 flex-shrink-0 relative group">
                 {rank && (
                     <p className="bg-amber-500 py-1 px-2 rounded-bl-xl absolute -top-2 right-0 z-10">
                         <span className="text-sm font-suse">#</span>
@@ -34,24 +40,79 @@ const ItemCardGrid = ({ animeData, rank }) => {
                         className="w-full h-full"
                     />
                 </Link>
-                <div className="w-full absolute bottom-0 bg-slate-700/80 p-2">
+                <div className="w-full absolute top-0 bg-slate-700/80 p-2 group-hover:opacity-0 transition-[opacity] duration-300 flex flex-col items-center justify-center text-white text-sm">
+                    <Countdown
+                        date={new Date(
+                            animeData.next?.timestamp * 1000
+                        ).toString()}
+                        renderer={({
+                            days,
+                            hours,
+                            minutes,
+                            seconds,
+                            completed,
+                        }) => {
+                            return (
+                                <time className="text-base">
+                                    <span className="underline underline-offset-2 mr-0.5">
+                                        {completed ? "00" : formatNumber(days)}
+                                    </span>
+                                    d{" "}
+                                    <span className="underline underline-offset-2 mr-0.5">
+                                        {completed ? "00" : formatNumber(hours)}
+                                    </span>
+                                    h{" "}
+                                    <span className="underline underline-offset-2 mr-0.5">
+                                        {" "}
+                                        {completed
+                                            ? "00"
+                                            : formatNumber(minutes)}
+                                    </span>
+                                    m{" "}
+                                    <span className="underline underline-offset-2 mr-0.5">
+                                        {completed
+                                            ? "00"
+                                            : formatNumber(seconds)}
+                                    </span>
+                                    s
+                                </time>
+                            );
+                        }}
+                    />
+                    <p className="text-sm">
+                        (Episode{" "}
+                        <span className="font-semibold">
+                            {animeData.next?.episode}
+                        </span>
+                        )
+                    </p>
+                </div>
+                <div className="w-full absolute bottom-0 bg-slate-700/80 p-2 group-hover:opacity-0 transition-[opacity] duration-300">
                     <Link
                         href={`/anime/${animeData.id}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
+                        title={animeData.title_english ?? animeData.title}
                     >
-                        {animeData.title_english ?? animeData.title}
+                        {(animeData.title_english ?? animeData.title).length >
+                        40
+                            ? `${(
+                                  animeData.title_english ?? animeData.title
+                              ).slice(0, 38)}...`
+                            : animeData.title_english ?? animeData.title}
                     </Link>
-                    <p className="flex gap-2 flex-wrap">
-                        {animeData.studios?.map((item) => (
-                            <Link
-                                href={"#"}
-                                className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
-                                key={item.id}
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
-                    </p>
+                    {!schedule ?? (
+                        <p className="flex gap-2 flex-wrap">
+                            {animeData.studios?.map((item, idx) => (
+                                <Link
+                                    href={item.id ? `/studios/${item.id}` : ""}
+                                    className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
+                                    key={idx}
+                                >
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </p>
+                    )}
                 </div>
             </div>
 
@@ -107,11 +168,11 @@ const ItemCardGrid = ({ animeData, rank }) => {
                     </p>
                 </div>
                 {/* Genres */}
-                <div className="flex gap-2 justify-center w-full flex-wrap absolute bottom-0 p-2.5 bg-slate-100">
-                    {animeData.genres.slice(0, 2).map((item) => (
+                <div className="flex gap-2 justify-center w-full flex-wrap absolute bottom-0 p-2.5 bg-slate-200">
+                    {animeData.genres.slice(0, 2).map((item, idx) => (
                         <Link
                             href={"#"}
-                            key={item.id}
+                            key={idx}
                             className="badge badge-info text-gray-100"
                         >
                             {item.name}
