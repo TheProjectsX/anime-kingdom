@@ -1890,8 +1890,15 @@ def getMangaFilters():
 def getAnimeSchedule(
     year="", season="", type="tv", sortby="popularity", internal=False
 ):
+    animeType = {
+        "tv": "TV Series",
+        "movies": "Movie",
+        "ovas": "OVA",
+        "onas": "ONA",
+    }
+
     path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
-    if internal:
+    if year == "" or season == "" or type == "" or internal:
         path = ""
 
     serverResponse = livechartBase(path)
@@ -1904,11 +1911,24 @@ def getAnimeSchedule(
         serverResponse = livechartBase(newPath)
         if not serverResponse["success"]:
             return serverResponse, 500
-        print(serverResponse.get("obj").url)
+
+    if year == "" or season == "":
+        url = serverResponse.get("obj").url
+        newPath = f"{urllib.parse.urlparse(url).path}?titles=english&sortby=${sortby}"
+        serverResponse = livechartBase(newPath)
+        if not serverResponse["success"]:
+            return serverResponse, 500
+        try:
+            parts = urllib.parse.urlparse(url).path.strip("/").split("/")[0].split("-")
+            season = parts[0]
+            year = int(parts[1])
+        except Exception as e:
+            pass
 
     response = serverResponse.get("obj")
 
     animeCard = response.html.find("div.anime-card")
+
     returnResponse = {
         "success": True,
         "data": [],
@@ -1992,16 +2012,16 @@ def getAnimeSchedule(
             nextEpisode = None
 
         try:
-            tags = [
-                li.text.strip()
+            genres = [
+                {"id": None, "name": li.text.strip()}
                 for li in card.find("ol.anime-tags", first=True).find("li")
             ]
         except Exception as e:
-            tags = []
+            genres = []
 
         try:
             studios = [
-                li.text.strip()
+                {"id": None, "name": li.text.strip()}
                 for li in card.find("ul.anime-studios", first=True).find("li")
             ]
         except Exception as e:
@@ -2024,12 +2044,16 @@ def getAnimeSchedule(
                 "timestamp": nextEpisode,
                 "episode": episode,
             },
+            "status": "Currently Airing",
+            "type": animeType.get(type),
+            "year": year,
+            "season": season,
             "score": rating,
             "scored_by": members,
             "episodes": episodeCount,
             "duration": duration,
             "studios": studios,
-            "genres": tags,
+            "genres": genres,
             "source": card.find(".anime-source", first=True).text.strip(),
         }
 
@@ -2055,7 +2079,9 @@ def getAnimeToday(time="today"):
             if not item.get("next", {}).get("timestamp"):
                 continue
 
-            episodeDate = datetime.fromtimestamp(item.get("next", {}).get("timestamp")).date()
+            episodeDate = datetime.fromtimestamp(
+                item.get("next", {}).get("timestamp")
+            ).date()
             if episodeDate == todayData:
                 returnResponse["data"].append(item)
     elif time == "24h":
@@ -2066,7 +2092,9 @@ def getAnimeToday(time="today"):
             if not item.get("next", {}).get("timestamp"):
                 continue
 
-            episodeDateTime = datetime.fromtimestamp(item.get("next", {}).get("timestamp"))
+            episodeDateTime = datetime.fromtimestamp(
+                item.get("next", {}).get("timestamp")
+            )
             if now <= episodeDateTime < next24Hours:
                 returnResponse["data"].append(item)
 

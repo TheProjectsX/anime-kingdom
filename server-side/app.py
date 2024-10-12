@@ -116,7 +116,18 @@ def animeByFilter():
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
 
-# Get Anime with Schedule info
+# Get Anime with Schedule info of current Season
+@app.route("/anime/schedule")
+def animeScheduleCurrentSeason():
+    type = request.args.get("type", "tv")
+    sortby = request.args.get("sortby", "popularity")
+
+    result, statusCode = fns.getAnimeSchedule(type=type, sortby=sortby)
+
+    return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
+
+# Get Anime with Schedule info by Year and Season
 @app.route("/anime/schedule/<int:year>/<string:season>")
 def animeSchedule(year, season):
     type = request.args.get("type", "tv")
@@ -133,6 +144,7 @@ def animeToday():
     result, statusCode = fns.getAnimeToday()
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
+
 
 # Get Anime Scheduled to release Next 24 Hours
 @app.route("/anime/schedule/24h")
