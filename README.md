@@ -9,6 +9,7 @@ Anime, Manga, LN Insights Hub!
 ### Features:
 
 -   Get Anime Detailed Information
+-   Get Anime release Schedule information
 -   Get Manga Detailed Information
 -   Get Manhwa Detailed Information
 -   Get LN Detailed Information
@@ -35,6 +36,7 @@ Anime, Manga, LN Insights Hub!
 -   [Jikan](https://docs.api.jikan.moe/) ([MyAnimeList](https://myanimelist.net)) API for API Data
 -   [Waifu Pics](https://waifu.pics/) for Waifu Images
 -   [Trace Moe](https://trace.moe/) for Reverse Image Search
+-   [LiveChart](https://www.livechart.me/) for getting Anime Schedule (Scrapped)
 
 ### Upcoming:
 
