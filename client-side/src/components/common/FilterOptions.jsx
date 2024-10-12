@@ -22,7 +22,7 @@ const FilterOptions = ({
 
     return (
         <form
-            className={`flex gap-2 items-center justify-evenly flex-wrap ${className}`}
+            className={`flex flex-col md:flex-row gap-2 items-center justify-between ${className}`}
             onSubmit={(e) => {
                 e.preventDefault();
                 onStatusChange();
@@ -52,123 +52,125 @@ const FilterOptions = ({
                 />
             </label>
 
-            {filters.years && (
-                <label className="flex flex-col gap-1 w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Year:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="year"
-                        defaultValue={findItemAndConvert(
-                            filters?.years,
-                            preset?.year
-                        )}
-                        options={(filters?.years ?? []).map((item) => ({
-                            label: item,
-                            value: item,
-                        }))}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        isSearchable={false}
-                        onChange={(item) =>
-                            onChange({ year: item?.value ?? "" })
-                        }
-                    />
-                </label>
-            )}
+            <div className="flex gap-4 flex-wrap sm:flex-nowrap">
+                {filters.years && (
+                    <label className="flex flex-col gap-1 w-48">
+                        <span className="text-sm font-semibold text-gray-600 ml-2">
+                            Year:
+                        </span>
+                        <ReactSelect
+                            isMulti={false}
+                            name="year"
+                            defaultValue={findItemAndConvert(
+                                filters?.years,
+                                preset?.year
+                            )}
+                            options={(filters?.years ?? []).map((item) => ({
+                                label: item,
+                                value: item,
+                            }))}
+                            className="basic-multi-select w-full"
+                            classNamePrefix="select"
+                            placeholder="Any"
+                            isClearable={true}
+                            isSearchable={false}
+                            onChange={(item) =>
+                                onChange({ year: item?.value ?? "" })
+                            }
+                        />
+                    </label>
+                )}
 
-            {filters.seasons && (
-                <label className="flex flex-col gap-1 w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Season:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="season"
-                        defaultValue={findItemAndConvert(
-                            filters?.seasons,
-                            preset?.season
-                        )}
-                        options={(filters?.seasons ?? []).map((item) => ({
-                            label: capitalizeWord(item),
-                            value: item,
-                        }))}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        isSearchable={false}
-                        onChange={(item) =>
-                            onChange({ season: item?.value ?? "" })
-                        }
-                    />
-                </label>
-            )}
+                {filters.seasons && (
+                    <label className="flex flex-col gap-1 w-48">
+                        <span className="text-sm font-semibold text-gray-600 ml-2">
+                            Season:
+                        </span>
+                        <ReactSelect
+                            isMulti={false}
+                            name="season"
+                            defaultValue={findItemAndConvert(
+                                filters?.seasons,
+                                preset?.season
+                            )}
+                            options={(filters?.seasons ?? []).map((item) => ({
+                                label: capitalizeWord(item),
+                                value: item,
+                            }))}
+                            className="basic-multi-select w-full"
+                            classNamePrefix="select"
+                            placeholder="Any"
+                            isClearable={true}
+                            isSearchable={false}
+                            onChange={(item) =>
+                                onChange({ season: item?.value ?? "" })
+                            }
+                        />
+                    </label>
+                )}
 
-            {filters.genres && (
-                <label className="flex flex-col gap-1 w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Genres:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="genres"
-                        options={filters?.genres ?? []}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        onChange={(item) =>
-                            onChange({ genres: item?.value ?? "" })
-                        }
-                    />
-                </label>
-            )}
+                {filters.genres && (
+                    <label className="flex flex-col gap-1 w-48">
+                        <span className="text-sm font-semibold text-gray-600 ml-2">
+                            Genres:
+                        </span>
+                        <ReactSelect
+                            isMulti={false}
+                            name="genres"
+                            options={filters?.genres ?? []}
+                            className="basic-multi-select w-full"
+                            classNamePrefix="select"
+                            placeholder="Any"
+                            isClearable={true}
+                            onChange={(item) =>
+                                onChange({ genres: item?.value ?? "" })
+                            }
+                        />
+                    </label>
+                )}
 
-            {filters.type && (
-                <label className="flex flex-col gap-1 min-w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Type:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="type"
-                        options={filters?.type ?? []}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        isSearchable={false}
-                        onChange={(item) =>
-                            onChange({ type: item?.value ?? "" })
-                        }
-                    />
-                </label>
-            )}
+                {filters.type && (
+                    <label className="flex flex-col gap-1 min-w-48">
+                        <span className="text-sm font-semibold text-gray-600 ml-2">
+                            Type:
+                        </span>
+                        <ReactSelect
+                            isMulti={false}
+                            name="type"
+                            options={filters?.type ?? []}
+                            className="basic-multi-select w-full"
+                            classNamePrefix="select"
+                            placeholder="Any"
+                            isClearable={true}
+                            isSearchable={false}
+                            onChange={(item) =>
+                                onChange({ type: item?.value ?? "" })
+                            }
+                        />
+                    </label>
+                )}
 
-            {filters.status && (
-                <label className="flex flex-col gap-1 min-w-48">
-                    <span className="text-sm font-semibold text-gray-600 ml-2">
-                        Status:
-                    </span>
-                    <ReactSelect
-                        isMulti={false}
-                        name="status"
-                        options={filters?.status ?? []}
-                        className="basic-multi-select w-full"
-                        classNamePrefix="select"
-                        placeholder="Any"
-                        isClearable={true}
-                        isSearchable={false}
-                        onChange={(item) =>
-                            onChange({ status: item?.value ?? "" })
-                        }
-                    />
-                </label>
-            )}
+                {filters.status && (
+                    <label className="flex flex-col gap-1 min-w-48">
+                        <span className="text-sm font-semibold text-gray-600 ml-2">
+                            Status:
+                        </span>
+                        <ReactSelect
+                            isMulti={false}
+                            name="status"
+                            options={filters?.status ?? []}
+                            className="basic-multi-select w-full"
+                            classNamePrefix="select"
+                            placeholder="Any"
+                            isClearable={true}
+                            isSearchable={false}
+                            onChange={(item) =>
+                                onChange({ status: item?.value ?? "" })
+                            }
+                        />
+                    </label>
+                )}
+            </div>
         </form>
     );
 };
