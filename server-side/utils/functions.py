@@ -1887,9 +1887,7 @@ def getMangaFilters():
 
 
 # Get HTML data of Schedule and convert!
-def getAnimeSchedule(
-    year="", season="", type="tv", sortby="popularity", internal=False
-):
+def getAnimeSchedule(year="", season="", type="tv", sortby="popularity"):
     animeType = {
         "tv": "TV Series",
         "movies": "Movie",
@@ -1897,29 +1895,29 @@ def getAnimeSchedule(
         "onas": "ONA",
     }
 
-    path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
-    if year == "" or season == "" or type == "" or internal:
+    if year == "" or season == "" or type == "":
         path = ""
+        cookies = {
+            "preferences": f"""{{"titles":"english","sortby":"{sortby}","ongoing":"all","use_24h_clock":false,"night_mode":true,"reveal_spoilers":true}}"""
+        }
+    else:
+        path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
+        cookies = {}
 
-    serverResponse = livechartBase(path)
+    serverResponse = livechartBase(path, cookies=cookies)
     if not serverResponse["success"]:
         return serverResponse, 500
 
-    if internal:
-        url = serverResponse.get("obj").url
-        newPath = f"{urllib.parse.urlparse(url).path}?titles=english&sortby=countdown"
-        serverResponse = livechartBase(newPath)
-        if not serverResponse["success"]:
-            return serverResponse, 500
-
     if year == "" or season == "":
-        url = serverResponse.get("obj").url
-        newPath = f"{urllib.parse.urlparse(url).path}?titles=english&sortby=${sortby}"
-        serverResponse = livechartBase(newPath)
         if not serverResponse["success"]:
             return serverResponse, 500
         try:
-            parts = urllib.parse.urlparse(url).path.strip("/").split("/")[0].split("-")
+            parts = (
+                urllib.parse.urlparse(serverResponse.get("obj"))
+                .path.strip("/")
+                .split("/")[0]
+                .split("-")
+            )
             season = parts[0]
             year = int(parts[1])
         except Exception as e:
@@ -2064,7 +2062,7 @@ def getAnimeSchedule(
 
 # Get Anime data which will release today
 def getAnimeToday(time="today"):
-    animeScheduleData, statusCode = getAnimeSchedule(internal=True)
+    animeScheduleData, statusCode = getAnimeSchedule(sortby="countdown")
     if not animeScheduleData.get("success"):
         return animeScheduleData, statusCode
 

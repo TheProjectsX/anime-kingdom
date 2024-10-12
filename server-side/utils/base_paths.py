@@ -97,11 +97,11 @@ def anilistBase(json):
 
 
 # Live Chart (HTML Scrapper)
-def livechartBase(path=""):
+def livechartBase(path="", cookies={}):
     path = f"{LIVECHART_BASE}{path}"
 
     try:
-        response = HTMLSession().get(path)
+        response = HTMLSession().get(path, cookies=cookies)
     except Exception as e:
         return {"success": False, "error": str(e)}
 
