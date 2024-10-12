@@ -41,8 +41,8 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                 </title>
             </Helmet>
             <main className="max-width !px-0 mb-10">
-                {animeBaseData.banner && (
-                    <div className="">
+                <div className="bg-slate-200 min-h-32">
+                    {animeBaseData.banner && (
                         <img
                             src={animeBaseData.banner}
                             alt={
@@ -51,8 +51,8 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             }
                             className="w-full"
                         />
-                    </div>
-                )}
+                    )}
+                </div>
 
                 <div className="space-y-8">
                     <header className="flex gap-4 bg-white p-5 pb-3">
