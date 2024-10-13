@@ -56,10 +56,17 @@ const ItemCardList = ({ mangaData, rank }) => {
                     <div className="flex flex-wrap md:flex-nowrap *:mr-3">
                         <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
                             <p className="font-semibold font-suse text-gray-500">
-                                {mangaData.score}
+                                {mangaData.score ?? (
+                                    <span className="italic text-sm">
+                                        Unknown
+                                    </span>
+                                )}
                             </p>
                             <p className="text-sm font-semibold text-gray-400">
-                                {mangaData.scored_by} users
+                                {mangaData.scored_by ?? (
+                                    <span className="italic">Unknown</span>
+                                )}{" "}
+                                users
                             </p>
                         </div>
                         <div className="md:w-32 flex gap-2.5 md:gap-0 md:flex-col items-end md:items-start">
