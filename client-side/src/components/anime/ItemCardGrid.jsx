@@ -40,54 +40,66 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                         className="w-full h-full"
                     />
                 </Link>
-                <div className="w-full absolute top-0 bg-slate-700/80 p-2 group-hover:opacity-0 transition-[opacity] duration-300 flex flex-col items-center justify-center text-white text-sm">
-                    <Countdown
-                        date={new Date(
-                            animeData.next?.timestamp * 1000
-                        ).toString()}
-                        renderer={({
-                            days,
-                            hours,
-                            minutes,
-                            seconds,
-                            completed,
-                        }) => {
-                            return (
-                                <time className="text-base">
-                                    <span className="underline underline-offset-2 mr-0.5">
-                                        {completed ? "00" : formatNumber(days)}
-                                    </span>
-                                    d{" "}
-                                    <span className="underline underline-offset-2 mr-0.5">
-                                        {completed ? "00" : formatNumber(hours)}
-                                    </span>
-                                    h{" "}
-                                    <span className="underline underline-offset-2 mr-0.5">
-                                        {" "}
-                                        {completed
-                                            ? "00"
-                                            : formatNumber(minutes)}
-                                    </span>
-                                    m{" "}
-                                    <span className="underline underline-offset-2 mr-0.5">
-                                        {completed
-                                            ? "00"
-                                            : formatNumber(seconds)}
-                                    </span>
-                                    s
-                                </time>
-                            );
-                        }}
-                    />
-                    <p className="text-sm">
-                        (Episode{" "}
-                        <span className="font-semibold">
-                            {animeData.next?.episode}
-                        </span>
-                        )
-                    </p>
-                </div>
-                <div className="w-full absolute bottom-0 bg-slate-700/80 p-2 group-hover:opacity-0 transition-[opacity] duration-300">
+                {schedule && (
+                    <div className="w-full absolute top-0 bg-slate-700/80 p-2 group-hover:opacity-0 transition-[opacity] duration-300 flex flex-col items-center justify-center text-white text-sm">
+                        <Countdown
+                            date={new Date(
+                                animeData.next?.timestamp * 1000
+                            ).toString()}
+                            renderer={({
+                                days,
+                                hours,
+                                minutes,
+                                seconds,
+                                completed,
+                            }) => {
+                                return (
+                                    <time className="text-base">
+                                        <span className="underline underline-offset-2 mr-0.5">
+                                            {completed
+                                                ? "00"
+                                                : formatNumber(days)}
+                                        </span>
+                                        d{" "}
+                                        <span className="underline underline-offset-2 mr-0.5">
+                                            {completed
+                                                ? "00"
+                                                : formatNumber(hours)}
+                                        </span>
+                                        h{" "}
+                                        <span className="underline underline-offset-2 mr-0.5">
+                                            {" "}
+                                            {completed
+                                                ? "00"
+                                                : formatNumber(minutes)}
+                                        </span>
+                                        m{" "}
+                                        <span className="underline underline-offset-2 mr-0.5">
+                                            {completed
+                                                ? "00"
+                                                : formatNumber(seconds)}
+                                        </span>
+                                        s
+                                    </time>
+                                );
+                            }}
+                        />
+                        <p className="text-sm">
+                            (Episode{" "}
+                            <span className="font-semibold">
+                                {animeData.next?.episode}
+                            </span>
+                            )
+                        </p>
+                    </div>
+                )}
+                <div
+                    className={`w-full absolute bottom-0 bg-slate-700/80 p-2${
+                        schedule
+                            ? " group-hover:opacity-0 transition-[opacity] duration-300"
+                            : ""
+                    }`}
+                >
                     <Link
                         href={`/anime/${animeData.id}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
@@ -100,7 +112,7 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                               ).slice(0, 38)}...`
                             : animeData.title_english ?? animeData.title}
                     </Link>
-                    {!schedule ?? (
+                    {!schedule && (
                         <p className="flex gap-2 flex-wrap">
                             {animeData.studios?.map((item, idx) => (
                                 <Link
