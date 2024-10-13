@@ -116,7 +116,7 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                         <p className="flex gap-2 flex-wrap">
                             {animeData.studios?.map((item, idx) => (
                                 <Link
-                                    href={item.id ? `/studios/${item.id}` : ""}
+                                    href={item.id ? `/studio/${item.id}` : ""}
                                     className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
                                     key={idx}
                                 >
