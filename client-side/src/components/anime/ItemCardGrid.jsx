@@ -162,12 +162,12 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                                 {animeType[animeData.type?.toLowerCase()] ??
                                     animeData.type}{" "}
                                 {!animeData.duration
-                                    ? "Unknown"
+                                    ? ""
                                     : animeData.type?.toLowerCase() === "movie"
-                                    ? `${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
+                                    ? ` - ${animeData.duration[0]} hour(s), ${animeData.duration[1]} mins`
                                     : animeData.episodes
-                                    ? `${animeData.episodes} episodes`
-                                    : `${animeData.duration ?? 0} mins`}{" "}
+                                    ? ` - ${animeData.episodes} episodes`
+                                    : ` - ${animeData.duration ?? 0} mins`}{" "}
                             </p>
                         </div>
                         {/* Header Info Score */}
