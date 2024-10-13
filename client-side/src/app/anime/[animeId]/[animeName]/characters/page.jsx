@@ -1,5 +1,6 @@
 "use client";
 
+import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Select from "react-select";
@@ -40,11 +41,9 @@ const page = ({ params }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const serverResponse = await (
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/characters`
-                )
-            ).json();
+            const serverResponse = await loadServerData(
+                `/anime/${animeId}/characters`
+            );
 
             if (!serverResponse.success) {
                 console.log("Not Found");

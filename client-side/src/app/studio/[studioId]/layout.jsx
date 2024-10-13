@@ -1,19 +1,17 @@
+import { loadServerData } from "@/utils/DataLoader";
 import StudioInfoLayout from "./components/StudioInfoLayout";
 
 const layout = async ({ children, params }) => {
     const { studioId } = params;
 
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/studio/${studioId}`
-    );
-    const serverData = await res.json();
+    const response = await loadServerData(`/studio/${studioId}`);
 
-    if (!serverData.success) {
+    if (!response.success) {
         console.log("Not Found");
         // Do something
     }
 
-    const studioBaseData = serverData.data ?? {};
+    const studioBaseData = response.data ?? {};
 
     return (
         <StudioInfoLayout studioId={studioId} studioBaseData={studioBaseData}>

@@ -8,7 +8,7 @@ import ItemCardGrid from "@/components/anime/ItemCardGrid";
 import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
 import FilterOptions from "@/components/common/FilterOptions";
-import { loadServerData } from "@/utils/DataLoaderBeta";
+import { loadServerData } from "@/utils/DataLoader";
 import { capitalizeWord } from "@/utils/HelperFunctions";
 import { Helmet } from "react-helmet";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { loadServerData } from "@/utils/DataLoaderBeta";
+import { loadServerData } from "@/utils/DataLoader";
 import {
     convertSecondsToTime,
     convertToPercentage,

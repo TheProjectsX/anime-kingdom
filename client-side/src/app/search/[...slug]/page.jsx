@@ -3,6 +3,7 @@ import AnimePage from "../routes/AnimePage";
 import MangaPage from "../routes/MangaPage";
 import AnimeHomePageItems from "@/components/anime/AnimeHomePageItems";
 import MangaHomePageItems from "@/components/manga/MangaHomePageItems";
+import { loadServerData } from "@/utils/DataLoader";
 
 const page = async ({ params, searchParams }) => {
     const { slug } = params;
@@ -32,15 +33,11 @@ const page = async ({ params, searchParams }) => {
         return notFound();
     }
     if (path.startsWith("anime")) {
-        const response = await (
-            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/anime/filters`)
-        ).json();
+        const response = await loadServerData(`/anime/filters`);
 
         filters = response.data ?? [];
     } else if (path.startsWith("manga")) {
-        const response = await (
-            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/manga/filters`)
-        ).json();
+        const response = await loadServerData(`/manga/filters`);
 
         filters = response.data ?? [];
     }

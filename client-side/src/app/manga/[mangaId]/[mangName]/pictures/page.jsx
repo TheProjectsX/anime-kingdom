@@ -1,6 +1,7 @@
 "use client";
 
 import MangaDataContext from "@/context/MangaDataContext";
+import { loadServerData } from "@/utils/DataLoader";
 import { useContext, useEffect, useState } from "react";
 
 let mangaPicturesPrimaryData = Array(5).fill(null);
@@ -17,11 +18,9 @@ const page = ({ params }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const serverResponse = await (
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/manga/${mangaId}/pictures`
-                )
-            ).json();
+            const serverResponse = await loadServerData(
+                `/manga/${mangaId}/pictures`
+            );
 
             if (!serverResponse.success) {
                 console.log("Not Found");

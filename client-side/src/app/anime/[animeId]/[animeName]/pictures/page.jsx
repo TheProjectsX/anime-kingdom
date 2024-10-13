@@ -1,6 +1,7 @@
 "use client";
 
 import AnimeDataContext from "@/context/AnimeDataContext";
+import { loadServerData } from "@/utils/DataLoader";
 import { useContext, useEffect, useState } from "react";
 
 const page = ({ params }) => {
@@ -15,11 +16,9 @@ const page = ({ params }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const serverResponse = await (
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/pictures`
-                )
-            ).json();
+            const serverResponse = await loadServerData(
+                `/anime/${animeId}/pictures`
+            );
 
             if (!serverResponse.success) {
                 console.log("Not Found");

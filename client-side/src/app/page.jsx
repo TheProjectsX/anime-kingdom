@@ -1,5 +1,5 @@
 import AnimeHomePageItems from "@/components/anime/AnimeHomePageItems";
-import { loadServerData } from "@/utils/DataLoaderBeta";
+import { loadServerData } from "@/utils/DataLoader";
 
 export default async function Home() {
     const animeScheduleData = await loadServerData(

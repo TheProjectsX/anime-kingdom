@@ -4,6 +4,7 @@ import React from "react";
 import { Pictures } from "./Pictures";
 import { redirect } from "next/navigation";
 import PageTitle from "@/components/common/PageTitle";
+import { loadServerData } from "@/utils/DataLoader";
 
 const page = async ({ params }) => {
     const { slugs } = params;
@@ -15,11 +16,7 @@ const page = async ({ params }) => {
         path = "/";
     }
 
-    const serverResponse = await (
-        await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/characters/${slugs[0]}`
-        )
-    ).json();
+    const serverResponse = await loadServerData(`/characters/${slugs[0]}`);
 
     if (!serverResponse.success) {
         console.log("404 not found");

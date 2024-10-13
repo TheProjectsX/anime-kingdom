@@ -1,7 +1,7 @@
 "use client";
 
 import ItemCardSimple from "@/components/anime/ItemCardSimple";
-import { loadAnimeData } from "@/utils/DataLoader";
+import { loadServerData } from "@/utils/DataLoader";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -15,11 +15,9 @@ const page = ({ params }) => {
 
     // Function to Fetch data from server and save in state
     const fetchData = async () => {
-        const response = await (
-            await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/studio/${studioId}/anime?page=${currentPage}`
-            )
-        ).json();
+        const response = await loadServerData(
+            `/studio/${studioId}/anime?page=${currentPage}`
+        );
 
         if (response.success) {
             setStudioAnimeData(response.data ?? []);
@@ -40,11 +38,9 @@ const page = ({ params }) => {
         setStudioAnimeData([...studioAnimeData, ...Array(6).fill(null)]);
 
         setCurrentPage((pre) => pre + 1);
-        const response = await (
-            await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/studio/${studioId}/anime${query}`
-            )
-        ).json();
+        const response = await loadServerData(
+            `/studio/${studioId}/anime${query}`
+        );
 
         if (response.success) {
             setStudioAnimeData((prevAnimeData) => [

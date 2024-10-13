@@ -5,6 +5,7 @@ import { Pictures } from "./Pictures";
 import { redirect } from "next/navigation";
 import { formatDate } from "@/utils/HelperFunctions";
 import PageTitle from "@/components/common/PageTitle";
+import { loadServerData } from "@/utils/DataLoader";
 
 const page = async ({ params }) => {
     const { slugs } = params;
@@ -407,9 +408,7 @@ const page = async ({ params }) => {
     //     ],
     // };
 
-    const serverResponse = await (
-        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/staffs/${slugs[0]}`)
-    ).json();
+    const serverResponse = await loadServerData(`/staffs/${slugs[0]}`);
 
     if (!serverResponse.success) {
         console.log("404 not found");

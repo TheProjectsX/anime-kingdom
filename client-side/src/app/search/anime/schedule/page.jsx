@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ItemCardGrid from "@/components/anime/ItemCardGrid";
-import { loadServerData } from "@/utils/DataLoaderBeta";
+import { loadServerData } from "@/utils/DataLoader";
 import { Helmet } from "react-helmet";
 import ReactSelect from "react-select";
 

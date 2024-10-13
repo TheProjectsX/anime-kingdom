@@ -1,5 +1,6 @@
 "use client";
 
+import { loadServerData } from "@/utils/DataLoader";
 import { useEffect, useState } from "react";
 
 export const Pictures = ({ characterId, characterName }) => {
@@ -9,11 +10,9 @@ export const Pictures = ({ characterId, characterName }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const serverResponse = await (
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/characters/${characterId}/pictures`
-                )
-            ).json();
+            const serverResponse = await loadServerData(
+                `/characters/${characterId}/pictures`
+            );
 
             if (!serverResponse.success) {
                 console.log("Not Found");

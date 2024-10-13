@@ -10,6 +10,7 @@ import { TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
 import { Helmet } from "react-helmet";
+import { loadServerData } from "@/utils/DataLoader";
 
 let cachedHomepageData = [
     [
@@ -40,25 +41,21 @@ const MangaHomePageItems = () => {
 
     useEffect(() => {
         if (homepageData[0].data[0] === null) {
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/manga/home?limit=6`)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.success) {
-                        setHomepageData(data.data ?? []);
-                        cachedHomepageData[0] = data.data ?? [];
-                    }
-                });
+            loadServerData(`/manga/home`, { limit: 6 }).then((data) => {
+                if (data.success) {
+                    setHomepageData(data.data ?? []);
+                    cachedHomepageData[0] = data.data ?? [];
+                }
+            });
         }
 
         if (topMangaData[0] === null) {
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/top/manga?limit=10`)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.success) {
-                        setTopMangaData(data.data ?? []);
-                        cachedHomepageData[1] = data.data ?? [];
-                    }
-                });
+            loadServerData(`/top/manga`, { limit: 10 }).then((data) => {
+                if (data.success) {
+                    setTopMangaData(data.data ?? []);
+                    cachedHomepageData[1] = data.data ?? [];
+                }
+            });
         }
     }, []);
 

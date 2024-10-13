@@ -1,5 +1,6 @@
 "use client";
 
+import { loadServerData } from "@/utils/DataLoader";
 import { formatDate } from "@/utils/HelperFunctions";
 import { Avatar, Tooltip } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -15,11 +16,9 @@ const page = ({ params }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const serverResponse = await (
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/manga/${mangaId}/reviews`
-                )
-            ).json();
+            const serverResponse = await loadServerData(
+                `/manga/${mangaId}/reviews`
+            );
 
             if (!serverResponse.success) {
                 console.log("Not Found");

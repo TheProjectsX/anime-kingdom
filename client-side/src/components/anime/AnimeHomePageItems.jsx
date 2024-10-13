@@ -14,6 +14,7 @@ import { Helmet } from "react-helmet";
 import { formatNumber } from "@/utils/HelperFunctions";
 
 import dynamic from "next/dynamic";
+import { loadServerData } from "@/utils/DataLoader";
 
 // Dynamically load Countdown without SSR
 const Countdown = dynamic(() => import("react-countdown"), { ssr: false });
@@ -55,25 +56,21 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
 
     useEffect(() => {
         if (homepageData[0].data[0] === null) {
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/anime/home?limit=6`)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.success) {
-                        setHomepageData(data.data ?? []);
-                        cachedHomepageData[0] = data.data ?? [];
-                    }
-                });
+            loadServerData(`/anime/home`, { limit: 6 }).then((data) => {
+                if (data.success) {
+                    setHomepageData(data.data ?? []);
+                    cachedHomepageData[0] = data.data ?? [];
+                }
+            });
         }
 
         if (topAnimeData[0] === null) {
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/top/anime?limit=10`)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.success) {
-                        setTopAnimeData(data.data ?? []);
-                        cachedHomepageData[1] = data.data ?? [];
-                    }
-                });
+            loadServerData(`/top/anime`, { limit: 10 }).then((data) => {
+                if (data.success) {
+                    setTopAnimeData(data.data ?? []);
+                    cachedHomepageData[1] = data.data ?? [];
+                }
+            });
         }
     }, []);
 

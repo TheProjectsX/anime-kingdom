@@ -1,18 +1,16 @@
+import { loadServerData } from "@/utils/DataLoader";
 import AnimeInfoLayout from "./components/AnimeInfoLayout";
 
 export default async function RootLayout({ children, params }) {
     const { animeId } = params;
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}`
-    );
-    const serverData = await res.json();
+    const response = await loadServerData(`/anime/${animeId}`);
 
-    if (!serverData.success) {
+    if (!response.success) {
         console.log("Not Found");
         // Do something
     }
 
-    const animeBaseData = serverData.data ?? {};
+    const animeBaseData = response.data ?? {};
 
     return (
         <AnimeInfoLayout animeId={animeId} animeBaseData={animeBaseData}>

@@ -4,7 +4,7 @@ import FilterOptions from "@/components/common/FilterOptions";
 import ItemCardGrid from "@/components/manga/ItemCardGrid";
 import ItemCardList from "@/components/manga/ItemCardList";
 import ItemCardSimple from "@/components/manga/ItemCardSimple";
-import { loadServerData } from "@/utils/DataLoaderBeta";
+import { loadServerData } from "@/utils/DataLoader";
 import { TextInput } from "flowbite-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

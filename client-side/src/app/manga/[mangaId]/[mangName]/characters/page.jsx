@@ -1,5 +1,6 @@
 "use client";
 
+import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -12,11 +13,9 @@ const page = ({ params }) => {
     const { mangaId } = params;
     useEffect(() => {
         const loadData = async () => {
-            const serverResponse = await (
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/manga/${mangaId}/characters`
-                )
-            ).json();
+            const serverResponse = await loadServerData(
+                `/manga/${mangaId}/characters`
+            );
 
             if (!serverResponse.success) {
                 console.log("Not Found");

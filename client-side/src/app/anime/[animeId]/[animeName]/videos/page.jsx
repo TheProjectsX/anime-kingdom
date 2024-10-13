@@ -1,14 +1,12 @@
+import { loadServerData } from "@/utils/DataLoader";
+
 let animeVideoData = null;
 
 const page = async ({ params }) => {
     const { animeId } = params;
 
     if (!animeVideoData) {
-        const serverResponse = await (
-            await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/anime/${animeId}/videos`
-            )
-        ).json();
+        const serverResponse = await loadServerData(`/anime/${animeId}/videos`);
 
         if (!serverResponse.success) {
             console.log("Not Found");

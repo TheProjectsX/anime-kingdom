@@ -23,16 +23,8 @@ const PageNavbar = () => {
                     href: "/search/anime/trending",
                 },
                 {
-                    label: "Popular this Season",
-                    href: "/search/anime/seasons/",
-                },
-                {
                     label: "Anime Schedule",
                     href: "/search/anime/schedule",
-                },
-                {
-                    label: "Upcoming",
-                    href: "/search/anime/upcoming",
                 },
                 {
                     label: "Popular TV Series",

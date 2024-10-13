@@ -1,6 +1,6 @@
 "use client";
 
-import { loadServerData } from "@/utils/DataLoaderBeta";
+import { loadServerData } from "@/utils/DataLoader";
 import { TextInput, Tooltip } from "flowbite-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
