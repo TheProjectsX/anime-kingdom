@@ -15,9 +15,9 @@ const page = ({ params }) => {
 
     // Function to Fetch data from server and save in state
     const fetchData = async () => {
-        const response = await loadServerData(
-            `/studio/${studioId}/anime?page=${currentPage}`
-        );
+        const response = await loadServerData(`/studio/${studioId}/anime`, {
+            page: currentPage,
+        });
 
         if (response.success) {
             setStudioAnimeData(response.data ?? []);
@@ -34,13 +34,13 @@ const page = ({ params }) => {
 
     const loadMoreData = async (e) => {
         setHasMoreData(false);
-        const query = `?page=${currentPage + 1}`;
+        const nextPage = currentPage + 1;
         setStudioAnimeData([...studioAnimeData, ...Array(6).fill(null)]);
 
         setCurrentPage((pre) => pre + 1);
-        const response = await loadServerData(
-            `/studio/${studioId}/anime${query}`
-        );
+        const response = await loadServerData(`/studio/${studioId}/anime`, {
+            page: nextPage,
+        });
 
         if (response.success) {
             setStudioAnimeData((prevAnimeData) => [
