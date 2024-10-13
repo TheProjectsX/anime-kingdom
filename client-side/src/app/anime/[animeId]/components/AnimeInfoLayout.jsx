@@ -69,9 +69,9 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 }
                                 className="w-full h-[295px] mb-2"
                             />
-                            <div className="w-full skeleton rounded-none p-2 text-center">
+                            {/* <div className="w-full skeleton rounded-none p-2 text-center">
                                 Here may be some items
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex flex-col flex-grow">
                             <article className="flex-grow mb-2.5">
