@@ -154,7 +154,7 @@ const page = async ({ params }) => {
                                         placement="right"
                                     >
                                         <Link
-                                            href={`/anime/${item.id}`}
+                                            href={`/manga/${item.id}`}
                                             className="block max-w-48 group"
                                         >
                                             <img
