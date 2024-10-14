@@ -4,10 +4,9 @@ import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-let mangaCharactersPrimaryData = Array(5).fill(null);
 const page = ({ params }) => {
     const [mangaCharactersData, setMangaCharactersData] = useState(
-        mangaCharactersPrimaryData
+        Array(5).fill(null)
     );
 
     const { mangaId } = params;
@@ -22,12 +21,11 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            mangaCharactersPrimaryData = serverResponse.data ?? [];
             setMangaCharactersData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (mangaCharactersPrimaryData.every((item) => !item)) {
+        if (mangaCharactersData.every((item) => !item)) {
             loadData();
         }
     }, []);

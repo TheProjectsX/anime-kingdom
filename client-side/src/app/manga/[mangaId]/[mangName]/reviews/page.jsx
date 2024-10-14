@@ -5,12 +5,8 @@ import { formatDate } from "@/utils/HelperFunctions";
 import { Avatar, Tooltip } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 
-let mangaReviewPrimaryData = Array(5).fill(null);
-
 const page = ({ params }) => {
-    const [mangaReviewData, setMangaReviewData] = useState(
-        mangaReviewPrimaryData
-    );
+    const [mangaReviewData, setMangaReviewData] = useState(Array(5).fill(null));
 
     const { mangaId } = params;
 
@@ -25,12 +21,11 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            mangaReviewPrimaryData = serverResponse.data ?? [];
             setMangaReviewData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (mangaReviewPrimaryData.every((item) => !item)) {
+        if (mangaReviewData.every((item) => !item)) {
             loadData();
         }
     }, []);

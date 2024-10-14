@@ -4,14 +4,12 @@ import MangaDataContext from "@/context/MangaDataContext";
 import { loadServerData } from "@/utils/DataLoader";
 import { useContext, useEffect, useState } from "react";
 
-let mangaPicturesPrimaryData = Array(5).fill(null);
-
 const page = ({ params }) => {
     const context = useContext(MangaDataContext);
     const { mangaBaseData } = context;
 
     const [mangaPicturesData, setMangaPicturesData] = useState(
-        mangaPicturesPrimaryData
+        Array(5).fill(null)
     );
 
     const { mangaId } = params;
@@ -27,12 +25,11 @@ const page = ({ params }) => {
                 // Do Something
             }
 
-            mangaPicturesPrimaryData = serverResponse.data ?? [];
             setMangaPicturesData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
-        if (mangaPicturesPrimaryData.every((item) => !item)) {
+        if (mangaPicturesData.every((item) => !item)) {
             loadData();
         }
     }, []);
