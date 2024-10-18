@@ -77,43 +77,45 @@ const page = () => {
                 <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {/* Target Anime 1 */}
                     <div className="min-w-32 flex-grow flex flex-col gap-2 relative">
-                        <label className="flex flex-col gap-1 w-auto">
-                            <span className="text-sm font-semibold text-gray-600 ml-2">
-                                Anime 1:
-                            </span>
-                            <TextInput
-                                type="text"
-                                name="query"
-                                icon={IoSearch}
-                                placeholder="Type name and press Enter..."
-                                title="Search anime by name"
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        if (e.target.value === "") {
-                                            setSearchResult((prev) => ({
-                                                ...prev,
-                                                target_01: null,
-                                            }));
-                                        } else {
-                                            setSearchResult((prev) => ({
-                                                ...prev,
-                                                target_01: e.target.value,
-                                            }));
-                                            handleSearch(e.target.value, 1);
-                                        }
-                                    }
-                                }}
-                            />
-                        </label>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (e.target.query.value === "") {
+                                    setSearchResult((prev) => ({
+                                        ...prev,
+                                        target_01: null,
+                                    }));
+                                } else {
+                                    setSearchResult((prev) => ({
+                                        ...prev,
+                                        target_01: e.target.query.value,
+                                    }));
+                                    handleSearch(e.target.query.value, 1);
+                                }
+                            }}
+                        >
+                            <label className="flex flex-col gap-1 w-auto">
+                                <span className="text-sm font-semibold text-gray-600 ml-2">
+                                    Anime 1:
+                                </span>
+                                <TextInput
+                                    type="text"
+                                    name="query"
+                                    icon={IoSearch}
+                                    placeholder="Type name and press Enter..."
+                                    title="Search anime by name"
+                                />
+                            </label>
+                        </form>
                         {/* Search Result */}
                         {searchResult?.target_01 &&
                             (typeof searchResult?.target_01 === "string" ? (
-                                <div className="absolute top-[4.2rem] left-0 right-0 p-4 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3">
+                                <div className="absolute top-[4.2rem] left-0 right-0 p-4 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3 z-10">
                                     Searching for {searchResult?.target_01}{" "}
                                     <span className="loading loading-sm"></span>
                                 </div>
                             ) : (
-                                <div className="absolute top-[4.2rem] left-0 right-0 p-2 rounded-lg bg-white shadow-lg border space-y-2 h-60 overflow-y-auto scrollbar-thin flex-gro">
+                                <div className="absolute top-[4.2rem] left-0 right-0 p-2 rounded-lg bg-white shadow-lg border space-y-2 h-60 overflow-y-auto scrollbar-thin flex-gro z-10">
                                     {searchResult.target_01?.map(
                                         (item, idx) => (
                                             <article
@@ -215,43 +217,45 @@ const page = () => {
 
                     {/* Target Anime 2 */}
                     <div className="min-w-32 flex-grow flex flex-col gap-2 relative">
-                        <label className="flex flex-col gap-1 w-auto">
-                            <span className="text-sm font-semibold text-gray-600 ml-2">
-                                Anime 2:
-                            </span>
-                            <TextInput
-                                type="text"
-                                name="query"
-                                icon={IoSearch}
-                                placeholder="Type name and press Enter..."
-                                title="Search anime by name"
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        if (e.target.value === "") {
-                                            setSearchResult((prev) => ({
-                                                ...prev,
-                                                target_02: null,
-                                            }));
-                                        } else {
-                                            setSearchResult((prev) => ({
-                                                ...prev,
-                                                target_02: e.target.value,
-                                            }));
-                                            handleSearch(e.target.value, 2);
-                                        }
-                                    }
-                                }}
-                            />
-                        </label>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (e.target.query.value === "") {
+                                    setSearchResult((prev) => ({
+                                        ...prev,
+                                        target_02: null,
+                                    }));
+                                } else {
+                                    setSearchResult((prev) => ({
+                                        ...prev,
+                                        target_02: e.target.query.value,
+                                    }));
+                                    handleSearch(e.target.query.value, 2);
+                                }
+                            }}
+                        >
+                            <label className="flex flex-col gap-1 w-auto">
+                                <span className="text-sm font-semibold text-gray-600 ml-2">
+                                    Anime 2:
+                                </span>
+                                <TextInput
+                                    type="text"
+                                    name="query"
+                                    icon={IoSearch}
+                                    placeholder="Type name and press Enter..."
+                                    title="Search anime by name"
+                                />
+                            </label>
+                        </form>
                         {/* Search Result */}
                         {searchResult?.target_02 &&
                             (typeof searchResult?.target_02 === "string" ? (
-                                <div className="absolute top-[4.2rem] left-0 right-0 p-4 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3">
+                                <div className="absolute top-[4.2rem] left-0 right-0 p-4 rounded-lg bg-white shadow-lg border text-sm font-semibold flex items-center justify-center gap-3 z-10">
                                     Searching for {searchResult?.target_02}{" "}
                                     <span className="loading loading-sm"></span>
                                 </div>
                             ) : (
-                                <div className="absolute top-[4.2rem] left-0 right-0 p-2 rounded-lg bg-white shadow-lg border space-y-2 h-60 overflow-y-auto scrollbar-thin">
+                                <div className="absolute top-[4.2rem] left-0 right-0 p-2 rounded-lg bg-white shadow-lg border space-y-2 h-60 overflow-y-auto scrollbar-thin z-10">
                                     {searchResult.target_02.map((item, idx) => (
                                         <article
                                             key={idx}
