@@ -182,7 +182,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                     </div>
 
                     {/* The main Information */}
-                    <div className="px-5 flex gap-4 flex-col sm:flex-row">
+                    <div className="px-2 sm:px-5 flex gap-4 flex-col sm:flex-row">
                         <aside className="bg-white flex gap-3.5 sm:gap-2.5 sm:flex-col sm:w-52 h-fit px-4 py-3 flex-shrink-0  *:flex-grow max-w-80 overflow-auto scrollbar-thin">
                             <InfoItems
                                 heading={"Type"}
@@ -334,14 +334,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 )}
                             />
                         </aside>
-                        <section className="sm:hidden">
-                            <p className="font-semibold text-xl text-gray-600 mb-2">
-                                Description
-                            </p>
-                            <p className="text-gray-600 flex-grow bg-white p-2 rounded-lg">
-                                {animeBaseData.synopsis}
-                            </p>
-                        </section>
+
                         <section className="flex-grow">{children}</section>
                     </div>
                 </div>

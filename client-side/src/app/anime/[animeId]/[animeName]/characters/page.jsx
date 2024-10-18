@@ -72,8 +72,8 @@ const page = ({ params }) => {
                         <div className="flex gap-3 items-start flex-grow">
                             <div className="w-[58px] h-[90px] skeleton rounded-none"></div>
                             <div className="py-2.5">
-                                <p className="h-5 w-24 mb-1.5 skeleton rounded-none"></p>
-                                <p className="h-4 w-20 skeleton rounded-none"></p>
+                                <p className="h-4 sm:h-5 w-[87px] sm:w-24 mb-1.5 skeleton rounded-none"></p>
+                                <p className="h-3 sm:h-4 w-[80px] sm:w-20 skeleton rounded-none"></p>
                             </div>
                         </div>
 
@@ -81,8 +81,8 @@ const page = ({ params }) => {
                         <div className="flex flex-row-reverse gap-3 items-start flex-grow">
                             <div className="w-[58px] h-[90px] skeleton rounded-none"></div>
                             <div className="py-2.5 text-right">
-                                <p className="h-5 w-24 mb-1.5 skeleton rounded-none"></p>
-                                <p className="h-4 w-20 skeleton rounded-none"></p>
+                                <p className="h-4 sm:h-5 w-[87px] sm:w-24 mb-1.5 skeleton rounded-none"></p>
+                                <p className="h-3 sm:h-4 w-[80px] sm:w-20 skeleton rounded-none"></p>
                             </div>
                         </div>
                     </div>
@@ -129,10 +129,10 @@ const page = ({ params }) => {
                             className="w-[58px] h-[90px] bg-slate-200"
                         />
                         <div className="py-2.5">
-                            <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                            <h4 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600 text-sm sm:text-base">
                                 {item.name}
                             </h4>
-                            <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                            <p className="text-gray-600 text-xs sm:text-sm mb-0.5 font-medium">
                                 {item.role}
                             </p>
                             <p className="text-slate-400 text-xs font-medium">
@@ -159,10 +159,10 @@ const page = ({ params }) => {
                                         className="w-[58px] h-[90px] bg-slate-200"
                                     />
                                     <div className="py-2.5">
-                                        <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600">
+                                        <h3 className="font-semibold font-suse text-gray-700 mb-1.5 underline-offset-4 group-hover:underline group-hover:text-blue-600 text-sm sm:text-base">
                                             {va.name}
                                         </h3>
-                                        <p className="text-gray-600 text-sm mb-0.5 font-medium">
+                                        <p className="text-gray-600 text-xs sm:text-sm mb-0.5 font-medium">
                                             {va.language}
                                         </p>
                                     </div>

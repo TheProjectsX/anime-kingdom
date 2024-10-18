@@ -29,6 +29,14 @@ const page = () => {
     };
     return (
         <div className="space-y-8">
+            <section className="sm:hidden">
+                <p className="font-semibold text-xl text-gray-600 mb-4">
+                    Description
+                </p>
+                <p className="text-gray-600 flex-grow bg-white p-2 rounded-lg">
+                    {animeBaseData.synopsis}
+                </p>
+            </section>
             <section>
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Relations
