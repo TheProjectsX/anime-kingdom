@@ -19,12 +19,12 @@ const page = async ({ params }) => {
     return (
         <div className="space-y-8">
             <div>
-                <h4 className="text-3xl font-semibold font-suse text-gray-600 mb-3">
+                <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
                     Trailers:
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {animeVideoData.promo?.length === 0 ? (
-                        <h5 className="font-semibold italic text-xl text-gray-600">
+                        <h5 className="font-semibold italic sm:text-xl text-gray-600">
                             No Items to Show
                         </h5>
                     ) : (
@@ -46,12 +46,12 @@ const page = async ({ params }) => {
             </div>
 
             <div>
-                <h4 className="text-3xl font-semibold font-suse text-gray-600 mb-3">
+                <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
                     Music Videos:
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {animeVideoData.music_video?.length === 0 ? (
-                        <h5 className="font-semibold italic text-xl text-gray-600">
+                        <h5 className="font-semibold italic sm:text-xl text-gray-600">
                             No Items to Show
                         </h5>
                     ) : (
@@ -73,12 +73,12 @@ const page = async ({ params }) => {
             </div>
 
             <div>
-                <h4 className="text-3xl font-semibold font-suse text-gray-600 mb-3">
+                <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
                     Episodes:
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {animeVideoData.episodes?.length === 0 ? (
-                        <h5 className="font-semibold italic text-xl text-gray-600">
+                        <h5 className="font-semibold italic sm:text-xl text-gray-600">
                             No Items to Show
                         </h5>
                     ) : (
