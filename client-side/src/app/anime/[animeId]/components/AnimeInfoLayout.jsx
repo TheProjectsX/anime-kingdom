@@ -5,8 +5,10 @@ import AnimeDataContext from "@/context/AnimeDataContext";
 import Link from "next/link";
 import { capitalizeWord, formatDate } from "@/utils/HelperFunctions";
 import { Helmet } from "react-helmet";
+import { usePathname } from "next/navigation";
 
 const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
+    const pathname = usePathname();
     const animeType = {
         tv: "TV Series",
         movie: "Movie",
@@ -17,10 +19,12 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
     const InfoItems = ({ heading, info, className = "" }) => {
         return (
             <div className={className}>
-                <h3 className="font-semibold text-gray-600 mb-0.5 font-suse">
+                <h3 className="font-semibold text-gray-600 mb-0.5 font-suse text-nowrap sm:text-wrap">
                     {heading}
                 </h3>
-                <p className="text-sm text-gray-600">{info}</p>
+                <p className="text-sm text-gray-600 text-nowrap sm:text-wrap flex gap-1.5">
+                    {info}
+                </p>
             </div>
         );
     };
@@ -32,6 +36,33 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
         animeBaseData.title?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-")
     }`;
 
+    const subNavLinks = [
+        {
+            label: "Overview",
+            href: "",
+        },
+        {
+            label: "Characters",
+            href: "/characters",
+        },
+        {
+            label: "Staffs",
+            href: "/staffs",
+        },
+        {
+            label: "Review",
+            href: "/reviews",
+        },
+        {
+            label: "Videos",
+            href: "/videos",
+        },
+        {
+            label: "Pictures",
+            href: "/pictures",
+        },
+    ];
+
     return (
         <AnimeDataContext.Provider value={{ animeBaseData }}>
             <Helmet>
@@ -41,7 +72,11 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                 </title>
             </Helmet>
             <main className="max-width !px-0 mb-10">
-                <div className="bg-slate-200 min-h-32">
+                <div
+                    className={`bg-slate-200 ${
+                        !animeBaseData.banner ? "min-h-32" : ""
+                    }`}
+                >
                     {animeBaseData.banner && (
                         <img
                             src={animeBaseData.banner}
@@ -55,92 +90,100 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                 </div>
 
                 <div className="space-y-8">
-                    <header className="flex gap-4 bg-white p-5 pb-3">
-                        <div
-                            className={`flex-shrink-0 w-52 ${
-                                animeBaseData.banner ? "-mt-20" : ""
-                            }`}
-                        >
-                            <img
-                                src={animeBaseData.image_large}
-                                alt={
-                                    animeBaseData.title_english ??
-                                    animeBaseData.title
-                                }
-                                className="w-full h-[295px] mb-2"
-                            />
-                            {/* <div className="w-full skeleton rounded-none p-2 text-center">
-                                Here may be some items
-                            </div> */}
-                        </div>
-                        <div className="flex flex-col flex-grow">
-                            <article className="flex-grow mb-2.5">
-                                <h1 className="text-2xl font-semibold font-suse mb-4 text-gray-600">
-                                    {animeBaseData.title_english ??
-                                        animeBaseData.title}
-                                </h1>
-                                <p className="text-gray-600 flex-grow">
-                                    {animeBaseData.synopsis
-                                        .slice(0, 290)
-                                        .trim()}
-                                    ...{" "}
-                                    <span
-                                        className="text-xs cursor-pointer hover:underline underline-offset-2"
-                                        onClick={(e) =>
-                                            (e.target.parentElement.innerHTML =
-                                                animeBaseData.synopsis)
-                                        }
-                                    >
-                                        read more
+                    <div className="bg-white">
+                        <header className="flex gap-4 p-5 pb-0 sm:pb-3">
+                            <div
+                                className={`flex-shrink-0 w-28 sm:w-52 sm:h-[295px] -mt-20`}
+                            >
+                                <img
+                                    src={animeBaseData.image_large}
+                                    alt={
+                                        animeBaseData.title_english ??
+                                        animeBaseData.title
+                                    }
+                                    className="w-full h-full mb-2"
+                                />
+                            </div>
+                            <div className="sm:hidden">
+                                <p className="font-semibold text-gray-800 mb-0.5">
+                                    #{animeBaseData.mal_rank}{" "}
+                                    <span className="font-normal text-xs">
+                                        (MAL)
                                     </span>
                                 </p>
-                            </article>
-
-                            <div className="px-4 w-full flex justify-evenly text-sm text-gray-500">
-                                <Link
-                                    href={baseUrl}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Overview
-                                </Link>
-                                <Link
-                                    href={`${baseUrl}/characters`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Characters
-                                </Link>
-                                <Link
-                                    href={`${baseUrl}/staffs`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Staffs
-                                </Link>
-                                <Link
-                                    href={`${baseUrl}/reviews`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Review
-                                </Link>
-
-                                <Link
-                                    href={`${baseUrl}/videos`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Videos
-                                </Link>
-                                <Link
-                                    href={`${baseUrl}/pictures`}
-                                    className="px-2 py-1 hover:text-[dodgerBlue]"
-                                >
-                                    Pictures
-                                </Link>
+                                <p className="text-sm font-semibold text-gray-500">
+                                    {animeBaseData.status}
+                                </p>
+                                <p className="text-sm font-semibold text-gray-500">
+                                    {animeType[
+                                        animeBaseData.type?.toLowerCase()
+                                    ] ?? animeBaseData.type}
+                                </p>
                             </div>
+                            <div className="flex-col flex-grow hidden sm:flex">
+                                <article className="flex-grow mb-2.5">
+                                    <h1 className="text-lg sm:text-2xl font-semibold font-suse mb-4 text-gray-600">
+                                        {animeBaseData.title_english ??
+                                            animeBaseData.title}
+                                    </h1>
+                                    <p className="text-gray-600 flex-grow ">
+                                        {animeBaseData.synopsis
+                                            .slice(0, 290)
+                                            .trim()}
+                                        ...{" "}
+                                        <span
+                                            className="text-xs cursor-pointer hover:underline underline-offset-2"
+                                            onClick={(e) =>
+                                                (e.target.parentElement.innerHTML =
+                                                    animeBaseData.synopsis)
+                                            }
+                                        >
+                                            read more
+                                        </span>
+                                    </p>
+                                </article>
+
+                                <div className="px-4 w-full justify-evenly text-sm text-gray-500 [&_.active]:text-black [&_.active]:font-medium hidden sm:flex">
+                                    {subNavLinks.map((item, idx) => (
+                                        <Link
+                                            key={idx}
+                                            href={`${baseUrl}${item.href}`}
+                                            className={`px-2 py-1 hover:text-[dodgerBlue] ${
+                                                pathname ===
+                                                `${baseUrl}${item.href}`
+                                                    ? "active"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </header>
+                        <h1 className="text-base font-semibold font-suse text-gray-600 px-4 pt-2">
+                            {animeBaseData.title_english ?? animeBaseData.title}
+                        </h1>
+                        <div className="py-2 px-4 w-full justify-evenly text-sm text-gray-500 [&_.active]:text-black [&_.active]:font-medium flex sm:hidden max-w-80 overflow-auto scrollbar-thin">
+                            {subNavLinks.map((item, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={`${baseUrl}${item.href}`}
+                                    className={`px-2 py-1 hover:text-[dodgerBlue] ${
+                                        pathname === `${baseUrl}${item.href}`
+                                            ? "active"
+                                            : ""
+                                    }`}
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
                         </div>
-                    </header>
+                    </div>
 
                     {/* The main Information */}
-                    <div className="px-5 flex gap-4">
-                        <aside className="bg-white w-52 h-fit px-4 py-3 space-y-2.5 flex-shrink-0">
+                    <div className="px-5 flex gap-4 flex-col sm:flex-row">
+                        <aside className="bg-white flex gap-3.5 sm:gap-2.5 sm:flex-col sm:w-52 h-fit px-4 py-3 flex-shrink-0  *:flex-grow max-w-80 overflow-auto scrollbar-thin">
                             <InfoItems
                                 heading={"Type"}
                                 info={
@@ -214,7 +257,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 info={animeBaseData.genres.map((item, idx) => (
                                     <Fragment key={idx}>
                                         {item.name}
-                                        <br />
+                                        <br className="hidden sm:block" />
                                     </Fragment>
                                 ))}
                             />
@@ -223,7 +266,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 info={animeBaseData.themes.map((item, idx) => (
                                     <Fragment key={idx}>
                                         {item.name}
-                                        <br />
+                                        <br className="hidden sm:block" />
                                     </Fragment>
                                 ))}
                             />
@@ -236,7 +279,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                         className="hover:underline underline-offset-2"
                                     >
                                         {item.name}
-                                        <br />
+                                        <br className="hidden sm:block" />
                                     </Link>
                                 ))}
                             />
@@ -250,7 +293,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                             className="hover:underline underline-offset-2"
                                         >
                                             {item.name}
-                                            <br />
+                                            <br className="hidden sm:block" />
                                         </Link>
                                     )
                                 )}
@@ -269,7 +312,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                             className="hover:underline underline-offset-2"
                                         >
                                             {item.name}
-                                            <br />
+                                            <br className="hidden sm:block" />
                                         </a>
                                     )
                                 )}
@@ -285,12 +328,20 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                             className="hover:underline underline-offset-2"
                                         >
                                             {item.name}
-                                            <br />
+                                            <br className="hidden sm:block" />
                                         </a>
                                     )
                                 )}
                             />
                         </aside>
+                        <section className="sm:hidden">
+                            <p className="font-semibold text-xl text-gray-600 mb-2">
+                                Description
+                            </p>
+                            <p className="text-gray-600 flex-grow bg-white p-2 rounded-lg">
+                                {animeBaseData.synopsis}
+                            </p>
+                        </section>
                         <section className="flex-grow">{children}</section>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
                 <title>Get Anime, Manga insights! - AniDom</title>
             </head>
             <body className="font-ubuntu bg-slate-100">
-                <NextTopLoader />
+                <NextTopLoader showSpinner={false} />
                 <PageNavbar />
                 <div className="min-h-[700px]"> {children}</div>
                 <PageFooter />

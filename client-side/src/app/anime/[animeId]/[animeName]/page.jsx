@@ -11,12 +11,12 @@ const page = () => {
 
     const HeaderCard = ({ header, info, infoTitle }) => {
         return (
-            <div className="bg-white p-4 w-[150px] rounded-lg text-center">
-                <h5 className="text-2xl font-semibold mb-2 font-suse">
+            <div className="bg-white p-4 w-[130px] sm:w-[150px] rounded-lg text-center">
+                <h5 className="text-xl sm:text-2xl font-semibold mb-2 font-suse">
                     {header}
                 </h5>
                 <p
-                    className="text-xl font-medium text-gray-500"
+                    className="text-lg sm:text-xl font-medium text-gray-500"
                     title={
                         infoTitle &&
                         `Scored By: ${animeBaseData.scored_by} members`
@@ -94,7 +94,7 @@ const page = () => {
                     Anime Statistics
                 </p>
                 <div className="p-5 rounded-lg bg-white">
-                    <div className="flex gap-2 items-center text-center *:flex-grow">
+                    <div className="flex gap-2 flex-wrap items-center text-center *:flex-grow">
                         <div>
                             <h4 className="text-lg mb-1 font-semibold text-gray-600">
                                 Watching
@@ -143,13 +143,15 @@ const page = () => {
                 <p className="font-semibold text-xl text-gray-600 mb-4">
                     Trailer
                 </p>
-                <p align="center">
+                <p
+                    align="center"
+                    className="relative pb-[56.25%] overflow-hidden"
+                >
                     <iframe
-                        width="560"
-                        height="315"
                         src={animeBaseData.trailer?.embed}
                         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
+                        className="w-full h-full absolute top-0 left-0"
                     ></iframe>
                 </p>
             </section>
