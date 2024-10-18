@@ -132,7 +132,7 @@ const page = () => {
                                                     }));
                                                 }}
                                             >
-                                                <div className="size-16 group-hover:w-16 group-hover:h-auto overflow-hidden">
+                                                <div className="size-16 group-hover:w-16 group-hover:h-auto overflow-hidden flex-shrink-0">
                                                     <img
                                                         src={item.image}
                                                         alt={
