@@ -105,7 +105,7 @@ const page = ({ params }) => {
                             </div>
                             <div>{formatDate(item.date)}</div>
                         </header>
-                        <header className="border-b-2 pb-2 mb-2">
+                        <header className="border-b-2 pb-2 mb-2 sm:hidden">
                             <div className="flex items-center justify-between gap-3 mb-2.5">
                                 <div className="flex items-center gap-2">
                                     <Avatar
