@@ -191,6 +191,94 @@ const PageNavbar = () => {
                             )}
                         >
                             {navRoutes.map((item, idx) => (
+                                <li key={idx} className="text-gray-200">
+                                    {item.children ? (
+                                        item.href ? (
+                                            <Dropdown
+                                                trigger="hover"
+                                                label={""}
+                                                placement="bottom"
+                                                renderTrigger={() => (
+                                                    <Link
+                                                        href={item.href}
+                                                        className={`block py-2 px-3 md:p-0 rounded hover:text-blue-400 border-gray-700 active:scale-[.95] transition-[transform] duration-200 ${
+                                                            pathname.startsWith(
+                                                                item.href
+                                                            )
+                                                                ? "active"
+                                                                : ""
+                                                        }`}
+                                                    >
+                                                        {item.label}
+                                                    </Link>
+                                                )}
+                                                inline
+                                            >
+                                                {item.children.map((child) => (
+                                                    <Dropdown.Item
+                                                        key={child.href}
+                                                        className="p-0"
+                                                    >
+                                                        <Link
+                                                            href={child.href}
+                                                            className={`hover:text-blue-400 text-gray-200 border-gray-700 active:scale-[.95] transition-[transform] duration-200 py-2 px-4 ${
+                                                                pathname ===
+                                                                child.href
+                                                                    ? "active"
+                                                                    : ""
+                                                            }`}
+                                                        >
+                                                            {child.label}
+                                                        </Link>
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </Dropdown>
+                                        ) : (
+                                            <Dropdown
+                                                className="w-full"
+                                                label={
+                                                    <span className="block py-2 px-3">
+                                                        {item.label}
+                                                    </span>
+                                                }
+                                                inline
+                                            >
+                                                {item.children.map((child) => (
+                                                    <Dropdown.Item
+                                                        key={child.href}
+                                                        className="p-0"
+                                                    >
+                                                        <Link
+                                                            href={child.href}
+                                                            className={`hover:text-blue-400 text-gray-200 border-gray-700 active:scale-[.95] transition-[transform] duration-200 py-2 px-4 ${
+                                                                pathname.startsWith(
+                                                                    child.href
+                                                                )
+                                                                    ? "active"
+                                                                    : ""
+                                                            }`}
+                                                        >
+                                                            {child.label}
+                                                        </Link>
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </Dropdown>
+                                        )
+                                    ) : (
+                                        <Link
+                                            href={item.href}
+                                            className={`block py-2 px-3 md:p-0 rounded hover:text-blue-400 border-gray-700 active:scale-[.95] transition-[transform] duration-200 ${
+                                                pathname === item.href
+                                                    ? "active"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    )}
+                                </li>
+                            ))}
+                            {/* {navRoutes.map((item, idx) => (
                                 <Dropdown.Item
                                     key={idx}
                                     className="[&_.active]:text-blue-400 font-semibold"
@@ -206,7 +294,7 @@ const PageNavbar = () => {
                                         {item.label}
                                     </Link>
                                 </Dropdown.Item>
-                            ))}
+                            ))} */}
                         </Dropdown>
                     </div>
                 </nav>
