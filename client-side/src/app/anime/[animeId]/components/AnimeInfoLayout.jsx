@@ -161,7 +161,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 </div>
                             </div>
                         </header>
-                        <h1 className="text-base font-semibold font-suse text-gray-600 px-4 pt-2">
+                        <h1 className="text-base font-semibold font-suse text-gray-600 px-4 pt-2 sm:hidden">
                             {animeBaseData.title_english ?? animeBaseData.title}
                         </h1>
                         <div className="py-2 px-4 w-full justify-evenly text-sm text-gray-500 [&_.active]:text-black [&_.active]:font-medium flex sm:hidden max-w-80 overflow-auto scrollbar-thin">
