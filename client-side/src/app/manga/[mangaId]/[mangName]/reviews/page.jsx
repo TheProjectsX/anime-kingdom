@@ -78,17 +78,19 @@ const page = ({ params }) => {
                         className="bg-white rounded-md p-3 shadow-md"
                     >
                         {/* Header Items - User name, image, review tags */}
-                        <header className="flex justify-between border-b-2 pb-2 mb-2">
+                        <header className="justify-between border-b-2 pb-2 mb-2 hidden sm:flex">
                             <div className="flex items-center gap-3">
-                                <Avatar
-                                    rounded
-                                    size="sm"
-                                    img={item.user?.image}
-                                    alt={item.user?.username}
-                                />
-                                <cite className="pr-3 font-medium text-gray-900 dark:text-white">
-                                    {item.user?.username}
-                                </cite>
+                                <div className="flex items-center gap-3">
+                                    <Avatar
+                                        rounded
+                                        size="sm"
+                                        img={item.user?.image}
+                                        alt={item.user?.username}
+                                    />
+                                    <cite className="pr-3 font-medium text-gray-900 dark:text-white">
+                                        {item.user?.username}
+                                    </cite>
+                                </div>
                                 <div className="divider divider-horizontal m-0"></div>
                                 <div className="space-x-2">
                                     {item.tags?.map((tag, idx) => (
@@ -102,6 +104,34 @@ const page = ({ params }) => {
                                 </div>
                             </div>
                             <div>{formatDate(item.date)}</div>
+                        </header>
+                        <header className="border-b-2 pb-2 mb-2 sm:hidden">
+                            <div className="flex items-center justify-between gap-3 mb-2.5">
+                                <div className="flex items-center gap-2">
+                                    <Avatar
+                                        rounded
+                                        size="sm"
+                                        img={item.user?.image}
+                                        alt={item.user?.username}
+                                    />
+                                    <cite className="pr-3 font-medium text-gray-900 dark:text-white">
+                                        {item.user?.username}
+                                    </cite>
+                                </div>
+                                <div className="text-sm">
+                                    {formatDate(item.date)}
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                                {item.tags?.slice(0, 2).map((tag, idx) => (
+                                    <span
+                                        className="badge badge-sm badge-accent p-2.5"
+                                        key={idx}
+                                    >
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
                         </header>
 
                         {/* Review Body */}
@@ -137,32 +167,33 @@ const page = ({ params }) => {
                                 </span>
                             </p>
                             <div className="divider my-2"></div>
-                            <div className="flex gap-2 items-end">
+
+                            <div className="flex flex-wrap gap-2 items-end">
                                 <p className="font-semibold text-gray-800 pr-2 text-lg">
                                     Reactions:
                                 </p>
 
                                 <p className="text-sm flex gap-1">
                                     <span>All:</span>
-                                    <span className="badge badge-info">
+                                    <span className="badge badge-sm sm:badge-md badge-info">
                                         {item.reactions.overall}
                                     </span>
                                 </p>
                                 <p className="text-sm flex gap-1">
                                     <span>Nice:</span>
-                                    <span className="badge badge-accent">
+                                    <span className="badge badge-sm sm:badge-md badge-accent">
                                         {item.reactions.nice}
                                     </span>
                                 </p>
                                 <p className="text-sm flex gap-1">
                                     <span>Loved:</span>
-                                    <span className="badge badge-secondary">
+                                    <span className="badge badge-sm sm:badge-md badge-secondary">
                                         {item.reactions.love_it}
                                     </span>
                                 </p>
                                 <p className="text-sm flex gap-1">
                                     <span>Funny:</span>
-                                    <span className="badge badge-primary">
+                                    <span className="badge badge-sm sm:badge-md badge-primary">
                                         {item.reactions.funny}
                                     </span>
                                 </p>

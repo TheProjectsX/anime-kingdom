@@ -90,10 +90,6 @@ const page = () => {
                         header={"Favorites"}
                         info={`#${animeBaseData.favorites}`}
                     />
-                    {/* <HeaderCard
-                    header={"Members"}
-                    info={`#${animeBaseData.members}`}
-                /> */}
                 </div>
             </section>
 

@@ -37,7 +37,7 @@ const page = ({ params }) => {
     // If every animePicturesData is null, return skeleton
     if (mangaPicturesData.every((item) => !item)) {
         return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-items-center">
                 {mangaPicturesData.map((item, idx) => (
                     <div
                         key={idx}
@@ -49,7 +49,7 @@ const page = ({ params }) => {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-items-center">
             {mangaPicturesData.map((item, idx) => (
                 <div key={idx} className="w-[90%] sm:w-[80%]">
                     <a

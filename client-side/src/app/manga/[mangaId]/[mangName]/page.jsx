@@ -11,12 +11,12 @@ const page = () => {
 
     const HeaderCard = ({ header, info, infoTitle }) => {
         return (
-            <div className="bg-white p-4 w-[150px] rounded-lg text-center">
-                <h5 className="text-2xl font-semibold mb-2 font-suse">
+            <div className="bg-white p-4 w-[130px] sm:w-[150px] rounded-lg text-center">
+                <h5 className="text-xl sm:text-2xl font-semibold mb-2 font-suse">
                     {header}
                 </h5>
                 <p
-                    className="text-xl font-medium text-gray-500"
+                    className="text-lg sm:text-xl font-medium text-gray-500"
                     title={
                         infoTitle &&
                         `Scored By: ${mangaBaseData.scored_by} members`
@@ -30,11 +30,20 @@ const page = () => {
 
     return (
         <div className="space-y-8">
+            <section className="sm:hidden">
+                <p className="font-semibold text-xl text-gray-600 mb-4">
+                    Description
+                </p>
+                <p className="text-gray-600 flex-grow bg-white p-2 rounded-lg">
+                    {mangaBaseData.synopsis}
+                </p>
+            </section>
+
             <section>
                 <p className="font-semibold text-xl text-gray-600 mb-3">
                     Background
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 flex-grow bg-white p-2 rounded-lg">
                     {mangaBaseData.background ?? (
                         <span className="italic font-semibold text-gray-600">
                             No Info Available
@@ -104,7 +113,7 @@ const page = () => {
                     Manga Statistics
                 </p>
                 <div className="p-5 rounded-lg bg-white">
-                    <div className="flex gap-2 items-center text-center *:flex-grow">
+                    <div className="flex gap-2 flex-wrap items-center text-center *:flex-grow">
                         <div>
                             <h4 className="text-lg mb-1 font-semibold text-gray-600">
                                 Reading

@@ -167,6 +167,7 @@ const page = ({ params }) => {
                                 </span>
                             </p>
                             <div className="divider my-2"></div>
+
                             <div className="flex flex-wrap gap-2 items-end">
                                 <p className="font-semibold text-gray-800 pr-2 text-lg">
                                     Reactions:
