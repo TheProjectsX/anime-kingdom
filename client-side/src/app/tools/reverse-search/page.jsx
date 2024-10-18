@@ -68,42 +68,35 @@ const page = () => {
             <Helmet>
                 <title>Reverse Search an Image! - AniDom</title>
             </Helmet>
-            <main className="max-width space-y-8 mb-10 pt-10">
-                <dialog id="my_modal_2" className="modal">
-                    <div className="modal-box p-0 rounded-none justify-center">
-                        <video
-                            src={currentVideo}
-                            autoPlay
-                            controls
-                            className="w-full"
-                        ></video>
-                    </div>
-                    <form method="dialog" className="modal-backdrop">
-                        <button>close</button>
-                    </form>
-                </dialog>
-
+            <dialog id="my_modal_2" className="modal">
+                <div className="modal-box p-0 rounded-none justify-center">
+                    <video
+                        src={currentVideo}
+                        autoPlay
+                        controls
+                        className="w-full"
+                    ></video>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
+            <main className="max-width space-y-8 mb-10 pt-4 sm:pt-10">
                 <header>
-                    <h2 className="text-3xl text-center font-suse font-semibold">
+                    <h2 className="text-2xl sm:text-3xl text-center font-suse font-semibold">
                         Get anime Info from an Image!
                     </h2>
                 </header>
 
                 {/* Show when there is no File or URL Data */}
                 {!fileUrl && (
-                    <div
-                        className="bg-white shadow-xl py-6
-             px-10 rounded-lg w-fit mx-auto flex flex-col items-center"
-                    >
-                        <h4 className="text-2xl font-semibold font-suse text-gray-600 mb-1">
+                    <div className="bg-white shadow-xl p-6 sm:px-10 rounded-lg w-fit mx-auto flex flex-col items-center text-center sm:text-left">
+                        <h4 className="text-xl sm:text-2xl font-semibold font-suse text-gray-600 mb-6">
                             Drop your Image or Paste Image URL
                         </h4>
-                        <p className="mb-6 font-medium">
-                            And Reverse Search to your Anime!
-                        </p>
                         <form
                             onSubmit={(e) => e.preventDefault()}
-                            className="w-[85%] space-y-7"
+                            className="w-full sm:w-[85%] space-y-3 sm:space-y-7"
                         >
                             <div>
                                 <TextInput
@@ -174,9 +167,9 @@ const page = () => {
                         className="bg-white shadow-xl py-6
              px-10 rounded-lg w-fit mx-auto flex flex-col items-center min-h-96"
                     >
-                        <div className="flex justify-between gap-8 items-center pb-3 mb-3 border-b border-dashed w-full">
+                        <div className="flex flex-wrap justify-center gap-8 items-center pb-3 mb-3 border-b border-dashed w-full ">
                             <div className="flex flex-col items-center gap-2">
-                                <h3 className="text-lg font-medium">
+                                <h3 className="text-lg font-medium text-center sm:text-left">
                                     {!searchResults
                                         ? "Processing your Image..."
                                         : `Image Processed! (${searchResults.frameCount} Frames)`}
@@ -202,7 +195,7 @@ const page = () => {
                                 {searchResults.data.map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className="shadow-lg p-2.5 rounded-md flex justify-between gap-5 border border-[dodgerBlue] hover:shadow-[dodgerBlue] cursor-pointer"
+                                        className="shadow-lg p-2.5 rounded-md flex justify-between flex-wrap gap-5 border border-[dodgerBlue] hover:shadow-[dodgerBlue] cursor-pointer"
                                         onClick={() => {
                                             setCurrentVideo(
                                                 `${item.video}&size=l`
@@ -213,14 +206,14 @@ const page = () => {
                                         }}
                                     >
                                         <div className="max-w-96">
-                                            <h3 className="mb-2 text-lg font-semibold">
+                                            <h3 className="mb-2 sm:text-lg font-semibold">
                                                 {item.title_english ??
                                                     item.title}
                                             </h3>
-                                            <p className="text-black font-semibold ">
+                                            <p className="text-black font-semibold">
                                                 Episode: {item.episode}
                                             </p>
-                                            <p>
+                                            <p className="text-sm sm:text-base">
                                                 <span className="font-semibold">
                                                     Time:
                                                 </span>{" "}
@@ -230,7 +223,7 @@ const page = () => {
                                                 -{" "}
                                                 {convertSecondsToTime(item.to)}
                                             </p>
-                                            <p>
+                                            <p className="text-sm sm:text-base">
                                                 <span className="font-semibold">
                                                     Similarity:
                                                 </span>{" "}
@@ -241,7 +234,7 @@ const page = () => {
                                         </div>
                                         <video
                                             src={item.video}
-                                            className="w-48"
+                                            className="w-48 mx-auto sm:mx-0"
                                         ></video>
                                     </div>
                                 ))}
