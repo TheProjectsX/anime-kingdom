@@ -138,10 +138,10 @@ const page = ({ params }) => {
                     <h2 className="text-2xl font-suse font-semibold">
                         Waifu Images!
                     </h2>
-                    <div className="flex gap-5 ">
+                    <div className="flex gap-5 flex-wrap">
                         {filters.map((filter) => (
                             <div key={filter.type}>
-                                <label className="flex flex-col gap-1 w-48">
+                                <label className="flex flex-col gap-1 w-36 sm:w-48">
                                     <span className="text-sm font-semibold text-gray-600 ml-2">
                                         {filter.type.toUpperCase()}:
                                     </span>
@@ -166,7 +166,7 @@ const page = ({ params }) => {
                                         )}
                                         className="basic-multi-select w-full"
                                         classNamePrefix="select"
-                                        placeholder="Select a Category"
+                                        placeholder="Category..."
                                         onChange={(item) =>
                                             router.push(
                                                 `/tools/waifu/${filter.type}/${item.value}`
