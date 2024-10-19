@@ -221,7 +221,7 @@ const PageNavbar = () => {
                                                     >
                                                         <Link
                                                             href={child.href}
-                                                            className={`hover:text-blue-400 text-gray-200 border-gray-700 active:scale-[.95] transition-[transform] duration-200 py-2 px-4 ${
+                                                            className={`hover:text-blue-400 text-gray-200 border-gray-700 active:scale-[.95] transition-[transform] duration-200 py-2 px-4 text-left ${
                                                                 pathname ===
                                                                 child.href
                                                                     ? "active"
@@ -250,7 +250,7 @@ const PageNavbar = () => {
                                                     >
                                                         <Link
                                                             href={child.href}
-                                                            className={`hover:text-blue-400 text-gray-200 border-gray-700 active:scale-[.95] transition-[transform] duration-200 py-2 px-4 ${
+                                                            className={`hover:text-blue-400 text-gray-200 border-gray-700 active:scale-[.95] transition-[transform] duration-200 py-2 px-4 text-left ${
                                                                 pathname.startsWith(
                                                                     child.href
                                                                 )

@@ -135,9 +135,11 @@ const page = ({ params }) => {
                             <p className="text-gray-600 text-xs sm:text-sm mb-0.5 font-medium">
                                 {item.role}
                             </p>
-                            <p className="text-slate-400 text-xs font-medium">
-                                {item.favorites} Favorites
-                            </p>
+                            {item.favorites && (
+                                <p className="text-slate-400 text-xs font-medium">
+                                    {item.favorites} Favorites
+                                </p>
+                            )}
                         </div>
                     </Link>
 
