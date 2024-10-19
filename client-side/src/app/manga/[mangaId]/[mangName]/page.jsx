@@ -61,7 +61,7 @@ const page = () => {
                     {mangaBaseData.related?.map((item, idx) =>
                         item.entry?.map((ent) => (
                             <Link
-                                key={idx}
+                                key={ent.id}
                                 href={`/${ent.type.replace(" ", "-")}/${
                                     ent.id
                                 }`}
