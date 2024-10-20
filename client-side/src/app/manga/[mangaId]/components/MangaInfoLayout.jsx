@@ -16,7 +16,7 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                 <h3 className="font-semibold text-gray-600 mb-0.5 font-suse text-nowrap sm:text-wrap">
                     {heading}
                 </h3>
-                <p className="text-sm text-gray-600 text-nowrap sm:text-wrap flex gap-1.5">
+                <p className="text-sm text-gray-600 text-nowrap sm:text-wrap flex sm:flex-col gap-1.5">
                     {info}
                 </p>
             </div>
