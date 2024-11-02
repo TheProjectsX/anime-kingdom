@@ -191,6 +191,12 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                 </Carousel>
             )}
 
+            {!home && (
+                <h4 className="font-bold font-suse text-3xl text-gray-500">
+                    Search for Anime
+                </h4>
+            )}
+
             {/* Layout Options */}
             <div className="flex justify-between items-end gap-2 pr-5">
                 <label className="flex flex-col gap-1 w-auto">

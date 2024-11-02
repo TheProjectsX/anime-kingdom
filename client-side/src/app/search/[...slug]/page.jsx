@@ -43,7 +43,7 @@ const page = async ({ params, searchParams }) => {
     }
 
     return (
-        <main className="max-width space-y-8 mb-10">
+        <main className="max-width space-y-8 my-10">
             {/* Open the Anime Home Page if the route is /search/anime and no searchParams exists */}
             {path === "anime" && !searchParams.query && <AnimeHomePageItems />}
 

@@ -64,8 +64,13 @@ const MangaHomePageItems = () => {
             <Helmet>
                 <title>Search for Manga! - AniDom</title>
             </Helmet>
+
+            <h4 className="font-bold font-suse text-3xl text-gray-500">
+                Search for Manga
+            </h4>
+
             {/* Layout Options */}
-            <div className="flex justify-between items-end gap-2 pt-5 pr-5">
+            <div className="flex justify-between items-end gap-2 pr-5">
                 <label className="flex flex-col gap-1 w-auto">
                     <span className="text-sm font-semibold text-gray-600 ml-2">
                         Search:

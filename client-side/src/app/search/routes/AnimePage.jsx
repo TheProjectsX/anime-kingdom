@@ -191,7 +191,7 @@ const AnimePage = ({ path, slug, filters }) => {
                     AniDom
                 </title>
             </Helmet>
-            <section className="my-10">
+            <section>
                 <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
                     {individualPathData[path]?.title ?? "Search for Anime"}
                 </h4>
@@ -295,28 +295,44 @@ const AnimePage = ({ path, slug, filters }) => {
 
                 {/* Grid View */}
                 {layout === "grid" && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {animeData.map((item, idx) => (
-                            <ItemCardGrid
-                                animeData={item}
-                                key={idx}
-                                rank={path === "anime/top" ? idx + 1 : null}
-                            />
-                        ))}
-                    </div>
+                    <InfiniteScroll
+                        initialLoad={false}
+                        pageStart={1}
+                        hasMore={hasMoreData}
+                        loadMore={loadMoreData}
+                        threshold={0}
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            {animeData.map((item, idx) => (
+                                <ItemCardGrid
+                                    animeData={item}
+                                    key={idx}
+                                    rank={path === "anime/top" ? idx + 1 : null}
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
                 )}
 
                 {/* List View */}
                 {layout === "list" && (
-                    <div className="space-y-5">
-                        {animeData.map((item, idx) => (
-                            <ItemCardList
-                                animeData={item}
-                                key={idx}
-                                rank={path === "anime/top" ? idx + 1 : null}
-                            />
-                        ))}
-                    </div>
+                    <InfiniteScroll
+                        initialLoad={false}
+                        pageStart={1}
+                        hasMore={hasMoreData}
+                        loadMore={loadMoreData}
+                        threshold={0}
+                    >
+                        <div className="space-y-5">
+                            {animeData.map((item, idx) => (
+                                <ItemCardList
+                                    animeData={item}
+                                    key={idx}
+                                    rank={path === "anime/top" ? idx + 1 : null}
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
                 )}
             </section>
         </>
