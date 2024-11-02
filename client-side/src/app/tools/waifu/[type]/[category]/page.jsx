@@ -2,10 +2,11 @@
 
 import { loadServerData } from "@/utils/DataLoader";
 import { capitalizeWord } from "@/utils/HelperFunctions";
-import { notFound, useRouter } from "next/navigation";
+import { notFound, redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import ReactSelect from "react-select";
+import { toast } from "react-toastify";
 
 const page = ({ params }) => {
     const router = useRouter();
@@ -57,7 +58,7 @@ const page = ({ params }) => {
             params.category?.toLowerCase()
         )
     ) {
-        notFound();
+        return notFound();
     }
 
     function divideArrayIntoFour(arr) {
@@ -91,11 +92,12 @@ const page = ({ params }) => {
         );
 
         if (!response.success) {
-            console.log(response);
+            // console.log(response);
+            toast.warning("Please try again!");
             // Do something
         }
 
-        setImages(addToExistingSubArrays(images, response.data) ?? []);
+        setImages(addToExistingSubArrays(images, response.data ?? []) ?? []);
         setLoading(false);
     };
 
@@ -109,7 +111,8 @@ const page = ({ params }) => {
             );
 
             if (!response.success) {
-                console.log(response);
+                // console.log(response);
+                redirect("/tools/waifu");
                 // Do something
             }
 

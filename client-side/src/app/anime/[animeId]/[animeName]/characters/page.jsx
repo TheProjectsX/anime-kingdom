@@ -2,8 +2,10 @@
 
 import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const page = ({ params }) => {
     const [animeCharactersData, setAnimeCharactersData] = useState(

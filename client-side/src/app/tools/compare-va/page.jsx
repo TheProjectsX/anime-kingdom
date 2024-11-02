@@ -3,10 +3,10 @@
 import { loadServerData } from "@/utils/DataLoader";
 import { TextInput, Tooltip } from "flowbite-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { Fragment, useState } from "react";
 import { Helmet } from "react-helmet";
 import { IoSearch } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const page = () => {
     const [targetAnime, setTargetAnime] = useState({
@@ -26,7 +26,7 @@ const page = () => {
             limit: 6,
         });
         if (!serverResult.success) {
-            console.log(serverResult);
+            toast.error("Something went wrong. Try Again!");
             // do something
             return;
         }
@@ -52,7 +52,7 @@ const page = () => {
         });
 
         if (!serverResult.success) {
-            console.log(serverResult);
+            toast.error("Something went wrong. Try Again!");
             // do something
             return;
         }

@@ -1,12 +1,14 @@
 import { loadServerData } from "@/utils/DataLoader";
 import MangaInfoLayout from "./components/MangaInfoLayout";
+import { notFound } from "next/navigation";
 
 export default async function RootLayout({ children, params }) {
     const { mangaId } = params;
     const response = await loadServerData(`/manga/${mangaId}`);
 
     if (!response.success) {
-        console.log("Not Found");
+        // console.log("Not Found");
+        return notFound();
         // Do something
     }
 

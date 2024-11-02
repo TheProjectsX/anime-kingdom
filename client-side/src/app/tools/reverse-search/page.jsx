@@ -9,6 +9,7 @@ import { TextInput } from "flowbite-react";
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
 
 const page = () => {
     const [fileUrl, setFileUrl] = useState(false);
@@ -23,7 +24,9 @@ const page = () => {
                 url,
             });
             if (!response.success) {
-                console.log(response);
+                // console.log(response);
+                toast.error("Something went wrong!");
+                return;
                 // Do something
             }
             setSearchResults(response);
@@ -42,7 +45,8 @@ const page = () => {
                 ).json();
 
                 if (!response.success) {
-                    console.log(response);
+                    // console.log(response);
+                    toast.error("Something went wrong!");
                     // do something
                 }
 

@@ -2,7 +2,7 @@ import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
 import { Pictures } from "./Pictures";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { formatDate } from "@/utils/HelperFunctions";
 import PageTitle from "@/components/common/PageTitle";
 import { loadServerData } from "@/utils/DataLoader";
@@ -411,7 +411,8 @@ const page = async ({ params }) => {
     const serverResponse = await loadServerData(`/staffs/${slugs[0]}`);
 
     if (!serverResponse.success) {
-        console.log("404 not found");
+        // console.log("404 not found");
+        return notFound();
         // Do something
     }
 

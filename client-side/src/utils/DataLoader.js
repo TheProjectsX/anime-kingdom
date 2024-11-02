@@ -5,14 +5,22 @@ const loadServerData = async (
 ) => {
     const searchParams = new URLSearchParams(paramsPayload);
 
-    const response = await (
-        await fetch(
-            `${
-                process.env.NEXT_PUBLIC_SERVER_URL
-            }${path}?${searchParams.toString()}`,
-            options
-        )
-    ).json();
+    let response;
+    try {
+        response = await (
+            await fetch(
+                `${
+                    process.env.NEXT_PUBLIC_SERVER_URL
+                }${path}?${searchParams.toString()}`,
+                options
+            )
+        ).json();
+    } catch (error) {
+        response = {
+            success: false,
+            data: [],
+        };
+    }
 
     return response;
 };

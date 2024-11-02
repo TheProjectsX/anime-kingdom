@@ -2,6 +2,7 @@
 
 import AnimeDataContext from "@/context/AnimeDataContext";
 import { loadServerData } from "@/utils/DataLoader";
+import { notFound } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 const page = ({ params }) => {
@@ -22,6 +23,7 @@ const page = ({ params }) => {
 
             if (!serverResponse.success) {
                 console.log("Not Found");
+                // return notFound();
                 // Do Something
             }
 
