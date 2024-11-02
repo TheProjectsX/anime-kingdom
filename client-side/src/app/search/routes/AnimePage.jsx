@@ -104,7 +104,6 @@ const AnimePage = ({ path, slug, filters }) => {
 
     // Update the Items when filter changes
     const updateFilteredItems = (filters = {}) => {
-        console.log("🚀 ~ updateFilteredItems ~ filters:", filters);
         let params;
 
         if (path.startsWith("anime/seasons")) {
@@ -192,7 +191,7 @@ const AnimePage = ({ path, slug, filters }) => {
                 </title>
             </Helmet>
             <section>
-                <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
+                <h4 className="ont-bold font-suse text-xl sm:text-2xl md:text-3xl text-gray-500">
                     {individualPathData[path]?.title ?? "Search for Anime"}
                 </h4>
 
@@ -206,8 +205,8 @@ const AnimePage = ({ path, slug, filters }) => {
                                   type: filters.type ?? [],
                               }
                             : {
+                                  query: filters.query ?? [],
                                   genres: filters.genres ?? [],
-                                  type: filters.type ?? [],
                                   type: filters.type ?? [],
                               }
                     }

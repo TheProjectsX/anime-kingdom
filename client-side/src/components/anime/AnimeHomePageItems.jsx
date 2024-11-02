@@ -192,7 +192,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
             )}
 
             {!home && (
-                <h4 className="font-bold font-suse text-3xl text-gray-500">
+                <h4 className="font-bold font-suse text-xl sm:text-2xl md:text-3xl text-gray-500">
                     Search for Anime
                 </h4>
             )}

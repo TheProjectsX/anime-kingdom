@@ -72,11 +72,7 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                 </title>
             </Helmet>
             <main className="max-width !px-0 mb-10">
-                <div
-                    className={`bg-slate-200 ${
-                        !animeBaseData.banner ? "min-h-32" : ""
-                    }`}
-                >
+                <div className={`bg-slate-200 min-h-16 sm:min-h-32`}>
                     {animeBaseData.banner && (
                         <img
                             src={animeBaseData.banner}
@@ -199,10 +195,14 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             <InfoItems
                                 heading={"Duration"}
                                 info={
-                                    animeBaseData.type?.toLowerCase() ===
-                                    "movie"
-                                        ? `${animeBaseData.duration[0]} hour(s), ${animeBaseData.duration[1]} mins`
-                                        : `${animeBaseData.duration ?? 0} mins`
+                                    animeBaseData.duration
+                                        ? animeBaseData.type?.toLowerCase() ===
+                                          "movie"
+                                            ? `${animeBaseData.duration[0]} hour(s), ${animeBaseData.duration[1]} mins`
+                                            : `${
+                                                  animeBaseData.duration ?? 0
+                                              } mins`
+                                        : "0 mins"
                                 }
                             />
                             <InfoItems

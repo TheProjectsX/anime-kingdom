@@ -154,7 +154,7 @@ const MangaPage = ({ path, slug, filters }) => {
                 </title>
             </Helmet>
             <section className="my-10">
-                <h4 className="mb-5 font-bold font-suse text-3xl text-gray-500">
+                <h4 className="ont-bold font-suse text-xl sm:text-2xl md:text-3xl text-gray-500">
                     {individualPathData[path]?.title ?? "Search for Manga"}
                 </h4>
                 <FilterOptions
