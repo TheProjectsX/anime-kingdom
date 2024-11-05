@@ -122,21 +122,27 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                         {animeBaseData.title_english ??
                                             animeBaseData.title}
                                     </h1>
-                                    <p className="text-gray-600 flex-grow ">
-                                        {animeBaseData.synopsis
-                                            .slice(0, 290)
-                                            .trim()}
-                                        ...{" "}
-                                        <span
-                                            className="text-xs cursor-pointer hover:underline underline-offset-2"
-                                            onClick={(e) =>
-                                                (e.target.parentElement.innerHTML =
-                                                    animeBaseData.synopsis)
-                                            }
-                                        >
-                                            read more
-                                        </span>
-                                    </p>
+                                    {animeBaseData.synopsis ? (
+                                        <p className="text-gray-600 flex-grow">
+                                            {animeBaseData.synopsis
+                                                .slice(0, 290)
+                                                .trim()}
+                                            ...{" "}
+                                            <span
+                                                className="text-xs cursor-pointer hover:underline underline-offset-2"
+                                                onClick={(e) =>
+                                                    (e.target.parentElement.innerHTML =
+                                                        animeBaseData.synopsis)
+                                                }
+                                            >
+                                                read more
+                                            </span>
+                                        </p>
+                                    ) : (
+                                        <p className="text-gray-600 flex-grow italic">
+                                            No Synopsis available
+                                        </p>
+                                    )}
                                 </article>
 
                                 <div className="px-4 w-full justify-evenly text-sm text-gray-500 [&_.active]:text-black [&_.active]:font-medium hidden sm:flex">

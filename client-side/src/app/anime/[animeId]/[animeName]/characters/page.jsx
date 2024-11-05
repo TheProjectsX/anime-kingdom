@@ -2,14 +2,16 @@
 
 import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { toast } from "react-toastify";
 
 const page = ({ params }) => {
+    const [animeCharactersPrimaryData, setAnimeCharactersPrimaryData] =
+        useState(Array(5).fill(null));
+
     const [animeCharactersData, setAnimeCharactersData] = useState(
-        Array(5).fill(null)
+        animeCharactersPrimaryData
     );
     const [voiceLanguages, setVoiceLanguages] = useState([
         "Japanese",
@@ -39,6 +41,12 @@ const page = ({ params }) => {
         { label: "Spanish", value: "Spanish" },
     ];
 
+    const sortBy = [
+        { label: "Main", value: "main" },
+        { label: "Rating", value: "rating" },
+        { label: "Name", value: "name" },
+    ];
+
     const { animeId } = params;
 
     useEffect(() => {
@@ -53,6 +61,7 @@ const page = ({ params }) => {
             }
 
             setAnimeCharactersData(serverResponse.data ?? []);
+            setAnimeCharactersPrimaryData(serverResponse.data ?? []);
         };
 
         // Load data only if the data is not already loaded
@@ -60,6 +69,20 @@ const page = ({ params }) => {
             loadData();
         }
     }, []);
+
+    const sortCharacters = (sortby) => {
+        if (sortby === "main") {
+            setAnimeCharactersData(animeCharactersPrimaryData);
+        } else if (sortby === "rating") {
+            setAnimeCharactersData((prev) =>
+                prev.slice().sort((a, b) => b.favorites - a.favorites)
+            );
+        } else if (sortby === "name") {
+            setAnimeCharactersData((prev) =>
+                prev.slice().sort((a, b) => a.name.localeCompare(b.name))
+            );
+        }
+    };
 
     // If every animeCharactersData is null, return skeleton
     if (animeCharactersData.every((item) => !item)) {
@@ -95,7 +118,7 @@ const page = ({ params }) => {
 
     return (
         <div className="space-y-3">
-            <div className="flex justify-end mb-8">
+            <div className="flex justify-between flex-wrap mb-8 gap-4">
                 <label className="flex flex-col gap-1 w-full lg:w-auto">
                     <span className="text-sm font-semibold text-gray-600 ml-2">
                         Voice Languages:
@@ -111,6 +134,20 @@ const page = ({ params }) => {
                         onChange={(value) =>
                             setVoiceLanguages(value.map((item) => item.value))
                         }
+                    />
+                </label>
+                <label className="flex flex-col gap-1 w-full lg:w-auto">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Sort By:
+                    </span>
+                    <Select
+                        defaultValue={sortBy[0]}
+                        name="sortby"
+                        options={sortBy}
+                        className="basic-multi-select w-fit min-w-52"
+                        classNamePrefix="select"
+                        placeholder="Select Sorting..."
+                        onChange={(selected) => sortCharacters(selected.value)}
                     />
                 </label>
             </div>
