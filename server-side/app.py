@@ -122,7 +122,7 @@ def animeScheduleCurrentSeason():
     type = request.args.get("type", "tv")
     sortby = request.args.get("sortby", "popularity")
 
-    result, statusCode = fns.getAnimeSchedule(type=type, sortby=sortby)
+    result, statusCode = fns.getAnimeSchedule(anime_type=type, sortby=sortby)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -133,7 +133,9 @@ def animeSchedule(year, season):
     type = request.args.get("type", "tv")
     sortby = request.args.get("sortby", "popularity")
 
-    result, statusCode = fns.getAnimeSchedule(year, season, type=type, sortby=sortby)
+    result, statusCode = fns.getAnimeSchedule(
+        season, year, anime_type=type, sortby=sortby
+    )
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -141,7 +143,7 @@ def animeSchedule(year, season):
 # Get Anime Scheduled to release today
 @app.route("/anime/schedule/today")
 def animeToday():
-    result, statusCode = fns.getAnimeToday()
+    result, statusCode = fns.getAnimeOfHours(hours="today")
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 
@@ -149,7 +151,7 @@ def animeToday():
 # Get Anime Scheduled to release Next 24 Hours
 @app.route("/anime/schedule/24h")
 def anime24Hours():
-    result, statusCode = fns.getAnimeToday(time="24h")
+    result, statusCode = fns.getAnimeOfHours(hours=24)
 
     return Response(json.dumps(result), status=statusCode, mimetype="application/json")
 

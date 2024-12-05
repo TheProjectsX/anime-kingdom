@@ -6,6 +6,7 @@ import time
 import re
 from datetime import datetime, timedelta
 from dateutil import parser as dateparser
+import anime_schedules as schedules
 
 # TODO: change from (if not serverData to equivalent)
 
@@ -1375,8 +1376,8 @@ def getSeasonalAnime(year, season="", filter="", continuing="false", limit=20, p
 
 
 # Get Top Anime
-def getTopAnime(type="", filter="", page=1, limit=25):
-    path = f"/anime?type={type}&filter={filter}&page={page}&limit={limit}"
+def getTopAnime(anime_type="", filter="", page=1, limit=25):
+    path = f"/anime?type={anime_type}&filter={filter}&page={page}&limit={limit}"
 
     serverResponse = topBase(path)
     if not serverResponse["success"]:
@@ -1652,8 +1653,8 @@ def getWaifuImgCategories():
 
 
 # Get Waifu Pictures
-def getWaifuPictures(type="sfw", category="waifu", limit=20):
-    url = f"{WAIFU_BASE}/many/{type}/{category}"
+def getWaifuPictures(image_type="sfw", category="waifu", limit=20):
+    url = f"{WAIFU_BASE}/many/{image_type}/{category}"
 
     try:
         limit = int(limit)
@@ -1887,213 +1888,40 @@ def getMangaFilters():
 
 
 # Get HTML data of Schedule and convert!
-def getAnimeSchedule(year="", season="", type="tv", sortby="popularity"):
-    animeType = {
-        "tv": "TV Series",
-        "movies": "Movie",
-        "ovas": "OVA",
-        "onas": "ONA",
-    }
-
-    if year == "" or season == "" or type == "":
-        path = ""
-        cookies = {
-            "preferences": f"""{{"titles":"english","sortby":"{sortby}","ongoing":"all","use_24h_clock":false,"night_mode":true,"reveal_spoilers":true}}"""
-        }
+def getAnimeSchedule(season="", year="", anime_type="tv", sortby="popularity"):
+    if season == "" or year == "":
+        serverResponse = schedules.getCurrentSeasonAnimeScheduled(
+            type=anime_type, sortby=sortby
+        )
     else:
-        path = f"{season.lower()}-{year}/{type}?titles=english&sortby={sortby}"
-        cookies = {}
-
-    serverResponse = livechartBase(path, cookies=cookies)
-    if not serverResponse["success"]:
+        serverResponse = schedules.getAnimeScheduleOfSeason(
+            season=season, year=year, type=anime_type, sortby=sortby
+        )
+    if not serverResponse.get("success"):
         return serverResponse, 500
 
-    if year == "" or season == "":
-        if not serverResponse["success"]:
-            return serverResponse, 500
-        try:
-            parts = (
-                urllib.parse.urlparse(serverResponse.get("obj"))
-                .path.strip("/")
-                .split("/")[0]
-                .split("-")
-            )
-            season = parts[0]
-            year = int(parts[1])
-        except Exception as e:
-            pass
+    returnResponse = {"success": True, "data": []}
 
-    response = serverResponse.get("obj")
-
-    animeCard = response.html.find("div.anime-card")
-
-    returnResponse = {
-        "success": True,
-        "data": [],
-    }
-
-    for card in animeCard:
-        episodeCountdown = card.find("time.text-bold", first=True)
-        if episodeCountdown is None:
+    # Filter the Items which has finished Releasing
+    for item in serverResponse.get("data", []):
+        if type(item.get("next", {}).get("timestamp")) is str:
             continue
 
-        try:
-            malId = re.search(
-                r"/anime/(\d+)",
-                card.find(".related-links", first=True)
-                .find("a.mal-icon", first=True)
-                .attrs.get("href"),
-                re.IGNORECASE,
-            )
-            malId = int(malId.group(1)) if malId else None
-        except Exception as e:
-            malId = None
-
-        try:
-            images = [
-                url.strip().split(" ")[0]
-                for url in card.find("img", first=True).attrs.get("srcset").split(",")
-            ]
-        except Exception as e:
-            images = []
-
-        try:
-            episode = re.search(
-                r"EP(\d+)",
-                card.find("div.release-schedule-info", first=True).text.strip(),
-                re.IGNORECASE,
-            )
-            episode = int(episode.group(1)) if episode else None
-        except Exception as e:
-            episode = None
-
-        try:
-            match = re.search(
-                r"^(\d+|\?)\s+eps\s+×\s+(\d+|\?)m$",
-                card.find("div.anime-episodes", first=True).text.strip(),
-                re.IGNORECASE,
-            )
-            if match:
-                episodeCount = int(match.group(1)) if match.group(1) != "?" else None
-                duration = int(match.group(2)) if match.group(2) != "?" else None
-            else:
-                episodeCount, duration = None, None
-        except Exception as e:
-            episodeCount, duration = None, None
-
-        try:
-            match = re.search(
-                r"(\d+\.\d+)\s+out\s+of\s+10\s+based\s+on\s+(\d+)\s+user\s+ratings",
-                card.find("div.anime-avg-user-rating", first=True)
-                .attrs.get("title")
-                .strip(),
-                re.IGNORECASE,
-            )
-            if match:
-                rating = float(match.group(1)) if match.group(1) != "?" else None
-                members = int(match.group(2)) if match.group(2) != "?" else None
-            else:
-                rating, members = None, None
-        except Exception as e:
-            rating, members = None, None
-
-        try:
-            startDateTimestamp = dateparser.parse(
-                card.find(".anime-date", first=True).text.strip()
-            ).timestamp()
-        except ValueError as e:
-            startDateTimestamp = None
-
-        try:
-            nextEpisode = int(episodeCountdown.attrs.get("data-timestamp"))
-        except Exception as e:
-            nextEpisode = None
-
-        try:
-            genres = [
-                {"id": None, "name": li.text.strip()}
-                for li in card.find("ol.anime-tags", first=True).find("li")
-            ]
-        except Exception as e:
-            genres = []
-
-        try:
-            studios = [
-                {"id": None, "name": li.text.strip()}
-                for li in card.find("ul.anime-studios", first=True).find("li")
-            ]
-        except Exception as e:
-            studios = []
-
-        data = {
-            "id": malId,
-            "title": card.find("h3.main-title", first=True).text.strip(),
-            "image": next((url for url in images if url.endswith("small.jpg")), None),
-            "image_large": next(
-                (url for url in images if url.endswith("large.jpg")), None
-            ),
-            "synopsis": card.find("div.anime-synopsis", first=True).text.strip(),
-            "aired": {
-                "from": startDateTimestamp,
-                "to": None,
-                "string": f"{datetime.fromtimestamp(startDateTimestamp).strftime("%b %d, %Y") if startDateTimestamp else "?"} to ?",
-            },
-            "next": {
-                "timestamp": nextEpisode,
-                "episode": episode,
-            },
-            "status": "Currently Airing",
-            "type": animeType.get(type),
-            "year": year,
-            "season": season,
-            "score": rating,
-            "scored_by": members,
-            "episodes": episodeCount,
-            "duration": duration,
-            "studios": studios,
-            "genres": genres,
-            "source": card.find(".anime-source", first=True).text.strip(),
-        }
-
-        returnResponse["data"].append(data)
+        returnResponse["data"].append(item)
 
     return returnResponse, 200
 
 
-# Get Anime data which will release today
-def getAnimeToday(time="today"):
-    animeScheduleData, statusCode = getAnimeSchedule(sortby="countdown")
-    if not animeScheduleData.get("success"):
-        return animeScheduleData, statusCode
-
-    returnResponse = {
-        "success": True,
-        "data": [],
-    }
-
-    if time == "today":
-        todayData = datetime.now().date()
-        for item in animeScheduleData.get("data", []):
-            if not item.get("next", {}).get("timestamp"):
-                continue
-
-            episodeDate = datetime.fromtimestamp(
-                item.get("next", {}).get("timestamp")
-            ).date()
-            if episodeDate == todayData:
-                returnResponse["data"].append(item)
-    elif time == "24h":
+# Get Anime data of from now to given Hour. But if today is given, calculate the hours remaining
+def getAnimeOfHours(hours="today"):
+    if hours == "today":
         now = datetime.now()
-        next24Hours = now + timedelta(hours=24)
+        end_of_day = datetime.combine(
+            now.date() + timedelta(days=1), datetime.min.time()
+        )
+        remaining_time = end_of_day - now
+        hours = remaining_time.total_seconds() // 3600
 
-        for item in animeScheduleData.get("data", []):
-            if not item.get("next", {}).get("timestamp"):
-                continue
+    returnResponse = schedules.getAnimeScheduleOfNextHours(hours=hours)
 
-            episodeDateTime = datetime.fromtimestamp(
-                item.get("next", {}).get("timestamp")
-            )
-            if now <= episodeDateTime < next24Hours:
-                returnResponse["data"].append(item)
-
-    return returnResponse, 200
+    return returnResponse, 200 if returnResponse.get("success") is True else 500
