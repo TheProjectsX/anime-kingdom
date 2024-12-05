@@ -5,11 +5,16 @@ import ItemCardGrid from "@/components/anime/ItemCardGrid";
 import { loadServerData } from "@/utils/DataLoader";
 import { Helmet } from "react-helmet";
 import ReactSelect from "react-select";
+import { TextInput } from "flowbite-react";
+import { IoSearch } from "react-icons/io5";
 
 const page = () => {
     const [loading, setLoading] = useState(true);
-    const [animeScheduleData, setAnimeScheduleData] = useState(
+    const [primaryAnimeScheduleData, setPrimaryAnimeScheduleData] = useState(
         Array(6).fill(null)
+    );
+    const [animeScheduleData, setAnimeScheduleData] = useState(
+        primaryAnimeScheduleData
     );
 
     const filterOptions = [
@@ -46,6 +51,7 @@ const page = () => {
                 // do something
             }
 
+            setPrimaryAnimeScheduleData(response.data ?? []);
             setAnimeScheduleData(response.data ?? []);
             setLoading(false);
         };
@@ -64,8 +70,26 @@ const page = () => {
             // do something
         }
 
+        setPrimaryAnimeScheduleData(response.data ?? []);
         setAnimeScheduleData(response.data ?? []);
         setLoading(false);
+    };
+
+    // Handle Search Query Change
+    const handleSearch = (e) => {
+        const query = e.target.value;
+        if (query === "") {
+            setAnimeScheduleData(primaryAnimeScheduleData);
+            return;
+        }
+
+        const filteredItems = primaryAnimeScheduleData.filter((item) =>
+            item.title
+                .toLowerCase()
+                .replace(/[^a-zA-Z0-9 ]/g, "")
+                .includes(query.toLowerCase())
+        );
+        setAnimeScheduleData(filteredItems);
     };
 
     return (
@@ -78,27 +102,44 @@ const page = () => {
                     Check Anime Scheduled to Release!
                 </h4>
 
-                <div className="flex gap-2.5 items-end">
-                    <label className="flex flex-col gap-1 w-48">
+                <div className="flex gap-5 flex-col sm:flex-row">
+                    <label className="flex flex-col gap-1">
+                        <span className="text-sm font-semibold text-gray-600 ml-2">
+                            Search here:
+                        </span>
+
+                        <TextInput
+                            type="text"
+                            name="query"
+                            icon={IoSearch}
+                            onChange={handleSearch}
+                            placeholder="Type name to search..."
+                            title="Search anime by name"
+                        />
+                    </label>
+
+                    <label className="flex flex-col gap-1">
                         <span className="text-sm font-semibold text-gray-600 ml-2">
                             Sort By:
                         </span>
-                        <ReactSelect
-                            isMulti={false}
-                            name="season"
-                            defaultValue={filterOptions[0]}
-                            options={filterOptions}
-                            className="basic-multi-select w-full"
-                            classNamePrefix="select"
-                            placeholder="Any"
-                            isClearable={false}
-                            isSearchable={false}
-                            onChange={(item) => loadSortedData(item.value)}
-                        />
+                        <div className="flex items-center gap-3">
+                            <ReactSelect
+                                isMulti={false}
+                                name="season"
+                                defaultValue={filterOptions[0]}
+                                options={filterOptions}
+                                className="basic-multi-select w-48"
+                                classNamePrefix="select"
+                                placeholder="Any"
+                                isClearable={false}
+                                isSearchable={false}
+                                onChange={(item) => loadSortedData(item.value)}
+                            />
+                            {loading && (
+                                <div className="loading text-[dodgerBlue]"></div>
+                            )}
+                        </div>
                     </label>
-                    {loading && (
-                        <div className="loading text-[dodgerBlue]"></div>
-                    )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

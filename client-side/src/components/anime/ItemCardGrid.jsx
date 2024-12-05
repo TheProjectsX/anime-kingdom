@@ -26,7 +26,7 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
 
     return (
         <article className="flex h-[290px] sm:h-[250px] lg:h-[272px] rounded-md overflow-hidden">
-            <div className="w-52 sm:w-44 lg:w-48 flex-shrink-0 relative group">
+            <div className="w-44 lg:w-48 flex-shrink-0 relative group">
                 {rank && (
                     <p className="bg-amber-500 py-1 px-2 rounded-bl-xl absolute -top-2 right-0 z-10">
                         <span className="text-sm font-suse">#</span>
