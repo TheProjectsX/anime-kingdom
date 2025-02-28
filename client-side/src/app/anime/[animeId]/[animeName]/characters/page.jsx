@@ -4,6 +4,7 @@ import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import Select from "react-select";
+import { MultiSelect } from "react-multi-select-component";
 
 const languages = [
     { label: "Japanese", value: "Japanese" },
@@ -32,19 +33,7 @@ const page = ({ params }) => {
     const [animeCharactersData, setAnimeCharactersData] = useState(
         animeCharactersPrimaryData
     );
-    const [voiceLanguages, setVoiceLanguages] = useState([
-        "Japanese",
-        "English",
-        "French",
-        "German",
-        "Hebrew",
-        "Hungarian",
-        "Italian",
-        "Korean",
-        "Mandarin",
-        "Portuguese (BR)",
-        "Spanish",
-    ]);
+    const [voiceLanguages, setVoiceLanguages] = useState(languages);
 
     const { animeId } = use(params);
 
@@ -122,18 +111,12 @@ const page = ({ params }) => {
                     <span className="text-sm font-semibold text-gray-600 ml-2">
                         Voice Languages:
                     </span>
-                    <Select
-                        defaultValue={languages}
-                        isMulti
-                        name="voices"
-                        isSearchable={false}
+                    <MultiSelect
                         options={languages}
-                        className="basic-multi-select w-fit min-w-52"
-                        classNamePrefix="select"
-                        placeholder="Select voice languages"
-                        onChange={(value) =>
-                            setVoiceLanguages(value.map((item) => item.value))
-                        }
+                        value={voiceLanguages}
+                        onChange={setVoiceLanguages}
+                        className="w-52"
+                        hasSelectAll={true}
                     />
                 </label>
                 <label className="flex flex-col gap-1 w-full lg:w-auto">
@@ -187,7 +170,9 @@ const page = ({ params }) => {
                     <div className="space-y-2 flex-grow">
                         {item.voice_actors
                             .filter((va) =>
-                                voiceLanguages.includes(va.language)
+                                voiceLanguages
+                                    .map((item) => item.value)
+                                    .includes(va.language)
                             )
                             .map((va) => (
                                 <Link
