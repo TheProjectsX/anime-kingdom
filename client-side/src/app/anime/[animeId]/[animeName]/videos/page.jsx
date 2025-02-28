@@ -1,6 +1,7 @@
 import { loadServerData } from "@/utils/DataLoader";
 
-// TODO: why the hell is this async?
+// why the hell is this async?
+// Cause, it needs the data before it renders, dumb dumb!
 
 const page = async ({ params }) => {
     const { animeId } = await params;
