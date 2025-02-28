@@ -13,7 +13,7 @@ const loadServerData = async (
         response = await (
             await fetch(url, {
                 ...options,
-                cache: options.cache ?? "force-cache",
+                ...(!options.cache && { next: { revalidate: 3600 } }),
             })
         ).json();
     } catch (error) {
