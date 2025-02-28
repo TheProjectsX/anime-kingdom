@@ -12,14 +12,18 @@ const ItemCardGrid = ({ mangaData, rank }) => {
 
     return (
         <article className="flex h-[290px] sm:h-[250px] lg:h-[272px] rounded-md overflow-hidden">
-            <div className="w-52 sm:w-44 lg:w-48 flex-shrink-0 relative">
+            <div className="w-44 lg:w-48 flex-shrink-0 relative">
                 {rank && (
                     <p className="bg-amber-500 py-1 px-2 rounded-bl-xl absolute -top-2 right-0 z-10">
                         <span className="text-sm font-suse">#</span>
                         <span className="text-lg font-medium">{rank}</span>
                     </p>
                 )}
-                <Link href={`/anime/${mangaData.id}`}>
+                <Link
+                    href={`/manga/${
+                        mangaData.id ?? mangaData.mal_id
+                    }/${nameToUrl(mangaData.title_english ?? mangaData.title)}`}
+                >
                     <img
                         src={mangaData.image}
                         alt={mangaData.title_english ?? mangaData.title}
@@ -28,7 +32,11 @@ const ItemCardGrid = ({ mangaData, rank }) => {
                 </Link>
                 <div className="w-full absolute bottom-0 bg-slate-700/80 p-2">
                     <Link
-                        href={`/anime/${mangaData.id}`}
+                        href={`/manga/${
+                            mangaData.id ?? mangaData.mal_id
+                        }/${nameToUrl(
+                            mangaData.title_english ?? mangaData.title
+                        )}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
                     >
                         {mangaData.title_english ?? mangaData.title}

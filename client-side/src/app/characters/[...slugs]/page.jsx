@@ -5,6 +5,7 @@ import { Pictures } from "./Pictures";
 import { notFound, redirect } from "next/navigation";
 import PageTitle from "@/components/common/PageTitle";
 import { loadServerData } from "@/utils/DataLoader";
+import { nameToUrl } from "@/utils/HelperFunctions";
 
 const page = async ({ params }) => {
     const { slugs } = params;
@@ -28,17 +29,15 @@ const page = async ({ params }) => {
 
     if (slugs.length === 1) {
         redirect(
-            `/characters/${animeCharacterData.id}/${animeCharacterData.name
-                ?.replace(/[^a-zA-Z0-9\s]/g, "")
-                .replace(/\s+/g, "-")}`
+            `/characters/${animeCharacterData.id}/${nameToUrl(
+                animeCharacterData.name
+            )}`
         );
     }
 
-    const baseUrl = `/characters/${
-        animeCharacterData.id
-    }/${animeCharacterData.name
-        ?.replace(/[^a-zA-Z0-9\s]/g, "")
-        .replace(/\s+/g, "-")}`;
+    const baseUrl = `/characters/${animeCharacterData.id}/${nameToUrl(
+        animeCharacterData.name
+    )}`;
     return (
         <>
             <PageTitle>{animeCharacterData.name} - AniDom</PageTitle>

@@ -2,7 +2,7 @@
 
 import MangaDataContext from "@/context/MangaDataContext";
 import Link from "next/link";
-import { formatDate } from "@/utils/HelperFunctions";
+import { formatDate, nameToUrl } from "@/utils/HelperFunctions";
 import { Helmet } from "react-helmet";
 import { usePathname } from "next/navigation";
 
@@ -22,12 +22,9 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
         );
     };
 
-    const baseUrl = `/manga/${mangaId}/${
-        mangaBaseData.title_english
-            ?.replace(/[^a-zA-Z0-9\s]/g, "")
-            .replace(/\s+/g, "-") ??
-        mangaBaseData.title?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-")
-    }`;
+    const baseUrl = `/manga/${mangaId}/${nameToUrl(
+        mangaBaseData.title_english ?? mangaBaseData.title
+    )}`;
 
     const subNavLinks = [
         {

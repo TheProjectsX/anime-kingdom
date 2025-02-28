@@ -46,10 +46,16 @@ const formatNumber = (num) => {
     return n >= 0 && n <= 9 ? `0${n}` : String(n);
 };
 
+// From anime / manga name, get url-worthy name
+const nameToUrl = (str) => {
+    return str?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-");
+};
+
 export {
     capitalizeWord,
     formatDate,
     convertSecondsToTime,
     convertToPercentage,
     formatNumber,
+    nameToUrl,
 };

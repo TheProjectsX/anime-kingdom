@@ -127,6 +127,7 @@ const page = ({ params }) => {
                         defaultValue={languages}
                         isMulti
                         name="voices"
+                        isSearchable={false}
                         options={languages}
                         className="basic-multi-select w-fit min-w-52"
                         classNamePrefix="select"
@@ -143,6 +144,7 @@ const page = ({ params }) => {
                     <Select
                         defaultValue={sortBy[0]}
                         name="sortby"
+                        isSearchable={false}
                         options={sortBy}
                         className="basic-multi-select w-fit min-w-52"
                         classNamePrefix="select"

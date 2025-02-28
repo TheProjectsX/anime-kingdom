@@ -1,6 +1,10 @@
 "use client";
 
-import { capitalizeWord, formatNumber } from "@/utils/HelperFunctions";
+import {
+    capitalizeWord,
+    formatNumber,
+    nameToUrl,
+} from "@/utils/HelperFunctions";
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -33,7 +37,11 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                         <span className="text-lg font-medium">{rank}</span>
                     </p>
                 )}
-                <Link href={`/anime/${animeData.id}`}>
+                <Link
+                    href={`/anime/${
+                        animeData.id ?? animeData.mal_id
+                    }/${nameToUrl(animeData.title_english ?? animeData.title)}`}
+                >
                     <img
                         src={animeData.image}
                         alt={animeData.title_english ?? animeData.title}
@@ -101,7 +109,11 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                     }`}
                 >
                     <Link
-                        href={`/anime/${animeData.id}`}
+                        href={`/anime/${
+                            animeData.id ?? animeData.mal_id
+                        }/${nameToUrl(
+                            animeData.title_english ?? animeData.title
+                        )}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
                         title={animeData.title_english ?? animeData.title}
                     >

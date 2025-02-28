@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import AnimeDataContext from "@/context/AnimeDataContext";
 import Link from "next/link";
-import { capitalizeWord, formatDate } from "@/utils/HelperFunctions";
+import { capitalizeWord, formatDate, nameToUrl } from "@/utils/HelperFunctions";
 import { Helmet } from "react-helmet";
 import { usePathname } from "next/navigation";
 
@@ -29,12 +29,9 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
         );
     };
 
-    const baseUrl = `/anime/${animeId}/${
-        animeBaseData.title_english
-            ?.replace(/[^a-zA-Z0-9\s]/g, "")
-            .replace(/\s+/g, "-") ??
-        animeBaseData.title?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-")
-    }`;
+    const baseUrl = `/anime/${animeId}/${nameToUrl(
+        animeBaseData.title_english ?? animeBaseData.title
+    )}`;
 
     const subNavLinks = [
         {

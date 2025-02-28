@@ -83,7 +83,9 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                 placement="right"
             >
                 <Link
-                    href={`/manga/${mangaData.id}`}
+                    href={`/manga/${
+                        mangaData.id ?? mangaData.mal_id
+                    }/${nameToUrl(mangaData.title_english ?? mangaData.title)}`}
                     className="block relative group"
                 >
                     {rank && (

@@ -28,7 +28,12 @@ const ItemCardList = ({ animeData, rank }) => {
                 </p>
             )}
             <div className="bg-white p-3 rounded-sm flex items-center gap-5 flex-grow">
-                <Link href={`/anime/${animeData.id}`} className="flex-shrink-0">
+                <Link
+                    href={`/anime/${
+                        animeData.id ?? animeData.mal_id
+                    }/${nameToUrl(animeData.title_english ?? animeData.title)}`}
+                    className="flex-shrink-0"
+                >
                     <img
                         src={animeData.image}
                         alt={animeData.title_english ?? animeData.title}
@@ -38,7 +43,11 @@ const ItemCardList = ({ animeData, rank }) => {
                 <div className="flex flex-grow flex-col gap-3 md:gap-0 md:flex-row">
                     <div className="flex-grow">
                         <Link
-                            href={`/anime/${animeData.id}`}
+                            href={`/anime/${
+                                animeData.id ?? animeData.mal_id
+                            }/${nameToUrl(
+                                animeData.title_english ?? animeData.title
+                            )}`}
                             className="text-gray-600 font-semibold font-suse mb-2.5 inline-block hover:text-green-500 transition-colors"
                         >
                             {animeData.title_english ?? animeData.title}

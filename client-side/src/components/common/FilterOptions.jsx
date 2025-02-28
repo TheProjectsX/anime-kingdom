@@ -21,36 +21,39 @@ const FilterOptions = ({
     };
 
     return (
-        <form
+        <div
             className={`flex flex-col md:flex-row gap-2 items-center justify-between ${className}`}
-            onSubmit={(e) => {
-                e.preventDefault();
-                onStatusChange();
-            }}
         >
-            <label className="flex flex-col gap-1 w-full lg:w-auto">
-                <span className="text-sm font-semibold text-gray-600 ml-2">
-                    Search:
-                </span>
-                <TextInput
-                    type="text"
-                    name="query"
-                    icon={IoSearch}
-                    placeholder="Type name and press Enter..."
-                    defaultValue={filters?.query ?? ""}
-                    title="Search anime by name"
-                    className="w-full"
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            const params = new URLSearchParams();
-                            params.set("query", e.target.value);
-                            router.push(`${pathname}?${params.toString()}`);
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
 
-                            onChange({ query: e.target.value });
-                        }
-                    }}
-                />
-            </label>
+                    const params = new URLSearchParams();
+                    params.set("query", e.target.query.value);
+                    router.push(`${pathname}?${params.toString()}`);
+
+                    onChange({ query: e.target.query.value });
+                }}
+                className="w-full lg:w-auto"
+            >
+                <label className="flex flex-col gap-1">
+                    <span className="text-sm font-semibold text-gray-600 ml-2">
+                        Search:
+                    </span>
+                    <TextInput
+                        type="text"
+                        name="query"
+                        icon={IoSearch}
+                        placeholder="Type name and press Enter..."
+                        defaultValue={filters?.query ?? ""}
+                        title="Search anime by name"
+                        className="w-full"
+                        // onKeyDown={(e) => {
+
+                        // }}
+                    />
+                </label>
+            </form>
 
             <div className="flex gap-4 flex-wrap sm:flex-nowrap">
                 {filters.years && (
@@ -171,7 +174,7 @@ const FilterOptions = ({
                     </label>
                 )}
             </div>
-        </form>
+        </div>
     );
 };
 

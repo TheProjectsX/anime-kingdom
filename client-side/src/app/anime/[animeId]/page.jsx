@@ -1,6 +1,7 @@
 "use client";
 
 import AnimeDataContext from "@/context/AnimeDataContext";
+import { nameToUrl } from "@/utils/HelperFunctions";
 import { redirect } from "next/navigation";
 import { useContext } from "react";
 
@@ -10,14 +11,9 @@ const page = ({ params }) => {
 
     const { animeId } = params;
     return redirect(
-        `/anime/${animeId}/${
-            animeBaseData.title_english
-                ?.replace(/[^a-zA-Z0-9\s]/g, "")
-                .replace(/\s+/g, "-") ??
-            animeBaseData.title
-                ?.replace(/[^a-zA-Z0-9\s]/g, "")
-                .replace(/\s+/g, "-")
-        }`
+        `/anime/${animeId}/${nameToUrl(
+            animeBaseData.title_english ?? animeBaseData.title
+        )}`
     );
 };
 
