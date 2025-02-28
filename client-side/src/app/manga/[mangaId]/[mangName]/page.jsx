@@ -9,7 +9,9 @@ const page = () => {
     const context = useContext(MangaDataContext);
     const { mangaBaseData } = context;
 
-    const HeaderCard = ({ header, info, infoTitle }) => {
+    const HeaderCard = ({ header, rating, infoTitle }) => {
+        if (!rating) return <></>;
+
         return (
             <div className="bg-white p-4 w-[130px] sm:w-[150px] rounded-lg text-center">
                 <h5 className="text-xl sm:text-2xl font-semibold mb-2 font-suse">
@@ -22,7 +24,7 @@ const page = () => {
                         `Scored By: ${mangaBaseData.scored_by} members`
                     }
                 >
-                    {info}
+                    #{rating.toString().padStart(2, "0")}
                 </p>
             </div>
         );
@@ -87,23 +89,22 @@ const page = () => {
                     Manga Rating Info
                 </p>
                 <div className="flex justify-evenly flex-wrap gap-4">
-                    {" "}
                     <HeaderCard
                         header={"Score"}
-                        info={`#${mangaBaseData.score}`}
+                        rating={mangaBaseData.score}
                         infoTitle={`Scored By: ${mangaBaseData.scored_by} members`}
                     />
                     <HeaderCard
                         header={"Rank"}
-                        info={`#${mangaBaseData.mal_rank}`}
+                        rating={mangaBaseData.mal_rank}
                     />
                     <HeaderCard
                         header={"Popularity"}
-                        info={`#${mangaBaseData.popularity}`}
+                        rating={mangaBaseData.popularity}
                     />
                     <HeaderCard
                         header={"Favorites"}
-                        info={`#${mangaBaseData.favorites}`}
+                        rating={mangaBaseData.favorites}
                     />
                 </div>
             </section>
@@ -114,46 +115,56 @@ const page = () => {
                 </p>
                 <div className="p-5 rounded-lg bg-white">
                     <div className="flex gap-2 flex-wrap items-center text-center *:flex-grow">
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Reading
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.reading}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Completed
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.completed}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                On Hold
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.on_hold}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Dropped
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.dropped}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Plan to Read
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {mangaBaseData.statistics.plan_to_read}
-                            </p>
-                        </div>
+                        {mangaBaseData.statistics.reading != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Reading
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {mangaBaseData.statistics.reading}
+                                </p>
+                            </div>
+                        )}
+                        {mangaBaseData.statistics.completed != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Completed
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {mangaBaseData.statistics.completed}
+                                </p>
+                            </div>
+                        )}
+                        {mangaBaseData.statistics.on_hold != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    On Hold
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {mangaBaseData.statistics.on_hold}
+                                </p>
+                            </div>
+                        )}
+                        {mangaBaseData.statistics.dropped != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Dropped
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {mangaBaseData.statistics.dropped}
+                                </p>
+                            </div>
+                        )}
+                        {mangaBaseData.statistics.plan_to_read != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Plan to Read
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {mangaBaseData.statistics.plan_to_read}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

@@ -217,7 +217,7 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                         <h1 className="text-base font-semibold font-suse text-gray-600 px-4 pt-2 sm:hidden">
                             {mangaBaseData.title_english ?? mangaBaseData.title}
                         </h1>
-                        <div className="py-2 px-4 w-full justify-evenly text-sm text-gray-500 [&_.active]:text-black [&_.active]:font-medium flex sm:hidden max-w-80 overflow-auto scrollbar-thin">
+                        <div className="py-2 px-4 w-full justify-evenly text-sm text-gray-500 [&_.active]:text-black [&_.active]:font-medium flex sm:hidden overflow-auto scrollbar-thin">
                             {subNavLinks.map((item, idx) => (
                                 <Link
                                     key={idx}
@@ -236,7 +236,7 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
 
                     {/* The main Information */}
                     <div className="px-2 sm:px-5 flex gap-4 flex-col sm:flex-row">
-                        <aside className="bg-white flex gap-3.5 sm:gap-2.5 sm:flex-col sm:w-52 h-fit px-4 py-3 flex-shrink-0  *:flex-grow max-w-80 overflow-auto scrollbar-thin">
+                        <aside className="bg-white flex gap-3.5 sm:gap-2.5 sm:flex-col sm:w-52 h-fit px-4 py-3 flex-shrink-0  *:flex-grow overflow-auto scrollbar-thin">
                             <InfoItems
                                 heading={"Type"}
                                 info={mangaBaseData.type}
@@ -289,7 +289,7 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                                     (item, idx) => (
                                         <Link
                                             key={idx}
-                                            href={`/staffs/${item.mal_id}`}
+                                            href={`/staffs/${item.id}`}
                                             className="hover:underline underline-offset-2"
                                         >
                                             {item.name}

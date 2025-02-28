@@ -107,7 +107,7 @@ const page = ({ params }) => {
     return (
         <div className="space-y-3">
             <div className="flex justify-between flex-wrap mb-8 gap-4">
-                <label className="flex flex-col gap-1 w-full lg:w-auto">
+                <label className="flex flex-col gap-1 lg:w-auto">
                     <span className="text-sm font-semibold text-gray-600 ml-2">
                         Voice Languages:
                     </span>
@@ -119,7 +119,7 @@ const page = ({ params }) => {
                         hasSelectAll={true}
                     />
                 </label>
-                <label className="flex flex-col gap-1 w-full lg:w-auto">
+                <label className="flex flex-col gap-1 lg:w-auto">
                     <span className="text-sm font-semibold text-gray-600 ml-2">
                         Sort By:
                     </span>

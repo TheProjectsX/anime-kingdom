@@ -9,7 +9,8 @@ const page = () => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
 
-    const HeaderCard = ({ header, info, infoTitle }) => {
+    const HeaderCard = ({ header, rating, infoTitle }) => {
+        if (!rating) return <></>;
         return (
             <div className="bg-white p-4 w-[130px] sm:w-[150px] rounded-lg text-center">
                 <h5 className="text-xl sm:text-2xl font-semibold mb-2 font-suse">
@@ -22,7 +23,7 @@ const page = () => {
                         `Scored By: ${animeBaseData.scored_by} members`
                     }
                 >
-                    {info}
+                    #{rating}
                 </p>
             </div>
         );
@@ -72,23 +73,22 @@ const page = () => {
                     Anime Rating Info
                 </p>
                 <div className="flex justify-evenly flex-wrap gap-4">
-                    {" "}
                     <HeaderCard
                         header={"Score"}
-                        info={`#${animeBaseData.score}`}
+                        rating={animeBaseData.score}
                         infoTitle={`Scored By: ${animeBaseData.scored_by} members`}
                     />
                     <HeaderCard
                         header={"Rank"}
-                        info={`#${animeBaseData.mal_rank}`}
+                        rating={animeBaseData.mal_rank}
                     />
                     <HeaderCard
                         header={"Popularity"}
-                        info={`#${animeBaseData.popularity}`}
+                        rating={animeBaseData.popularity}
                     />
                     <HeaderCard
                         header={"Favorites"}
-                        info={`#${animeBaseData.favorites}`}
+                        rating={animeBaseData.favorites}
                     />
                 </div>
             </section>
@@ -99,46 +99,56 @@ const page = () => {
                 </p>
                 <div className="p-5 rounded-lg bg-white">
                     <div className="flex gap-2 flex-wrap items-center text-center *:flex-grow">
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Watching
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.watching}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Completed
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.completed}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                On Hold
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.on_hold}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Dropped
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.dropped}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-lg mb-1 font-semibold text-gray-600">
-                                Watch list
-                            </h4>
-                            <p className="text-lg font-semibold">
-                                {animeBaseData.statistics.plan_to_watch}
-                            </p>
-                        </div>
+                        {animeBaseData.statistics.watching != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Watching
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {animeBaseData.statistics.watching}
+                                </p>
+                            </div>
+                        )}
+                        {animeBaseData.statistics.completed != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Completed
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {animeBaseData.statistics.completed}
+                                </p>
+                            </div>
+                        )}
+                        {animeBaseData.statistics.on_hold != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    On Hold
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {animeBaseData.statistics.on_hold}
+                                </p>
+                            </div>
+                        )}
+                        {animeBaseData.statistics.dropped != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Dropped
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {animeBaseData.statistics.dropped}
+                                </p>
+                            </div>
+                        )}
+                        {animeBaseData.statistics.plan_to_watch != null && (
+                            <div>
+                                <h4 className="text-lg mb-1 font-semibold text-gray-600">
+                                    Watch list
+                                </h4>
+                                <p className="text-lg font-semibold">
+                                    {animeBaseData.statistics.plan_to_watch}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
