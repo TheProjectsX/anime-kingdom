@@ -3,7 +3,7 @@
 import { loadServerData } from "@/utils/DataLoader";
 import { formatDate } from "@/utils/HelperFunctions";
 import { Avatar, Tooltip } from "flowbite-react";
-import React, { use, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 const page = ({ params }) => {
     const [mangaReviewData, setMangaReviewData] = useState(Array(5).fill(null));

@@ -2,35 +2,29 @@ import { loadServerData } from "@/utils/DataLoader";
 
 // TODO: why the hell is this async?
 
-let animeVideoData = null;
-
 const page = async ({ params }) => {
     const { animeId } = await params;
+    let animeVideosData = null;
 
-    if (!animeVideoData) {
+    if (!animeVideosData) {
         const serverResponse = await loadServerData(`/anime/${animeId}/videos`);
 
         if (!serverResponse.success) {
             console.log("Not Found");
-            // Do something
         }
 
-        animeVideoData = serverResponse.data ?? {};
+        animeVideosData = serverResponse.data ?? {};
     }
 
     return (
         <div className="space-y-8">
-            <div>
-                <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
-                    Trailers:
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {animeVideoData.promo?.length === 0 ? (
-                        <h5 className="font-semibold italic sm:text-xl text-gray-600">
-                            No Items to Show
-                        </h5>
-                    ) : (
-                        animeVideoData.promo?.map((item, idx) => (
+            {animeVideosData?.promo?.length > 0 && (
+                <div>
+                    <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
+                        Trailers:
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {animeVideosData.promo?.map((item, idx) => (
                             <div
                                 key={idx}
                                 className="relative w-full pb-[56.25%] h-0"
@@ -42,22 +36,18 @@ const page = async ({ params }) => {
                                     allowFullScreen
                                 ></iframe>
                             </div>
-                        ))
-                    )}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
-            <div>
-                <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
-                    Music Videos:
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {animeVideoData.music_video?.length === 0 ? (
-                        <h5 className="font-semibold italic sm:text-xl text-gray-600">
-                            No Items to Show
-                        </h5>
-                    ) : (
-                        animeVideoData.music_video?.map((item, idx) => (
+            {animeVideosData?.music_video?.length > 0 && (
+                <div>
+                    <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
+                        Music Videos:
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {animeVideosData.music_video?.map((item, idx) => (
                             <div
                                 key={idx}
                                 className="relative w-full pb-[56.25%] h-0"
@@ -69,22 +59,18 @@ const page = async ({ params }) => {
                                     allowFullScreen
                                 ></iframe>
                             </div>
-                        ))
-                    )}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
-            <div>
-                <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
-                    Episodes:
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {animeVideoData.episodes?.length === 0 ? (
-                        <h5 className="font-semibold italic sm:text-xl text-gray-600">
-                            No Items to Show
-                        </h5>
-                    ) : (
-                        animeVideoData.episodes?.map((item, idx) => (
+            {animeVideosData?.episodes?.length > 0 && (
+                <div>
+                    <h4 className="text-xl sm:text-3xl font-semibold font-suse text-gray-600 mb-3">
+                        Episodes:
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {animeVideosData.episodes?.map((item, idx) => (
                             <div key={idx} className="w-full relative">
                                 <img
                                     src={item.images.image}
@@ -98,10 +84,10 @@ const page = async ({ params }) => {
                                     <h4>{item.title}</h4>
                                 </div>
                             </div>
-                        ))
-                    )}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

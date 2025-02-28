@@ -1,7 +1,7 @@
 "use client";
 
 import { loadServerData } from "@/utils/DataLoader";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 const page = ({ params }) => {
     const [animeStaffsData, setAnimeStaffsData] = useState(Array(5).fill(null));

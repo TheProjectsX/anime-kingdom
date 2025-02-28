@@ -21,8 +21,6 @@ const page = ({ params }) => {
 
             if (!serverResponse.success) {
                 console.log("Not Found");
-                // return notFound();
-                // Do Something
             }
 
             setAnimePicturesData(serverResponse.data ?? []);
