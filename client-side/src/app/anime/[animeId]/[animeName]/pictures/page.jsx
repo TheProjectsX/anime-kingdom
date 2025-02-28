@@ -2,18 +2,16 @@
 
 import AnimeDataContext from "@/context/AnimeDataContext";
 import { loadServerData } from "@/utils/DataLoader";
-import { notFound } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 
 const page = ({ params }) => {
+    const { animeId } = use(params);
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
 
     const [animePicturesData, setAnimePicturesData] = useState(
         Array(5).fill(null)
     );
-
-    const { animeId } = params;
 
     useEffect(() => {
         const loadData = async () => {

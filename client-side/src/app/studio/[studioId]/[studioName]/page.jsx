@@ -2,13 +2,13 @@
 
 import ItemCardSimple from "@/components/anime/ItemCardSimple";
 import { loadServerData } from "@/utils/DataLoader";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
 let studioAnimeBaseData = Array(6).fill(null);
 
 const page = ({ params }) => {
-    const { studioId } = params;
+    const { studioId } = use(params);
     const [hasMoreData, setHasMoreData] = useState(true);
     const [studioAnimeData, setStudioAnimeData] = useState(studioAnimeBaseData);
     const [currentPage, setCurrentPage] = useState(1);

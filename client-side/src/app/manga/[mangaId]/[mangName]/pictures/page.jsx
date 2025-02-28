@@ -2,7 +2,7 @@
 
 import MangaDataContext from "@/context/MangaDataContext";
 import { loadServerData } from "@/utils/DataLoader";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 
 const page = ({ params }) => {
     const context = useContext(MangaDataContext);
@@ -12,7 +12,7 @@ const page = ({ params }) => {
         Array(5).fill(null)
     );
 
-    const { mangaId } = params;
+    const { mangaId } = use(params);
 
     useEffect(() => {
         const loadData = async () => {

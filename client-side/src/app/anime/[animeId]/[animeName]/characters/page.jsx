@@ -2,9 +2,28 @@
 
 import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Select from "react-select";
-import { toast } from "react-toastify";
+
+const languages = [
+    { label: "Japanese", value: "Japanese" },
+    { label: "English", value: "English" },
+    { label: "French", value: "French" },
+    { label: "German", value: "German" },
+    { label: "Hebrew", value: "Hebrew" },
+    { label: "Hungarian", value: "Hungarian" },
+    { label: "Italian", value: "Italian" },
+    { label: "Korean", value: "Korean" },
+    { label: "Mandarin", value: "Mandarin" },
+    { label: "Portuguese (BR)", value: "Portuguese (BR)" },
+    { label: "Spanish", value: "Spanish" },
+];
+
+const sortBy = [
+    { label: "Main", value: "main" },
+    { label: "Rating", value: "rating" },
+    { label: "Name", value: "name" },
+];
 
 const page = ({ params }) => {
     const [animeCharactersPrimaryData, setAnimeCharactersPrimaryData] =
@@ -27,27 +46,7 @@ const page = ({ params }) => {
         "Spanish",
     ]);
 
-    const languages = [
-        { label: "Japanese", value: "Japanese" },
-        { label: "English", value: "English" },
-        { label: "French", value: "French" },
-        { label: "German", value: "German" },
-        { label: "Hebrew", value: "Hebrew" },
-        { label: "Hungarian", value: "Hungarian" },
-        { label: "Italian", value: "Italian" },
-        { label: "Korean", value: "Korean" },
-        { label: "Mandarin", value: "Mandarin" },
-        { label: "Portuguese (BR)", value: "Portuguese (BR)" },
-        { label: "Spanish", value: "Spanish" },
-    ];
-
-    const sortBy = [
-        { label: "Main", value: "main" },
-        { label: "Rating", value: "rating" },
-        { label: "Name", value: "name" },
-    ];
-
-    const { animeId } = params;
+    const { animeId } = use(params);
 
     useEffect(() => {
         const loadData = async () => {

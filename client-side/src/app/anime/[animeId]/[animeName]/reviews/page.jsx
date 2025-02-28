@@ -3,12 +3,12 @@
 import { loadServerData } from "@/utils/DataLoader";
 import { formatDate } from "@/utils/HelperFunctions";
 import { Avatar, Tooltip } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 const page = ({ params }) => {
     const [animeReviewData, setAnimeReviewData] = useState(Array(5).fill(null));
 
-    const { animeId } = params;
+    const { animeId } = use(params);
 
     useEffect(() => {
         const loadData = async () => {

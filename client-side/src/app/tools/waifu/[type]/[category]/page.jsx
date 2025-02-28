@@ -3,7 +3,7 @@
 import { loadServerData } from "@/utils/DataLoader";
 import { capitalizeWord } from "@/utils/HelperFunctions";
 import { notFound, redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from "react";
 import { Helmet } from "react-helmet";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
@@ -52,10 +52,12 @@ const page = ({ params }) => {
         { type: "nsfw", categories: ["waifu", "neko", "trap", "blowjob"] },
     ]);
 
+    const { type, category } = use(params);
+
     if (
-        !["sfw", "nsfw"].includes(params.type?.toLowerCase()) ||
+        !["sfw", "nsfw"].includes(type?.toLowerCase()) ||
         ![...filters[0].categories, ...filters[1].categories].includes(
-            params.category?.toLowerCase()
+            category?.toLowerCase()
         )
     ) {
         return notFound();
@@ -85,7 +87,7 @@ const page = ({ params }) => {
     const handleLoadMore = async () => {
         setLoading(true);
         const response = await loadServerData(
-            `/tools/waifu/${params.type}/${params.category}`,
+            `/tools/waifu/${type}/${category}`,
             {
                 limit: 24,
             }
@@ -104,7 +106,7 @@ const page = ({ params }) => {
     useState(() => {
         const loadData = async () => {
             const response = await loadServerData(
-                `/tools/waifu/${params.type}/${params.category}`,
+                `/tools/waifu/${type}/${category}`,
                 {
                     limit: 24,
                 }
@@ -132,8 +134,8 @@ const page = ({ params }) => {
         <>
             <Helmet>
                 <title>
-                    ({capitalizeWord(params.type)}){" "}
-                    {capitalizeWord(params.category)} Images - AniDom
+                    ({capitalizeWord(type)}) {capitalizeWord(category)} Images -
+                    AniDom
                 </title>
             </Helmet>
             <main className="max-width space-y-8 mb-10 pt-10">
@@ -152,12 +154,12 @@ const page = ({ params }) => {
                                         isMulti={false}
                                         name={filter.type}
                                         defaultValue={
-                                            params.type === filter.type
+                                            type === filter.type
                                                 ? {
                                                       label: capitalizeWord(
-                                                          params.category
+                                                          category
                                                       ),
-                                                      value: params.category,
+                                                      value: category,
                                                   }
                                                 : null
                                         }

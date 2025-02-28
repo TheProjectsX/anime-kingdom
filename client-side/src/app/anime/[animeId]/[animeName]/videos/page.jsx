@@ -1,9 +1,11 @@
 import { loadServerData } from "@/utils/DataLoader";
 
+// TODO: why the hell is this async?
+
 let animeVideoData = null;
 
 const page = async ({ params }) => {
-    const { animeId } = params;
+    const { animeId } = await params;
 
     if (!animeVideoData) {
         const serverResponse = await loadServerData(`/anime/${animeId}/videos`);

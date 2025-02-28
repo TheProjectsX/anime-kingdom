@@ -5,11 +5,11 @@ import { nameToUrl } from "@/utils/HelperFunctions";
 import { redirect } from "next/navigation";
 import { useContext } from "react";
 
-const page = ({ params }) => {
+const page = async ({ params }) => {
     const context = useContext(AnimeDataContext);
     const { animeBaseData } = context;
 
-    const { animeId } = params;
+    const { animeId } = await params;
     return redirect(
         `/anime/${animeId}/${nameToUrl(
             animeBaseData.title_english ?? animeBaseData.title

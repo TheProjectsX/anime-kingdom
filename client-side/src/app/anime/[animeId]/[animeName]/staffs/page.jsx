@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const page = ({ params }) => {
     const [animeStaffsData, setAnimeStaffsData] = useState(Array(5).fill(null));
-    const { animeId } = params;
+    const { animeId } = use(params);
 
     useEffect(() => {
         const loadData = async () => {

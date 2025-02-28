@@ -3,13 +3,13 @@
 import StudioDataContext from "@/context/StudioDataContext";
 import { nameToUrl } from "@/utils/HelperFunctions";
 import { redirect } from "next/navigation";
-import { useContext } from "react";
+import { use, useContext } from "react";
 
 const page = ({ params }) => {
     const context = useContext(StudioDataContext);
     const { studioBaseData } = context;
 
-    const { studioId } = params;
+    const { studioId } = use(params);
     return redirect(`/studio/${studioId}/${nameToUrl(studioBaseData.title)}`);
 };
 

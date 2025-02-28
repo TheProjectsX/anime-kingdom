@@ -2,14 +2,14 @@
 
 import { loadServerData } from "@/utils/DataLoader";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 const page = ({ params }) => {
     const [mangaCharactersData, setMangaCharactersData] = useState(
         Array(5).fill(null)
     );
 
-    const { mangaId } = params;
+    const { mangaId } = use(params);
     useEffect(() => {
         const loadData = async () => {
             const serverResponse = await loadServerData(

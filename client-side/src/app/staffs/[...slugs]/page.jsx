@@ -8,7 +8,7 @@ import PageTitle from "@/components/common/PageTitle";
 import { loadServerData } from "@/utils/DataLoader";
 
 const page = async ({ params }) => {
-    const { slugs } = params;
+    const { slugs } = await params;
 
     let path = slugs.at(2);
     if (![undefined, "voices", "pictures"].includes(path?.toLowerCase())) {
