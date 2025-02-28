@@ -1,3 +1,4 @@
+import { nameToUrl } from "@/utils/HelperFunctions";
 import Link from "next/link";
 
 const ItemCardList = ({ mangaData, rank }) => {

@@ -4,16 +4,17 @@ const loadServerData = async (
     options = {}
 ) => {
     const searchParams = new URLSearchParams(paramsPayload);
+    const url = `${
+        process.env.NEXT_PUBLIC_SERVER_URL
+    }${path}?${searchParams.toString()}`;
 
     let response;
     try {
         response = await (
-            await fetch(
-                `${
-                    process.env.NEXT_PUBLIC_SERVER_URL
-                }${path}?${searchParams.toString()}`,
-                options
-            )
+            await fetch(url, {
+                ...options,
+                cache: options.cache ?? "force-cache",
+            })
         ).json();
     } catch (error) {
         response = {

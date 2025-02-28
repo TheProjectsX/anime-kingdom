@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
 import { MdArrowOutward } from "react-icons/md";
 import { Helmet } from "react-helmet";
-import { formatNumber } from "@/utils/HelperFunctions";
+import { formatNumber, nameToUrl } from "@/utils/HelperFunctions";
 
 import dynamic from "next/dynamic";
 import { loadServerData } from "@/utils/DataLoader";
@@ -173,7 +173,11 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
                                             : item.synopsis}
                                     </p>
                                     <Link
-                                        href={`/anime/${item.id}`}
+                                        href={`/anime/${
+                                            item.id ?? item.mal_id
+                                        }/${nameToUrl(
+                                            item.title_english ?? item.title
+                                        )}`}
                                         className="btn btn-info btn-sm"
                                     >
                                         Checkout <MdArrowOutward />
