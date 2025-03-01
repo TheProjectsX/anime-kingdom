@@ -51,6 +51,38 @@ const nameToUrl = (str) => {
     return str?.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "-");
 };
 
+// Get current Anime Season
+const getCurrentAnimeSeason = (format) => {
+    const seasons = ["Winter", "Spring", "Summer", "Fall"];
+    const month = new Date().getMonth();
+    const year = new Date().getFullYear();
+
+    let season;
+    if (month < 3) season = seasons[0]; // Jan - Mar -> Winter
+    else if (month < 6) season = seasons[1]; // Apr - Jun -> Spring
+    else if (month < 9) season = seasons[2]; // Jul - Sep -> Summer
+    else season = seasons[3]; // Oct - Dec -> Fall
+
+    return format
+        ? format.replace("{season}", season).replace("{year}", year)
+        : { season, year };
+};
+
+// Get next Anime Season
+const getNextAnimeSeason = (format) => {
+    const currentSeason = getCurrentAnimeSeason();
+    const seasons = ["Winter", "Spring", "Summer", "Fall"];
+    let nextIndex = (seasons.indexOf(currentSeason.season) + 1) % 4;
+    let nextYear =
+        nextIndex === 0 ? currentSeason.year + 1 : currentSeason.year;
+
+    return format
+        ? format
+              .replace("{season}", seasons[nextIndex])
+              .replace("{year}", nextYear)
+        : { season: seasons[nextIndex], year: nextYear };
+};
+
 export {
     capitalizeWord,
     formatDate,
@@ -58,4 +90,6 @@ export {
     convertToPercentage,
     formatNumber,
     nameToUrl,
+    getCurrentAnimeSeason,
+    getNextAnimeSeason,
 };

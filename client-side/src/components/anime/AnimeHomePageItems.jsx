@@ -11,7 +11,12 @@ import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
 import { MdArrowOutward } from "react-icons/md";
 import { Helmet } from "react-helmet";
-import { formatNumber, nameToUrl } from "@/utils/HelperFunctions";
+import {
+    formatNumber,
+    getCurrentAnimeSeason,
+    getNextAnimeSeason,
+    nameToUrl,
+} from "@/utils/HelperFunctions";
 
 import dynamic from "next/dynamic";
 import { loadServerData } from "@/utils/DataLoader";
@@ -28,10 +33,16 @@ let cachedHomepageData = [
         },
         {
             heading: "Popular this Season",
+            path: `/search/anime/seasons/${getCurrentAnimeSeason(
+                "{year}/{season}"
+            )}`,
             data: Array(6).fill(null),
         },
         {
             heading: "Upcoming",
+            path: `/search/anime/seasons/${getNextAnimeSeason(
+                "{year}/{season}"
+            )}`,
             data: Array(6).fill(null),
         },
         {
