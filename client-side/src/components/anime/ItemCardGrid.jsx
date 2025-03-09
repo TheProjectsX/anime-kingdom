@@ -28,6 +28,10 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
         );
     }
 
+    const animeDetailsPath = `/anime/${animeData.id}/${nameToUrl(
+        animeData.title_english ?? animeData.title
+    )}`;
+
     return (
         <article className="flex h-[290px] sm:h-[250px] lg:h-[272px] rounded-md overflow-hidden">
             <div className="w-44 lg:w-48 flex-shrink-0 relative group">
@@ -37,11 +41,7 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                         <span className="text-lg font-medium">{rank}</span>
                     </p>
                 )}
-                <Link
-                    href={`/anime/${animeData.id}/${nameToUrl(
-                        animeData.title_english ?? animeData.title
-                    )}`}
-                >
+                <Link href={animeDetailsPath}>
                     <img
                         src={animeData.image}
                         alt={animeData.title_english ?? animeData.title}
@@ -102,37 +102,27 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                     </div>
                 )}
                 <div
-                    className={`w-full absolute bottom-0 bg-slate-700/80 p-2${
+                    className={`w-full absolute bottom-0 bg-slate-700/85 p-2${
                         schedule
                             ? " group-hover:opacity-0 transition-[opacity] duration-300"
                             : ""
                     }`}
                 >
                     <Link
-                        href={`/anime/${animeData.id}/${nameToUrl(
-                            animeData.title_english ?? animeData.title
-                        )}`}
-                        className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
+                        href={animeDetailsPath}
+                        className="text-white hover:text-amber-500 transition-colors text-sm font-ubuntu font-medium truncate-text mb-1.5"
                         title={animeData.title_english ?? animeData.title}
                     >
-                        {(animeData.title_english ?? animeData.title).length >
-                        40
-                            ? `${(
-                                  animeData.title_english ?? animeData.title
-                              ).slice(0, 38)}...`
-                            : animeData.title_english ?? animeData.title}
+                        {animeData.title_english ?? animeData.title}
                     </Link>
-                    {!schedule && (
+                    {!schedule && animeData.studios?.[0]?.id && (
                         <p className="flex gap-2 flex-wrap">
-                            {animeData.studios?.map((item, idx) => (
-                                <Link
-                                    href={item.id ? `/studio/${item.id}` : ""}
-                                    className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
-                                    key={idx}
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
+                            <Link
+                                href={`/studio/${animeData.studios[0].id}`}
+                                className="text-amber-500 text-sm inline-block hover:underline underline-offset-2 text-semibold"
+                            >
+                                {animeData.studios[0].name}
+                            </Link>
                         </p>
                     )}
                 </div>
@@ -141,7 +131,7 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
             {/* Description Section */}
             <div className="bg-white relative w-full">
                 {/* The Overflow Items */}
-                <div className="px-3 py-2.5 h-[250px] sm:h-[210px] lg:h-[232px] overflow-y-hidden hover:pr-1 hover:overflow-y-auto scrollbar-thin scrollbar-track-transparent">
+                <div className="px-3 py-2.5 pr-3.5 h-[250px] sm:h-[210px] lg:h-[232px] overflow-y-hidden hover:pr-1 hover:overflow-y-auto scrollbar-thin scrollbar-track-transparent">
                     {/* Header Info */}
                     <div className="flex gap-2 justify-between">
                         {/* Header Info Data */}
