@@ -53,7 +53,7 @@ const nameToUrl = (str) => {
 
 // Get current Anime Season
 const getCurrentAnimeSeason = (format) => {
-    const seasons = ["Winter", "Spring", "Summer", "Fall"];
+    const seasons = ["winter", "spring", "summer", "fall"];
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
 
@@ -71,7 +71,7 @@ const getCurrentAnimeSeason = (format) => {
 // Get next Anime Season
 const getNextAnimeSeason = (format) => {
     const currentSeason = getCurrentAnimeSeason();
-    const seasons = ["Winter", "Spring", "Summer", "Fall"];
+    const seasons = ["winter", "spring", "summer", "fall"];
     let nextIndex = (seasons.indexOf(currentSeason.season) + 1) % 4;
     let nextYear =
         nextIndex === 0 ? currentSeason.year + 1 : currentSeason.year;

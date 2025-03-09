@@ -6,23 +6,17 @@ import ItemCardSimple from "@/components/anime/ItemCardSimple";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { Carousel, TextInput } from "flowbite-react";
+import { TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
-import { MdArrowOutward } from "react-icons/md";
 import { Helmet } from "react-helmet";
 import {
-    formatNumber,
     getCurrentAnimeSeason,
     getNextAnimeSeason,
-    nameToUrl,
 } from "@/utils/HelperFunctions";
 
-import dynamic from "next/dynamic";
 import { loadServerData } from "@/utils/DataLoader";
-
-// Dynamically load Countdown without SSR
-const Countdown = dynamic(() => import("react-countdown"), { ssr: false });
+import AnimeScheduleCarousel from "./AnimeScheduleCarousel";
 
 let cachedHomepageData = [
     [
@@ -59,7 +53,7 @@ let cachedHomepageData = [
     Array(6).fill(null),
 ];
 
-const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
+const AnimeHomePageItems = ({ home = false }) => {
     const router = useRouter();
     const [layout, setLayout] = useState("card");
     const [homepageData, setHomepageData] = useState(cachedHomepageData.at(0));
@@ -96,115 +90,7 @@ const AnimeHomePageItems = ({ animeScheduleData = [], home = false }) => {
             </Helmet>
 
             {/* Homepage Banner Carousel */}
-            {home && animeScheduleData.length > 0 && (
-                <Carousel
-                    className="h-[25rem] sm:h-96"
-                    indicators={false}
-                    slideInterval={4000}
-                    pauseOnHover
-                >
-                    {animeScheduleData.map((item) => (
-                        <div
-                            key={item.id}
-                            className="bg-slate-700 text-white h-full"
-                        >
-                            <article className="max-w-2xl mx-auto flex justify-between items-center flex-col-reverse sm:flex-row h-full">
-                                <div className="p-6 max-w-80 text-left">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <Countdown
-                                            date={new Date(
-                                                item.next?.timestamp * 1000
-                                            ).toString()}
-                                            renderer={({
-                                                hours,
-                                                minutes,
-                                                seconds,
-                                                completed,
-                                            }) => {
-                                                return (
-                                                    <time className="text-lg">
-                                                        <span className="underline underline-offset-2 mr-0.5">
-                                                            {completed
-                                                                ? "00"
-                                                                : formatNumber(
-                                                                      hours
-                                                                  )}
-                                                        </span>
-                                                        h{" "}
-                                                        <span className="underline underline-offset-2 mr-0.5">
-                                                            {" "}
-                                                            {completed
-                                                                ? "00"
-                                                                : formatNumber(
-                                                                      minutes
-                                                                  )}
-                                                        </span>
-                                                        m{" "}
-                                                        <span className="underline underline-offset-2 mr-0.5">
-                                                            {completed
-                                                                ? "00"
-                                                                : formatNumber(
-                                                                      seconds
-                                                                  )}
-                                                        </span>
-                                                        s
-                                                    </time>
-                                                );
-                                            }}
-                                        />
-                                        <p>
-                                            (EP{" "}
-                                            <span className="font-semibold">
-                                                {item.next?.episode}
-                                            </span>
-                                            )
-                                        </p>
-                                    </div>
-                                    <h3 className="text-xl font-semibold font-suse mb-1 hidden sm:block">
-                                        {item.title}
-                                    </h3>
-                                    <h3 className="text-base font-semibold font-suse mb-1 sm:hidden">
-                                        {item.title.length > 28
-                                            ? `${item.title.slice(0, 28)}...`
-                                            : item.title}
-                                    </h3>
-                                    <p className="text-gray-300 mb-4 text-sm">
-                                        {item.source} -{" "}
-                                        {item.genres
-                                            .slice(0, 3)
-                                            .map((genre) => genre.name)
-                                            .join(", ")}
-                                    </p>
-                                    <p className="mb-5 hidden sm:block">
-                                        {item.synopsis.length > 125
-                                            ? `${item.synopsis.slice(
-                                                  0,
-                                                  125
-                                              )}...`
-                                            : item.synopsis}
-                                    </p>
-                                    <Link
-                                        href={`/anime/${
-                                            item.id ?? item.mal_id
-                                        }/${nameToUrl(
-                                            item.title_english ?? item.title
-                                        )}`}
-                                        className="btn btn-info btn-sm"
-                                    >
-                                        Checkout <MdArrowOutward />
-                                    </Link>
-                                </div>
-                                <div className="max-w-32 pt-2 sm:pt-0 sm:max-w-60">
-                                    <img
-                                        src={item.image_large ?? item.image}
-                                        alt={item.title}
-                                    />
-                                </div>
-                            </article>
-                        </div>
-                    ))}
-                </Carousel>
-            )}
+            {home && <AnimeScheduleCarousel />}
 
             {!home && (
                 <h4 className="font-bold font-suse text-xl sm:text-2xl md:text-3xl text-gray-500">
