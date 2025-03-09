@@ -38,9 +38,9 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                     </p>
                 )}
                 <Link
-                    href={`/anime/${
-                        animeData.id ?? animeData.mal_id
-                    }/${nameToUrl(animeData.title_english ?? animeData.title)}`}
+                    href={`/anime/${animeData.id}/${nameToUrl(
+                        animeData.title_english ?? animeData.title
+                    )}`}
                 >
                     <img
                         src={animeData.image}
@@ -109,9 +109,7 @@ const ItemCardGrid = ({ animeData, rank, schedule = false }) => {
                     }`}
                 >
                     <Link
-                        href={`/anime/${
-                            animeData.id ?? animeData.mal_id
-                        }/${nameToUrl(
+                        href={`/anime/${animeData.id}/${nameToUrl(
                             animeData.title_english ?? animeData.title
                         )}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"

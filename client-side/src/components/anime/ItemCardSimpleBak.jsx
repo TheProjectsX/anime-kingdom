@@ -1,9 +1,16 @@
-import { nameToUrl } from "@/utils/HelperFunctions";
+import { capitalizeWord, nameToUrl } from "@/utils/HelperFunctions";
 import { Tooltip } from "flowbite-react";
 import Link from "next/link";
 
-const ItemCardSimple = ({ mangaData, rank }) => {
-    if (mangaData === null) {
+const ItemCardSimple = ({ animeData, rank }) => {
+    const animeType = {
+        tv: "TV Series",
+        movie: "Movie",
+        ova: "OVA",
+        ona: "ONA",
+    };
+
+    if (animeData === null) {
         return (
             <article>
                 <div className="skeleton bg-slate-300 w-full pb-[141.5%] mb-3"></div>
@@ -21,38 +28,22 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                     <div className="p-3 max-w-80">
                         <div className="flex gap-3 items-start justify-between">
                             <h4 className="text-lg font-semibold font-suse mb-2">
-                                {mangaData.title_english ?? mangaData.title}
+                                {animeData.title_english ?? animeData.title}
                             </h4>
                             <p className="font-semibold font-suse text-orange-500">
-                                {mangaData.score ?? ""}
+                                {animeData.score ?? ""}
                             </p>
                         </div>
-
-                        <Tooltip
-                            content={
-                                <span>
-                                    {mangaData.published?.string?.includes(
-                                        "to"
-                                    ) && "from "}
-                                    {mangaData.published?.string}
-                                </span>
-                            }
-                            placement="right"
-                            className={`${
-                                mangaData.published?.string ? "" : "hidden"
-                            } w-max`}
-                            style="light"
-                        >
-                            <p className="text-base font-medium text-slate-500 dark:text-slate-200 mb-1">
-                                {mangaData.status}
-                            </p>
-                        </Tooltip>
+                        <p className="text-base font-medium text-slate-500 dark:text-slate-200 mb-1">
+                            {animeData.status} (
+                            <span className="text-sm">{animeData.source}</span>)
+                        </p>
                         <div className="mb-2 flex gap-2">
-                            Authors:{" "}
+                            Studio:{" "}
                             <p className="flex flex-wrap gap-2">
-                                {mangaData.authors?.map((item) => (
+                                {animeData.studios?.map((item) => (
                                     <Link
-                                        href={`/staffs/${item.id}`}
+                                        href={`/studio/${item.id}`}
                                         className="text-amber-700 dark:text-amber-500 inline-block hover:underline underline-offset-2"
                                         key={item.id}
                                     >
@@ -62,14 +53,40 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                             </p>
                         </div>
                         <div className="text-zinc-800 dark:text-zinc-300 text-sm font-medium mb-3 flex">
-                            {mangaData.type}{" "}
-                            {mangaData.volumes &&
-                                ` - ${mangaData.volumes} Volumes`}
-                            {mangaData.chapters &&
-                                ` - ${mangaData.chapters} Chapters`}{" "}
+                            {animeType[animeData.type?.toLowerCase()] ??
+                                animeData.type}{" "}
+                            {animeData.type?.toLowerCase() === "movie"
+                                ? animeData.duration &&
+                                  ` - ${animeData.duration[0]} hour(s) ${animeData.duration[1]} mins`
+                                : animeData.episodes &&
+                                  ` - ${animeData.episodes} Episodes`}{" "}
+                            <span>&nbsp;-&nbsp;</span>
+                            <Tooltip
+                                content={
+                                    <span>
+                                        {animeData.aired?.string?.includes(
+                                            "to"
+                                        ) && "from "}
+                                        {animeData.aired?.string}
+                                    </span>
+                                }
+                                placement="right"
+                                className={`${
+                                    animeData.aired?.string ? "" : "hidden"
+                                } w-max`}
+                                style="light"
+                            >
+                                <Link
+                                    href={"#"}
+                                    className="hover:underline underline-offset-2"
+                                >
+                                    {capitalizeWord(animeData.season)}{" "}
+                                    {animeData.year}
+                                </Link>
+                            </Tooltip>
                         </div>
                         <p className="flex gap-2 flex-wrap">
-                            {mangaData.genres?.map((item) => (
+                            {animeData.genres?.map((item) => (
                                 <Link
                                     href={"#"}
                                     key={item.id}
@@ -84,8 +101,8 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                 placement="right"
             >
                 <Link
-                    href={`/manga/${mangaData.id}/${nameToUrl(
-                        mangaData.title_english ?? mangaData.title
+                    href={`/anime/${animeData.id}/${nameToUrl(
+                        animeData.title_english ?? animeData.title
                     )}`}
                     className="block relative group"
                 >
@@ -97,8 +114,8 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                     )}
                     <div className="relative w-full pb-[141.5%] overflow-hidden mb-2 ">
                         <img
-                            src={mangaData.image}
-                            alt={mangaData.title_english ?? mangaData.title}
+                            src={animeData.image}
+                            alt={animeData.title_english ?? animeData.title}
                             className="absolute top-0 left-0 w-full h-full rounded-lg bg-pink-400"
                         />
                     </div>
@@ -106,7 +123,7 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                         // href={`/anime/${item.id}`}
                         className="text-sm md:text-base font-semibold text-gray-500 font-suse group-hover:text-sky-500 truncate-text"
                     >
-                        {mangaData.title_english ?? mangaData.title}
+                        {animeData.title_english ?? animeData.title}
                     </h3>
                 </Link>
             </Tooltip>

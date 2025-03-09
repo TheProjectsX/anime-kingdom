@@ -2,7 +2,7 @@
 
 import ItemCardGrid from "@/components/anime/ItemCardGrid";
 import ItemCardList from "@/components/anime/ItemCardList";
-import ItemCardSimple from "@/components/anime/ItemCardSimple";
+// import ItemCardSimple from "@/components/anime/ItemCardSimpleBak";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -17,6 +17,7 @@ import {
 
 import { loadServerData } from "@/utils/DataLoader";
 import AnimeScheduleCarousel from "./AnimeScheduleCarousel";
+import ItemCardSimple from "./ItemCardSimple";
 
 let cachedHomepageData = [
     [
@@ -193,7 +194,8 @@ const AnimeHomePageItems = ({ home = false }) => {
                                     Explore More
                                 </Link>
                             </div>
-                            <div className="lg:pl-3 grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center md:[&_article:last-child]:hidden lg:[&_article:last-child]:block">
+
+                            <div className="lg:pl-3 grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-5 justify-center sm:[&_article:last-child]:hidden lg:[&_article:last-child]:block">
                                 {item.data.map((item, idx) => (
                                     <ItemCardSimple
                                         animeData={item}

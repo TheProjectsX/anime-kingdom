@@ -21,9 +21,9 @@ const ItemCardGrid = ({ mangaData, rank }) => {
                     </p>
                 )}
                 <Link
-                    href={`/manga/${
-                        mangaData.id ?? mangaData.mal_id
-                    }/${nameToUrl(mangaData.title_english ?? mangaData.title)}`}
+                    href={`/manga/${mangaData.id}/${nameToUrl(
+                        mangaData.title_english ?? mangaData.title
+                    )}`}
                 >
                     <img
                         src={mangaData.image}
@@ -33,9 +33,7 @@ const ItemCardGrid = ({ mangaData, rank }) => {
                 </Link>
                 <div className="w-full absolute bottom-0 bg-slate-700/80 p-2">
                     <Link
-                        href={`/manga/${
-                            mangaData.id ?? mangaData.mal_id
-                        }/${nameToUrl(
+                        href={`/manga/${mangaData.id}/${nameToUrl(
                             mangaData.title_english ?? mangaData.title
                         )}`}
                         className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"

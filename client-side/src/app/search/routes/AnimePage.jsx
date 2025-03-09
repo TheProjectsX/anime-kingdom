@@ -1,6 +1,6 @@
 "use client";
 
-import ItemCardSimple from "@/components/anime/ItemCardSimple";
+import ItemCardSimple from "@/components/anime/ItemCardSimpleBak";
 import { useEffect, useState } from "react";
 import ItemCardList from "@/components/anime/ItemCardList";
 import ItemCardGrid from "@/components/anime/ItemCardGrid";
