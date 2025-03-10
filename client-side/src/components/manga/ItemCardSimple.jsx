@@ -100,7 +100,9 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                     <div className="relative w-full pb-[141.5%] overflow-hidden mb-2 ">
                         <img
                             src={mangaData.image}
-                            alt={mangaData.title_english ?? mangaData.title}
+                            alt={`Visual of ${
+                                mangaData.title_english ?? mangaData.title
+                            } manga.`}
                             className="absolute top-0 left-0 w-full h-full rounded-lg bg-pink-400"
                         />
                     </div>

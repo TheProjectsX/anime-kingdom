@@ -27,7 +27,9 @@ const ItemCardGrid = ({ mangaData, rank }) => {
                 <Link href={mangaDetailsPath}>
                     <img
                         src={mangaData.image}
-                        alt={mangaData.title_english ?? mangaData.title}
+                        alt={`Visual of ${
+                            mangaData.title_english ?? mangaData.title
+                        } manga.`}
                         className="w-full h-full"
                     />
                 </Link>

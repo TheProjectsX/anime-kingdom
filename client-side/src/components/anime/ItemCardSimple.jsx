@@ -113,7 +113,9 @@ const ItemCardSimple2 = ({ animeData, rank }) => {
                     <div className="relative w-full pb-[141.5%] overflow-hidden mb-2">
                         <img
                             src={animeData.image}
-                            alt={animeData.title_english ?? animeData.title}
+                            alt={`Visual of ${
+                                animeData.title_english ?? animeData.title
+                            } anime.`}
                             className="absolute top-0 left-0 w-full h-full rounded-lg bg-pink-400"
                         />
                     </div>

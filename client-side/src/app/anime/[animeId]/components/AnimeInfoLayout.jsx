@@ -73,10 +73,10 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                     {animeBaseData.banner && (
                         <img
                             src={animeBaseData.banner}
-                            alt={
+                            alt={`Banner of ${
                                 animeBaseData.title_english ??
                                 animeBaseData.title
-                            }
+                            } anime`}
                             className="w-full"
                         />
                     )}
@@ -90,10 +90,10 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                             >
                                 <img
                                     src={animeBaseData.image_large}
-                                    alt={
+                                    alt={`Visual of ${
                                         animeBaseData.title_english ??
                                         animeBaseData.title
-                                    }
+                                    } anime`}
                                     className="w-full h-full mb-2"
                                 />
                             </div>

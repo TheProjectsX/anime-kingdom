@@ -46,7 +46,7 @@ const page = async ({ params }) => {
                     <div className="flex-shrink-0 w-52">
                         <img
                             src={animeCharacterData.image}
-                            alt={animeCharacterData.name}
+                            alt={`Visual of ${animeCharacterData.name} character.`}
                             className="w-full h-[295px]"
                         />
                     </div>
@@ -127,10 +127,10 @@ const page = async ({ params }) => {
                                         >
                                             <img
                                                 src={item.large_image}
-                                                alt={
+                                                alt={`Visual of ${
                                                     item.title_english ??
                                                     item.title
-                                                }
+                                                } anime.`}
                                                 className="w-full mb-2 rounded-md shadow-lg"
                                             />
                                             <h3 className="font-semibold text-gray-500 group-hover:text-green-400">
@@ -167,10 +167,10 @@ const page = async ({ params }) => {
                                         >
                                             <img
                                                 src={item.large_image}
-                                                alt={
+                                                alt={`Visual of ${
                                                     item.title_english ??
                                                     item.title
-                                                }
+                                                } manga.`}
                                                 className="w-full mb-2 rounded-md shadow-lg"
                                             />
                                             <h3 className="font-semibold text-gray-500 group-hover:text-green-400">
@@ -198,7 +198,7 @@ const page = async ({ params }) => {
                                 >
                                     <img
                                         src={item.image}
-                                        alt={item.name}
+                                        alt={`Visual of ${item.name} voice actor.`}
                                         className="w-[58px] h-[90px] bg-slate-600"
                                     />
                                     <div className="py-2.5">

@@ -17,10 +17,7 @@ const StudioInfoLayout = ({ studioBaseData, children }) => {
                         <div className="flex-shrink-0 w-52">
                             <img
                                 src={studioBaseData.image}
-                                alt={
-                                    studioBaseData.title_english ??
-                                    studioBaseData.title
-                                }
+                                alt={`Logo of ${studioBaseData.title} Studio`}
                                 className="w-full h-[295px] mb-2"
                             />
                         </div>

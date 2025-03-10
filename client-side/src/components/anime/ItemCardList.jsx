@@ -35,7 +35,9 @@ const ItemCardList = ({ animeData, rank }) => {
                 <Link href={animeDetailsPath} className="flex-shrink-0">
                     <img
                         src={animeData.image}
-                        alt={animeData.title_english ?? animeData.title}
+                        alt={`Visual of ${
+                            animeData.title_english ?? animeData.title
+                        } anime.`}
                         className="w-14 h-20 hover:scale-[3.5] transition-[transform] duration-500"
                     />
                 </Link>

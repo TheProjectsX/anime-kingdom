@@ -35,7 +35,9 @@ const ItemCardList = ({ mangaData, rank }) => {
                 >
                     <img
                         src={mangaData.image}
-                        alt={mangaData.title_english ?? mangaData.title}
+                        alt={`Visual of ${
+                            mangaData.title_english ?? mangaData.title
+                        } manga.`}
                         className="w-14 h-20 hover:scale-[3.5] transition-[transform] duration-500"
                     />
                 </Link>
