@@ -1,9 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { loadServerData } from "@/utils/DataLoader";
+// Miku Loader!
+import MikuDancingGif from "@/assets/miku-dancing.gif";
 
-// Dynamically load Countdown without SSR
+import { loadServerData } from "@/utils/DataLoader";
 import Countdown from "react-countdown";
 import { Carousel } from "flowbite-react";
 import { nameToUrl, formatNumber } from "@/utils/HelperFunctions";
@@ -34,20 +34,23 @@ const AnimeScheduleCarousel = () => {
         loadData();
     }, []);
 
+    if (!animeScheduleData) {
+        return (
+            <div className="h-80 flex flex-col items-center justify-center text-center gap-3">
+                <img
+                    src={MikuDancingGif.src}
+                    alt="Miku Dancing GIF"
+                    className="w-40 h-40 sm:w-48 sm:h-48 object-contain"
+                />
+                <p className="mt-4 text-lg font-ubuntu font-medium bg-gradient-to-r from-pink-600 to-purple-700 bg-clip-text text-transparent animate-bounce drop-shadow-md">
+                    "Watch me dance while the Anime Magic loads..."
+                </p>
+            </div>
+        );
+    }
+
     return (
         <>
-            {!animeScheduleData && (
-                <div className="h-[25rem] sm:h-96 bg-slate-700">
-                    <div className="max-w-2xl mx-auto flex justify-between items-center flex-col-reverse sm:flex-row h-full pt-2 sm:pt-0 px-2">
-                        <div className="p-6 max-w-80 text-left">
-                            <p className="skeleton bg-slate-300 h-4 w-40 mb-2"></p>
-                            <p className="skeleton bg-slate-300 h-6 w-40 mb-4"></p>
-                            <p className="skeleton bg-slate-300 h-32 w-40 sm:h-40 sm:w-56"></p>
-                        </div>
-                        <div className="w-28 h-[182px] sm:w-60 sm:h-[343px] skeleton bg-slate-300"></div>
-                    </div>
-                </div>
-            )}
             {animeScheduleData?.length > 0 && (
                 <Carousel
                     className="h-[25rem] sm:h-96"
