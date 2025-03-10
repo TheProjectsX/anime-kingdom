@@ -21,14 +21,6 @@ const ItemCardSimple2 = ({ animeData, rank }) => {
 
     const tooltipContent = (
         <div className="px-2 py-1.5 max-w-80">
-            {/* <div className="flex gap-3 items-start justify-between">
-                <h4 className="text-lg font-semibold font-suse mb-2">
-                    {animeData.title_english ?? animeData.title}
-                </h4>
-                <p className="font-semibold font-suse text-orange-500">
-                    {animeData.score ?? ""}
-                </p>
-            </div> */}
             <div className="flex gap-4 items-center justify-between">
                 <p className="font-medium text-lg mb-1">
                     {animeData.status} (
