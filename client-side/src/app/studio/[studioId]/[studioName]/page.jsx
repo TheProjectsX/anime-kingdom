@@ -5,12 +5,10 @@ import { loadServerData } from "@/utils/DataLoader";
 import { use, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
-let studioAnimeBaseData = Array(6).fill(null);
-
 const page = ({ params }) => {
     const { studioId } = use(params);
     const [hasMoreData, setHasMoreData] = useState(true);
-    const [studioAnimeData, setStudioAnimeData] = useState(studioAnimeBaseData);
+    const [studioAnimeData, setStudioAnimeData] = useState(Array(6).fill(null));
     const [currentPage, setCurrentPage] = useState(1);
 
     // Function to Fetch data from server and save in state
@@ -21,7 +19,6 @@ const page = ({ params }) => {
 
         if (response.success) {
             setStudioAnimeData(response.data ?? []);
-            studioAnimeBaseData = response.data ?? [];
         }
         if (!response.pagination?.has_next_page) {
             setHasMoreData(false);
@@ -47,7 +44,6 @@ const page = ({ params }) => {
                 ...prevAnimeData.slice(0, -6),
                 ...(response.data ?? []),
             ]);
-            studioAnimeBaseData = response.data ?? [];
 
             if (response.pagination?.has_next_page) {
                 setHasMoreData(true);
@@ -56,21 +52,19 @@ const page = ({ params }) => {
     };
 
     return (
-        <div>
-            <InfiniteScroll
-                initialLoad={false}
-                pageStart={1}
-                hasMore={hasMoreData}
-                loadMore={loadMoreData}
-                threshold={0}
-            >
-                <div className="lg:pl-3  grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-5 justify-center">
-                    {studioAnimeData.map((item, idx) => (
-                        <ItemCardSimple animeData={item} key={idx} />
-                    ))}
-                </div>
-            </InfiniteScroll>
-        </div>
+        <InfiniteScroll
+            initialLoad={false}
+            pageStart={1}
+            hasMore={hasMoreData}
+            loadMore={loadMoreData}
+            threshold={0}
+        >
+            <div className="lg:pl-3 grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-5 justify-center">
+                {studioAnimeData.map((item, idx) => (
+                    <ItemCardSimple animeData={item} key={idx} />
+                ))}
+            </div>
+        </InfiniteScroll>
     );
 };
 
