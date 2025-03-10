@@ -104,7 +104,7 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                             className="absolute top-0 left-0 w-full h-full rounded-lg bg-pink-400"
                         />
                     </div>
-                    <h3 className="text-sm md:text-base font-semibold text-gray-500 font-suse group-hover:text-sky-500 truncate-text">
+                    <h3 className="text-sm md:text-base font-medium text-gray-600 font-ubuntu group-hover:text-sky-500 truncate-text">
                         {mangaData.title_english ?? mangaData.title}
                     </h3>
                 </Link>
