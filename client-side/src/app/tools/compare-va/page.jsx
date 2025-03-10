@@ -1,6 +1,7 @@
 "use client";
 
 import { loadServerData } from "@/utils/DataLoader";
+import { nameToUrl } from "@/utils/HelperFunctions";
 import { TextInput, Tooltip } from "flowbite-react";
 import Link from "next/link";
 import React, { Fragment, useState } from "react";
@@ -191,7 +192,13 @@ const page = () => {
                                 </div>
                                 <div>
                                     <Link
-                                        href={`/anime/${targetAnime.target_01.id}`}
+                                        href={`/anime/${
+                                            targetAnime.target_01.id
+                                        }/${nameToUrl(
+                                            targetAnime.target_01
+                                                .title_english ??
+                                                targetAnime.target_01.title
+                                        )}`}
                                         className="font-semibold mb-1 hover:underline underline-offset-2"
                                     >
                                         {targetAnime.target_01.title_english ??
@@ -327,7 +334,13 @@ const page = () => {
                                 </div>
                                 <div>
                                     <Link
-                                        href={`/anime/${targetAnime.target_02.id}`}
+                                        href={`/anime/${
+                                            targetAnime.target_02.id
+                                        }/${nameToUrl(
+                                            targetAnime.target_02
+                                                .title_english ??
+                                                targetAnime.target_02.title
+                                        )}`}
                                         className="font-semibold mb-1 hover:underline underline-offset-2"
                                     >
                                         {targetAnime.target_02.title_english ??
@@ -383,7 +396,9 @@ const page = () => {
                                     <div className="bg-white flex justify-between items-start shadow-sm md:hidden">
                                         {/* Voice Actors */}
                                         <Link
-                                            href={`/staffs/${va.id}`}
+                                            href={`/staffs/${va.id}/${nameToUrl(
+                                                va.name
+                                            )}`}
                                             className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                                         >
                                             <img
@@ -428,7 +443,11 @@ const page = () => {
                                                         }
                                                     >
                                                         <Link
-                                                            href={`/characters/${character.id}`}
+                                                            href={`/characters/${
+                                                                character.id
+                                                            }/${nameToUrl(
+                                                                character.name
+                                                            )}`}
                                                             className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                                         >
                                                             <img
@@ -494,7 +513,11 @@ const page = () => {
                                                             }
                                                         >
                                                             <Link
-                                                                href={`/characters/${character.id}`}
+                                                                href={`/characters/${
+                                                                    character.id
+                                                                }/${nameToUrl(
+                                                                    character.name
+                                                                )}`}
                                                                 className="flex gap-3 items-start w-full hover:cursor-pointer group"
                                                             >
                                                                 <img
@@ -532,7 +555,9 @@ const page = () => {
                                         </div>
                                         {/* Voice Actor */}
                                         <Link
-                                            href={`/staffs/${va.id}`}
+                                            href={`/staffs/${va.id}/${nameToUrl(
+                                                va.name
+                                            )}`}
                                             className="flex flex-col gap-1 items-center hover:cursor-pointer group flex-grow self-start"
                                         >
                                             <img
@@ -584,7 +609,11 @@ const page = () => {
                                                             }
                                                         >
                                                             <Link
-                                                                href={`/characters/${character.id}`}
+                                                                href={`/characters/${
+                                                                    character.id
+                                                                }/${nameToUrl(
+                                                                    character.name
+                                                                )}`}
                                                                 className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                                             >
                                                                 <img
@@ -641,7 +670,21 @@ const page = () => {
                                             Anime:
                                         </span>{" "}
                                         <Link
-                                            href={`/anime/${group[0].characters[0].animeId}`}
+                                            href={`/anime/${
+                                                group[0].characters[0].animeId
+                                            }/${nameToUrl(
+                                                targetAnime.target_01.id ==
+                                                    group[0].characters[0]
+                                                        .animeId
+                                                    ? targetAnime.target_01
+                                                          .title_english ??
+                                                          targetAnime.target_01
+                                                              .title
+                                                    : targetAnime.target_02
+                                                          .title_english ??
+                                                          targetAnime.target_02
+                                                              .title
+                                            )}`}
                                             className="text-base text-gray-600 hover:underline underline-offset-2"
                                         >
                                             {targetAnime.target_01.id ==
@@ -662,7 +705,9 @@ const page = () => {
                                             >
                                                 {/* Voice Actors */}
                                                 <Link
-                                                    href={`/staffs/${va.id}`}
+                                                    href={`/staffs/${
+                                                        va.id
+                                                    }/${nameToUrl(va.name)}`}
                                                     className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                                                 >
                                                     <img
@@ -688,7 +733,11 @@ const page = () => {
                                                                 key={
                                                                     character.id
                                                                 }
-                                                                href={`/characters/${character.id}`}
+                                                                href={`/characters/${
+                                                                    character.id
+                                                                }/${nameToUrl(
+                                                                    character.name
+                                                                )}`}
                                                                 className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                                             >
                                                                 <img

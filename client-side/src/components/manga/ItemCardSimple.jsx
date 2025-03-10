@@ -48,7 +48,7 @@ const ItemCardSimple = ({ mangaData, rank }) => {
                 <p className="flex flex-wrap gap-2">
                     {mangaData.authors?.slice(0, 2).map((item) => (
                         <Link
-                            href={`/staffs/${item.id}`}
+                            href={`/staffs/${item.id}/${nameToUrl(item.name)}`}
                             className="text-amber-500 inline-block hover:underline underline-offset-2"
                             key={item.id}
                         >

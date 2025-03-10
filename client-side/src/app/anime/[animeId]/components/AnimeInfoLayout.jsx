@@ -278,7 +278,9 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                 info={animeBaseData.studios.map((item, idx) => (
                                     <Link
                                         key={idx}
-                                        href={`/studio/${item.id}`}
+                                        href={`/studio/${item.id}/${nameToUrl(
+                                            item.name
+                                        )}`}
                                         className="hover:underline underline-offset-2"
                                     >
                                         {item.name}
@@ -292,7 +294,9 @@ const AnimeInfoLayout = ({ animeId, animeBaseData, children }) => {
                                     (item, idx) => (
                                         <Link
                                             key={idx}
-                                            href={`/studio/${item.id}`}
+                                            href={`/studio/${
+                                                item.id
+                                            }/${nameToUrl(item.name)} `}
                                             className="hover:underline underline-offset-2"
                                         >
                                             {item.name}

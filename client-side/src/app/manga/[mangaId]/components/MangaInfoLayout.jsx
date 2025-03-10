@@ -289,7 +289,9 @@ const MangaInfoLayout = ({ mangaId, mangaBaseData, children }) => {
                                     (item, idx) => (
                                         <Link
                                             key={idx}
-                                            href={`/staffs/${item.id}`}
+                                            href={`/staffs/${
+                                                item.id
+                                            }/${nameToUrl(item.name)}`}
                                             className="hover:underline underline-offset-2"
                                         >
                                             {item.name}

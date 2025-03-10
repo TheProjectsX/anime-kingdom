@@ -36,7 +36,7 @@ const ItemCardSimple2 = ({ animeData, rank }) => {
                 <p className="flex flex-wrap gap-2">
                     {animeData.studios?.map((item) => (
                         <Link
-                            href={`/studio/${item.id}`}
+                            href={`/studio/${item.id}/${nameToUrl(item.name)}`}
                             className="text-amber-700 dark:text-amber-500 inline-block hover:underline underline-offset-2"
                             key={item.id}
                         >
@@ -64,7 +64,7 @@ const ItemCardSimple2 = ({ animeData, rank }) => {
                     className={`${
                         animeData.aired?.string ? "" : "hidden"
                     } w-max`}
-                    style="light"
+                    style="dark"
                 >
                     <Link
                         href={"#"}

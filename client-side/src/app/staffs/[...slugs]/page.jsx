@@ -20,9 +20,7 @@ const page = async ({ params }) => {
     const serverResponse = await loadServerData(`/staffs/${slugs[0]}`);
 
     if (!serverResponse.success) {
-        // console.log("404 not found");
         return notFound();
-        // Do something
     }
 
     const animeStaffData = serverResponse.data ?? {};
@@ -125,7 +123,9 @@ const page = async ({ params }) => {
                                             placement="right"
                                         >
                                             <Link
-                                                href={`/anime/${item.id}`}
+                                                href={`/anime/${
+                                                    item.id
+                                                }/${nameToUrl(item.title)}`}
                                                 className="block max-w-48 group"
                                             >
                                                 <img
@@ -164,7 +164,9 @@ const page = async ({ params }) => {
                                             placement="right"
                                         >
                                             <Link
-                                                href={`/anime/${item.id}`}
+                                                href={`/anime/${
+                                                    item.id
+                                                }/${nameToUrl(item.title)}`}
                                                 className="block max-w-48 group"
                                             >
                                                 <img
@@ -198,7 +200,9 @@ const page = async ({ params }) => {
                                 {animeStaffData.voices.map((item) => (
                                     <Link
                                         key={item.id}
-                                        href={`/characters/${item.id}`}
+                                        href={`/characters/${
+                                            item.id
+                                        }/${nameToUrl(item.name)}`}
                                         className="hover:cursor-pointer group"
                                     >
                                         <div className="relative mb-2 w-full rounded-md overflow-hidden">

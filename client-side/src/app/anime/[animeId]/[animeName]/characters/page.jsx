@@ -5,6 +5,7 @@ import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import Select from "react-select";
 import { MultiSelect } from "react-multi-select-component";
+import { nameToUrl } from "@/utils/HelperFunctions";
 
 const languages = [
     { label: "Japanese", value: "Japanese" },
@@ -143,7 +144,7 @@ const page = ({ params }) => {
                 >
                     {/* Character */}
                     <Link
-                        href={`/characters/${item.id}`}
+                        href={`/characters/${item.id}/${nameToUrl(item.name)}`}
                         className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                     >
                         <img
@@ -177,7 +178,9 @@ const page = ({ params }) => {
                             .map((va) => (
                                 <Link
                                     key={va.id}
-                                    href={`/staffs/${va.id}`}
+                                    href={`/staffs/${va.id}/${nameToUrl(
+                                        va.name
+                                    )}`}
                                     className="flex flex-row-reverse gap-3 items-start text-right w-full hover:cursor-pointer group"
                                 >
                                     <img

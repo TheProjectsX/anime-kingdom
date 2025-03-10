@@ -1,6 +1,7 @@
 "use client";
 
 import { loadServerData } from "@/utils/DataLoader";
+import { nameToUrl } from "@/utils/HelperFunctions";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 
@@ -59,7 +60,7 @@ const page = ({ params }) => {
                 >
                     {/* Character */}
                     <Link
-                        href={`/characters/${item.id}`}
+                        href={`/characters/${item.id}/${nameToUrl(item.name)}`}
                         className="flex gap-3 items-start hover:cursor-pointer group flex-grow"
                     >
                         <img
