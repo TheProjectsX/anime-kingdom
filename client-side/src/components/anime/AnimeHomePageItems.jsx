@@ -1,8 +1,8 @@
 "use client";
 
+import ItemCardSimple from "./ItemCardSimple";
 import ItemCardGrid from "@/components/anime/ItemCardGrid";
 import ItemCardList from "@/components/anime/ItemCardList";
-// import ItemCardSimple from "@/components/anime/ItemCardSimpleBak";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -17,7 +17,6 @@ import {
 
 import { loadServerData } from "@/utils/DataLoader";
 import AnimeScheduleCarousel from "./AnimeScheduleCarousel";
-import ItemCardSimple from "./ItemCardSimple";
 
 let cachedHomepageData = [
     [
