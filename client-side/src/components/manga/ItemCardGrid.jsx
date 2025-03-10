@@ -11,6 +11,10 @@ const ItemCardGrid = ({ mangaData, rank }) => {
         );
     }
 
+    const mangaDetailsPath = `/manga/${mangaData.id}/${nameToUrl(
+        mangaData.title_english ?? mangaData.title
+    )}`;
+
     return (
         <article className="flex h-[290px] sm:h-[250px] lg:h-[272px] rounded-md overflow-hidden">
             <div className="w-44 lg:w-48 flex-shrink-0 relative">
@@ -20,23 +24,17 @@ const ItemCardGrid = ({ mangaData, rank }) => {
                         <span className="text-lg font-medium">{rank}</span>
                     </p>
                 )}
-                <Link
-                    href={`/manga/${mangaData.id}/${nameToUrl(
-                        mangaData.title_english ?? mangaData.title
-                    )}`}
-                >
+                <Link href={mangaDetailsPath}>
                     <img
                         src={mangaData.image}
                         alt={mangaData.title_english ?? mangaData.title}
                         className="w-full h-full"
                     />
                 </Link>
-                <div className="w-full absolute bottom-0 bg-slate-700/80 p-2">
+                <div className="w-full absolute bottom-0 bg-slate-700/85 p-2">
                     <Link
-                        href={`/manga/${mangaData.id}/${nameToUrl(
-                            mangaData.title_english ?? mangaData.title
-                        )}`}
-                        className="text-white hover:text-green-300 transition-colors text-sm font-suse font-semibold"
+                        href={mangaDetailsPath}
+                        className="text-white hover:text-amber-500 transition-colors text-sm font-ubuntu font-medium truncate-text mb-1.5"
                     >
                         {mangaData.title_english ?? mangaData.title}
                     </Link>
@@ -57,33 +55,39 @@ const ItemCardGrid = ({ mangaData, rank }) => {
             {/* Description Section */}
             <div className="bg-white relative w-full">
                 {/* The Overflow Items */}
-                <div className="px-3 py-2.5 h-[250px] sm:h-[210px] lg:h-[232px] overflow-y-hidden hover:pr-1 hover:overflow-y-auto scrollbar-thin scrollbar-track-transparent">
+                <div className="px-3 py-2.5 pr-3.5 h-[250px] sm:h-[210px] lg:h-[232px] overflow-y-hidden hover:pr-1 hover:overflow-y-auto scrollbar-thin scrollbar-track-transparent">
                     {/* Header Info */}
                     <div className="flex gap-2 justify-between">
                         {/* Header Info Data */}
                         <div>
-                            <Tooltip
-                                content={
-                                    <p>
-                                        {mangaData.published?.string?.includes(
-                                            "to"
-                                        ) && "from "}
-                                        {mangaData.published?.string}
+                            <div className="flex gap-1 items-center text-sm">
+                                <Tooltip
+                                    content={
+                                        <p>
+                                            {mangaData.published?.string?.includes(
+                                                "to"
+                                            ) && "from "}
+                                            {mangaData.published?.string}
+                                        </p>
+                                    }
+                                    placement="right"
+                                    className={`${
+                                        mangaData.published?.string
+                                            ? ""
+                                            : "hidden"
+                                    }`}
+                                >
+                                    <p className="font-semibold text-gray-400">
+                                        {mangaData.status}
                                     </p>
-                                }
-                                placement="right"
-                                className={`${
-                                    mangaData.published?.string ? "" : "hidden"
-                                }`}
-                            >
-                                <p className="text-xs font-semibold text-gray-400">
-                                    {mangaData.status}
-                                </p>
-                            </Tooltip>
+                                </Tooltip>
+
+                                <p>({mangaData.type})</p>
+                            </div>
+
                             <p className="text-xs mb-2 font-semibold">
-                                {mangaData.type}{" "}
                                 {mangaData.volumes &&
-                                    ` - ${mangaData.volumes} Volumes`}
+                                    `${mangaData.volumes} Volumes`}
                                 {mangaData.chapters &&
                                     ` - ${mangaData.chapters} Chapters`}{" "}
                             </p>
